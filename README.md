@@ -1,1 +1,0 @@
-# welp-group-project
