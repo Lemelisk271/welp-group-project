@@ -73,3 +73,35 @@ Indexes: (userId, businessId), unique
 | open_time   | time      |                                       |
 | close_time  | time      |                                       |
 | closed      | boolean   | not null, default = false             |
+
+## `business_hours`
+
+| column name | data type | details                               |
+|-------------|-----------|---------------------------------------|
+| id          | integer   | not null, primary key, auto increment |
+| businessId  | integer   | references: businesses.id             |
+| dayId       | integer   | references: days.id                   |
+
+## `questions`
+
+| column name | data type | details                               |
+|-------------|-----------|---------------------------------------|
+| id          | integer   | not null, primary key, auto increment |
+| question    | text      | not null                              |
+| date        | date      | not null, default = "CURRENT_DATE"    |
+| businessId  | integer   | references: businesses.id             |
+| userId      | integer   | references: users.id                  |
+
+Indexes: (businessId, userId), unique
+
+## `answers`
+
+| column name | data type | details                               |
+|-------------|-----------|---------------------------------------|
+| id          | integer   | not null, primary key, auto increment |
+| answer      | text      | not null                              |
+| date        | date      | not null default = "CURRENT_DATE"     |
+| questionId  | integer   | references: questions.id              |
+| userId      | integer   | references: users.id                  |
+
+Indexes: (questionId, userId), unique
