@@ -105,3 +105,40 @@ Indexes: (businessId, userId), unique
 | userId      | integer   | references: users.id                  |
 
 Indexes: (questionId, userId), unique
+
+## `votes`
+
+| column name | data type | details                               |
+|-------------|-----------|---------------------------------------|
+| id          | integer   | not null, primary key, auto increment |
+| type        | enum      | [Useful, Funny, Cool]                 |
+| reviewId    | integer   | references: reviews.id                |
+| userId      | integer   | references: users. id                 |
+
+Indexes: (reviewId, userId) unique
+
+## `review_comments`
+
+| column name | data type | details                               |
+|-------------|-----------|---------------------------------------|
+| id          | integer   | not null, primary key, auto increment |
+| comment     | text      | not null                              |
+| businessId  | integer   | references: businesses.id             |
+| reviewId    | integer   | references: reviews.id                |
+
+Indexes: (businessId, reviewId), unique
+
+## `categories`
+
+| column name | data type    | details                               |
+|-------------|--------------|---------------------------------------|
+| id          | integer      | not null, primary key, auto increment |
+| category    | varchar(100) | not null                              |
+
+## `business_categories`
+
+| column name | data type | details                               |
+|-------------|-----------|---------------------------------------|
+| id          | integer   | not null, primary key, auto increment |
+| businessId  | integer   | references: businesses.id             |
+| categoryId  | integer   | references: categories.id             |
