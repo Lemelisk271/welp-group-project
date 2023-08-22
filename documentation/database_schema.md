@@ -51,3 +51,25 @@
 | id          | integer   | not null, primary key, auto increment |
 | businessId  | integer   | references: businesses.id             |
 | amenityId   | integer   | references: amenities.id              |
+
+## `reviews`
+
+| column name | data type | details                               |
+|-------------|-----------|---------------------------------------|
+| id          | integer   | not null, primary key, auto increment |
+| date        | date      | not null, default: "CURRENT_DATE"     |
+| stars       | integer   | not null                              |
+| userId      | integer   | references: users.id                  |
+| businessId | integer   | references: businesses.id             |
+
+Indexes: (userId, businessId), unique
+
+## `days`
+
+| column name | data type | details                               |
+|-------------|-----------|---------------------------------------|
+| id          | integer   | not null, primary key, auto increment |
+| day         | enum      | [Mon, Tue, Wed, Thu, Fri, Sat, Sun]   |
+| open_time   | time      |                                       |
+| close_time  | time      |                                       |
+| closed      | boolean   | not null, default = false             |
