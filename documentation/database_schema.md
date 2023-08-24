@@ -17,16 +17,19 @@
 
 ## `businesses`
 
-| column name | data type    | details                               |
-|-------------|--------------|---------------------------------------|
-| id          | integer      | not null, primary key, auto increment |
-| name        | varchar(100) | not null                              |
-| url         | varchar(250) |                                       |
-| phone       | varchar(14)  | not null                              |
-| address     | varchar(255) | not null, unique                      |
-| about       | text         |                                       |
-| price       | integer      | not null, default = 1                 |
-| ownerId     | integer      | references: users.id                  |
+| column name | data type    | details                                  |
+|-------------|--------------|------------------------------------------|
+| id          | integer      | not null, primary key, auto increment    |
+| name        | varchar(100) | not null                                 |
+| url         | varchar(250) |                                          |
+| phone       | varchar(14)  | not null                                 |
+| address     | varchar(255) | not null, unique                         |
+| city        | varchar(100) | not null                                 |
+| state       | enum         | [AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY], not null |
+| zip_code    | integer      | not null                                 |
+| about       | text         |                                          |
+| price       | integer      | not null, default = 1                    |
+| ownerId     | integer      | references: users.id                     |
 
 ## `business_images`
 
@@ -60,7 +63,7 @@
 | date        | date      | not null, default: "CURRENT_DATE"     |
 | stars       | integer   | not null                              |
 | userId      | integer   | references: users.id                  |
-| businessId | integer   | references: businesses.id             |
+| businessId  | integer   | references: businesses.id             |
 
 Indexes: (userId, businessId), unique
 
