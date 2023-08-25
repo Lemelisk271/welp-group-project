@@ -19,6 +19,7 @@ class Business(db.Model):
   ownerId = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
   user = db.relationship("User", back_populates="business")
+  business_images = db.relationship("BusinessImages", back_populates="business")
 
   def to_dict(self):
     return {
