@@ -1,4 +1,7 @@
 from .db import db, environment, SCHEMA
+from .business_category import business_categories
+
+
 
 class Business(db.Model):
   __tablename__ = "businesses"
@@ -20,6 +23,11 @@ class Business(db.Model):
 
   user = db.relationship("User", back_populates="business")
   business_images = db.relationship("BusinessImages", back_populates="business")
+  questions = db.relationship("Question", back_populates="business")
+  review_comments = db.relationship("ReviewComment", back_populates="business")
+  categories_business = db.relationship("Category", secondary=business_categories, back_populates="business_category")
+
+
 
   def to_dict(self):
     return {

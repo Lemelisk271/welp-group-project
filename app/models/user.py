@@ -20,6 +20,9 @@ class User(db.Model, UserMixin):
 
     business = db.relationship("Business", back_populates="user")
     business_images = db.relationship("BusinessImages", back_populates="user")
+    questions = db.relationship("Question", back_populates="user")
+    answers = db.relationship("Answer", back_populates="user")
+    votes = db.relationship("Vote", back_populates="user")
 
     @property
     def password(self):
