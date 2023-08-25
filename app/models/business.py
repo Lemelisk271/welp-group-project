@@ -1,8 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .business_amenities import business_amenities
-from .business_category import business_categories
-
-
 
 class Business(db.Model):
   __tablename__ = "businesses"
@@ -24,6 +21,25 @@ class Business(db.Model):
 
   user = db.relationship("User", back_populates="business")
   business_images = db.relationship("BusinessImages", back_populates="business")
+  review = db.relationship("Review", back_populates="business")
+  review_comments = db.relationship("ReviewComment", back_populates="business")
+  questions = db.relationship("Business", back_populates="business")
+  business_business_amenities = db.relationship(
+    "Amenity",
+    secondary=business_amenities,
+    back_populates="amenity_business_amenities"
+  )
+  business_days_hours = db.relationship(
+    "Day",
+    secondary=business_hours,
+    back_populates="business_hours_days"
+  )
+  categories_business = db.relationship(
+    "Category",
+    secondary=business_categories,
+    back_populates="business_category"
+    )
+
 
   def to_dict(self):
     return {
