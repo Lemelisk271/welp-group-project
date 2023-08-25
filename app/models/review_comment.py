@@ -16,7 +16,7 @@ class ReviewComment(db.Model):
     __table_args__ = (UniqueConstraint('businessId', 'reviewId'),)
 
     business = db.relationship("Business", back_populates="review_comments")
-    #! review = db.relationship("Review", back_populates="review_comments")
+    review = db.relationship("Review", back_populates="review_comments")
 
 
     def to_dict(self):

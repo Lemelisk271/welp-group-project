@@ -1,4 +1,5 @@
-from .db import db, environment, SCHEMA
+from .db import db, environment, SCHEMA, add_prefix_for_prod
+from .business_amenities import business_amenities
 from .business_category import business_categories
 
 
@@ -19,15 +20,10 @@ class Business(db.Model):
   zip_code = db.Column(db.Integer, nullable=False)
   about = db.Column(db.String(2000))
   price = db.Column(db.Integer, nullable=False, default=1)
-  ownerId = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+  ownerId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
 
   user = db.relationship("User", back_populates="business")
   business_images = db.relationship("BusinessImages", back_populates="business")
-  questions = db.relationship("Question", back_populates="business")
-  review_comments = db.relationship("ReviewComment", back_populates="business")
-  categories_business = db.relationship("Category", secondary=business_categories, back_populates="business_category")
-
-
 
   def to_dict(self):
     return {

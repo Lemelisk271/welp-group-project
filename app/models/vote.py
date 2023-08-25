@@ -15,7 +15,7 @@ class Vote(db.Model):
 
     __table_args__ = (UniqueConstraint('userId', 'reviewId'),)
 
-    #! review = db.relationship("Review", back_populates="votes")
+    review = db.relationship("Review", back_populates="votes")
     user = db.relationship("User", back_populates="votes")
 
     def to_dict(self):
