@@ -1,4 +1,5 @@
 from .db import db, environment, SCHEMA
+from. business_hour import business_hours
 
 class Day(db.Model):
   __tablename__ = "days"
@@ -11,6 +12,12 @@ class Day(db.Model):
   open_time = db.Column(db.Time)
   close_time = db.Column(db.Time)
   closed = db.Column(db.Boolean, nullable=False, default=False)
+
+  business_hours_days = db.relationship(
+    "Business",
+    secondary=business_hours,
+    back_populates="business_days_hours"
+  )
 
   def to_dict(self):
     return {
