@@ -60,8 +60,8 @@
 | column name | data type | details                               |
 |-------------|-----------|---------------------------------------|
 | id          | integer   | not null, primary key, auto increment |
-| date        | date      | not null, default: "CURRENT_DATE"     |
-| stars       | integer   | not null                              |
+| date        | datetime  | not null, default: "CURRENT_DATE"     |
+| stars       | integer   | not null, default = 1                 |
 | userId      | integer   | references: users.id                  |
 | businessId  | integer   | references: businesses.id             |
 

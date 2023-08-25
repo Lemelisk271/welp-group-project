@@ -21,6 +21,7 @@ class Business(db.Model):
 
   user = db.relationship("User", back_populates="business")
   business_images = db.relationship("BusinessImages", back_populates="business")
+  review = db.relationship("Review", back_populates="business")
   business_business_amenities = db.relationship(
     "Amenity",
     secondary=business_amenities,
