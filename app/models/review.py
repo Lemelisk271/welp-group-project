@@ -13,6 +13,8 @@ class Review(db.Model):
   userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")) , nullable=False)
   businessId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("businesses.id")) , nullable=False)
 
+  __table_args__ = (db.UniqueConstraint('userId', 'businessId'),)
+
   user = db.relationship("User", back_populates="review")
   business = db.relationship("Business", back_populates="review")
   review_comments = db.relationship("ReviewComment", back_populates="review")
