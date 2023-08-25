@@ -18,6 +18,8 @@ class User(db.Model, UserMixin):
     birthday = db.Column(db.Date)
     profile_image = db.Column(db.String(255))
 
+    business = db.relationship("Business", back_populates="user")
+
     @property
     def password(self):
         return self.hashed_password
