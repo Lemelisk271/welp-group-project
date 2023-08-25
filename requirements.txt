@@ -3,6 +3,7 @@
 # To regenerate from the project's Pipfile, run:
 #
 #    pipenv lock --requirements
+#    pipenv requirements > requirements.txt
 #
 
 -i https://pypi.org/simple
