@@ -37,6 +37,7 @@
 |-------------|--------------|---------------------------------------|
 | id          | integer      | not null, primary key, auto increment |
 | url         | varchar(250) | not null                              |
+| preview     | boolean      | not null, default = false             |
 | businessId  | integer      | references: businesses.id             |
 | userId      | integer      | references: users.id                  |
 
