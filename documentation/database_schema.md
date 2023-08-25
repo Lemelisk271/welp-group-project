@@ -52,7 +52,6 @@
 
 | column name | data type | details                               |
 |-------------|-----------|---------------------------------------|
-| id          | integer   | not null, primary key, auto increment |
 | businessId  | integer   | references: businesses.id             |
 | amenityId   | integer   | references: amenities.id              |
 
@@ -61,8 +60,8 @@
 | column name | data type | details                               |
 |-------------|-----------|---------------------------------------|
 | id          | integer   | not null, primary key, auto increment |
-| date        | date      | not null, default: "CURRENT_DATE"     |
-| stars       | integer   | not null                              |
+| date        | datetime  | not null, default: "CURRENT_DATE"     |
+| stars       | integer   | not null, default = 1                 |
 | userId      | integer   | references: users.id                  |
 | businessId  | integer   | references: businesses.id             |
 
@@ -82,7 +81,6 @@ Indexes: (userId, businessId), unique
 
 | column name | data type | details                               |
 |-------------|-----------|---------------------------------------|
-| id          | integer   | not null, primary key, auto increment |
 | businessId  | integer   | references: businesses.id             |
 | dayId       | integer   | references: days.id                   |
 
@@ -143,6 +141,5 @@ Indexes: (businessId, reviewId), unique
 
 | column name | data type | details                               |
 |-------------|-----------|---------------------------------------|
-| id          | integer   | not null, primary key, auto increment |
 | businessId  | integer   | references: businesses.id             |
 | categoryId  | integer   | references: categories.id             |
