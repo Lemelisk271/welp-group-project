@@ -1,16 +1,19 @@
 """empty message
 
-Revision ID: 8c3b4e99bac7
-Revises: 
-Create Date: 2023-08-25 15:27:43.838287
+Revision ID: 469bf40c61f7
+Revises:
+Create Date: 2023-08-25 15:49:06.435940
 
 """
 from alembic import op
 import sqlalchemy as sa
 
+import os
+environment = os.getenv("FLASK_ENV")
+SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = '8c3b4e99bac7'
+revision = '469bf40c61f7'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,6 +24,14 @@ def upgrade():
     op.create_table('amenities',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('amenity', sa.String(length=50), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('days',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('day', sa.Enum('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'), nullable=True),
+    sa.Column('open_time', sa.Time(), nullable=True),
+    sa.Column('close_time', sa.Time(), nullable=True),
+    sa.Column('closed', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users',
@@ -78,6 +89,9 @@ def upgrade():
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
     # ### end Alembic commands ###
 
 
@@ -88,5 +102,6 @@ def downgrade():
     op.drop_table('business_amenities')
     op.drop_table('businesses')
     op.drop_table('users')
+    op.drop_table('days')
     op.drop_table('amenities')
     # ### end Alembic commands ###
