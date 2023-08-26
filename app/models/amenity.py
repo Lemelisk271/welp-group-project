@@ -9,6 +9,7 @@ class Amenity(db.Model):
 
   id = db.Column(db.Integer, primary_key=True)
   amenity = db.Column(db.String(50), nullable=False)
+  icon_url = db.Column(db.String(255))
 
   amenity_business_amenities = db.relationship(
     "Business",
@@ -19,5 +20,6 @@ class Amenity(db.Model):
   def to_dict(self):
     return {
       "id": self.id,
-      "amenity": self.amenity
+      "amenity": self.amenity,
+      "icon_url": self.icon_url
     }
