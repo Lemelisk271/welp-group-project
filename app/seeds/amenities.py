@@ -10,7 +10,13 @@ all_amenities = [
   ("Accepts Android Pay", "/static/images/amenities/android_pay.png"),
   ("Accepts Apple Pay", "/static/images/amenities/apple_pay.png"),
   ("Outdoor Seating", "/static/images/amenities/outdoor_seating.png"),
-  ("Street Parking, Private Lot Parking", "/static/images/amenities/parking.png")
+  ("Street Parking, Private Lot Parking", "/static/images/amenities/parking.png"),
+  ("Free Wi-Fi", "/static/images/amenities/wi_fi.png"),
+  ("Dogs Allowed", "/static/images/amenities/dog.png"),
+  ("Wheelchair Accessible", "/static/images/amenities/wheelchair.png"),
+  ("Asian-Owned", "/static/images/amenities/home_with_heart.png"),
+  ("Women-Owned", "/static/images/amenities/woman.png"),
+  ("Open to All", "/static/images/amenities/open_door.png")
 ]
 
 def generate_amenities():
