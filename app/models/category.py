@@ -1,4 +1,4 @@
-from .db import db, SCHEMA
+from .db import db, environment, SCHEMA
 from .business_category import business_categories
 
 

@@ -1,5 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .business_amenities import business_amenities
+from .business_hour import business_hours
+from .business_category import business_categories
 
 class Business(db.Model):
   __tablename__ = "businesses"
