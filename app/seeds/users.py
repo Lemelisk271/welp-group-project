@@ -18,7 +18,7 @@ def generate_users():
             password = 'password',
             zip_code = fake.postcode(),
             birthday = fake.date_of_birth(),
-            profile_image = 'https://picsum.photos/200/300.jpg'
+            profile_image = 'https://picsum.photos/800/600.jpg'
         )
 
 # Adds a demo user, you can add other users here if you want
@@ -30,7 +30,7 @@ def seed_users():
         password='password',
         zip_code = fake.postcode(),
         birthday = fake.date_of_birth(),
-        profile_image = 'https://picsum.photos/200/300.jpg')
+        profile_image = 'https://picsum.photos/800/600.jpg')
     
     marnie = User(
         first_name='Marnie', 
@@ -39,7 +39,7 @@ def seed_users():
         password='password',
         zip_code = fake.postcode(),
         birthday = fake.date_of_birth(),
-        profile_image = 'https://picsum.photos/200/300.jpg')
+        profile_image = 'https://picsum.photos/800/600.jpg')
     
     bobbie = User(
         first_name='Bobbie', 
@@ -48,7 +48,7 @@ def seed_users():
         password='password',
         zip_code = fake.postcode(),
         birthday = fake.date_of_birth(),
-        profile_image = 'https://picsum.photos/200/300.jpg')
+        profile_image = 'https://picsum.photos/800/600.jpg')
 
     db.session.add(demo)
     db.session.add(marnie)
