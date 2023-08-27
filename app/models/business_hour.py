@@ -7,6 +7,9 @@ business_hours = db.Table(
     db.Column("dayId", db.Integer, db.ForeignKey(add_prefix_for_prod("days.id")), primary_key=True)
 )
 
+if environment == "production":
+    business_hours.schema = SCHEMA
+
 
 # ___________________________
 
