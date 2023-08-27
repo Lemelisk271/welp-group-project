@@ -1,20 +1,63 @@
 from app.models import db, User, environment, SCHEMA
 from sqlalchemy.sql import text
+from faker import Faker
+from faker.providers import person, internet, address, date_time
 
+fake = Faker()
+fake.add_provider(person)
+fake.add_provider(internet)
+fake.add_provider(address)
+fake.add_provider(date_time)
+
+def generate_users():
+    for _ in range(30):
+        yield User(
+            first_name = fake.first_name(),
+            last_name = fake.last_name(),
+            email = fake.free_email(),
+            password = 'password',
+            zip_code = fake.postcode(),
+            birthday = fake.date_of_birth(),
+            profile_image = 'https://picsum.photos/800/600.jpg'
+        )
 
 # Adds a demo user, you can add other users here if you want
 def seed_users():
     demo = User(
-        username='Demo', email='demo@aa.io', password='password')
+        first_name ='Demo',
+        last_name = 'User',
+        email='demo@aa.io',
+        password='password',
+        zip_code = fake.postcode(),
+        birthday = fake.date_of_birth(),
+        profile_image = 'https://picsum.photos/800/600.jpg')
+
     marnie = User(
-        username='marnie', email='marnie@aa.io', password='password')
+        first_name='Marnie',
+        last_name = 'Barney',
+        email='marnie@aa.io',
+        password='password',
+        zip_code = fake.postcode(),
+        birthday = fake.date_of_birth(),
+        profile_image = 'https://picsum.photos/800/600.jpg')
+
     bobbie = User(
-        username='bobbie', email='bobbie@aa.io', password='password')
+        first_name='Bobbie',
+        last_name = 'Fingers',
+        email='bobbie@aa.io',
+        password='password',
+        zip_code = fake.postcode(),
+        birthday = fake.date_of_birth(),
+        profile_image = 'https://picsum.photos/800/600.jpg')
 
     db.session.add(demo)
     db.session.add(marnie)
     db.session.add(bobbie)
+
+    generated_users = list(generate_users())
+    add_users = [db.session.add(user) for user in generated_users]
     db.session.commit()
+    return generated_users
 
 
 # Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't
@@ -28,5 +71,5 @@ def undo_users():
         db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM users"))
-        
+
     db.session.commit()

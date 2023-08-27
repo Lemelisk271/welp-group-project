@@ -37,21 +37,22 @@
 |-------------|--------------|---------------------------------------|
 | id          | integer      | not null, primary key, auto increment |
 | url         | varchar(250) | not null                              |
+| preview     | boolean      | not null, default = false             |
 | businessId  | integer      | references: businesses.id             |
 | userId      | integer      | references: users.id                  |
 
 ## `amenities`
 
-| column name | data type   | details                               |
-|-------------|-------------|---------------------------------------|
-| id          | integer     | not null, primary key, auto increment |
-| amenity     | varchar(50) | not null                              |
+| column name | data type    | details                               |
+|-------------|--------------|---------------------------------------|
+| id          | integer      | not null, primary key, auto increment |
+| amenity     | varchar(50)  | not null                              |
+| icon_url    | varchar(255) |                                       |
 
 ## `business_amenity`
 
 | column name | data type | details                               |
 |-------------|-----------|---------------------------------------|
-| id          | integer   | not null, primary key, auto increment |
 | businessId  | integer   | references: businesses.id             |
 | amenityId   | integer   | references: amenities.id              |
 
@@ -60,8 +61,9 @@
 | column name | data type | details                               |
 |-------------|-----------|---------------------------------------|
 | id          | integer   | not null, primary key, auto increment |
-| date        | date      | not null, default: "CURRENT_DATE"     |
-| stars       | integer   | not null                              |
+| date        | datetime  | not null, default: "CURRENT_DATE"     |
+| stars       | integer   | not null, default = 1                 |
+| review      | text      | not null,                             |
 | userId      | integer   | references: users.id                  |
 | businessId  | integer   | references: businesses.id             |
 
@@ -81,7 +83,6 @@ Indexes: (userId, businessId), unique
 
 | column name | data type | details                               |
 |-------------|-----------|---------------------------------------|
-| id          | integer   | not null, primary key, auto increment |
 | businessId  | integer   | references: businesses.id             |
 | dayId       | integer   | references: days.id                   |
 
@@ -142,6 +143,5 @@ Indexes: (businessId, reviewId), unique
 
 | column name | data type | details                               |
 |-------------|-----------|---------------------------------------|
-| id          | integer   | not null, primary key, auto increment |
 | businessId  | integer   | references: businesses.id             |
 | categoryId  | integer   | references: categories.id             |
