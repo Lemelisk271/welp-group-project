@@ -24,7 +24,7 @@ def random_price():
     return random.randint(1, 4)
 
 # Create random business information
-def generate_businesses():
+def generate_businesses(amenities):
     for _ in range(100):
         yield Business(
             name = fake.company(),
@@ -37,11 +37,12 @@ def generate_businesses():
             about = fake.bs(),
             price = random_price(),
             ownerId = random_owner(),
+            business_business_amenities = random.sample(amenities, k=5)
         )
 
 # Seed randomly generated businesses to the businesses table
-def seed_businesses():
-    businesses = list(generate_businesses())
+def seed_businesses(amenities):
+    businesses = list(generate_businesses(amenities))
     add_items = [db.session.add(business) for business in businesses]
     db.session.commit()
     return businesses
@@ -49,8 +50,10 @@ def seed_businesses():
 # Undo seeding
 def undo_businesses():
     if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.business_amenities RESTART IDENTITY CASCADE;")
         db.session.execute(f"TRUNCATE table {SCHEMA}.businesses RESTART IDENTITY CASCADE;")
     else:
+        db.session.execute(text("DELETE FROM business_amenities"))
         db.session.execute(text("DELETE FROM businesses"))
-        
+
     db.session.commit()
