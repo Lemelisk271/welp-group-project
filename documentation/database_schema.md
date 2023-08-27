@@ -62,6 +62,7 @@
 | id          | integer   | not null, primary key, auto increment |
 | date        | datetime  | not null, default: "CURRENT_DATE"     |
 | stars       | integer   | not null, default = 1                 |
+| review      | text      | not null,                             |
 | userId      | integer   | references: users.id                  |
 | businessId  | integer   | references: businesses.id             |
 
