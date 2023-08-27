@@ -8,7 +8,7 @@ class Amenity(db.Model):
     __table_args__ = {'schema': SCHEMA}
 
   id = db.Column(db.Integer, primary_key=True)
-  amenity = db.Column(db.String(50), nullable=False)
+  amenity = db.Column(db.String(50), nullable=False, unique=True)
   icon_url = db.Column(db.String(255))
 
   amenity_business_amenities = db.relationship(

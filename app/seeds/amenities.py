@@ -14,9 +14,17 @@ all_amenities = [
   ("Free Wi-Fi", "/static/images/amenities/wi_fi.png"),
   ("Dogs Allowed", "/static/images/amenities/dog.png"),
   ("Wheelchair Accessible", "/static/images/amenities/wheelchair.png"),
-  ("Asian-Owned", "/static/images/amenities/home_with_heart.png"),
-  ("Women-Owned", "/static/images/amenities/woman.png"),
-  ("Open to All", "/static/images/amenities/open_door.png")
+  ("Offers Catering", "/static/images/amenities/catering.png"),
+  ("No Alcohol", "/static/images/amenities/no_alcohol.png"),
+  ("Bike Parking", "/static/images/amenities/bike.png"),
+  ("Compostable Containers Available", "/static/images/amenities/compost_bin.png"),
+  ("Plastic-Free Packaging", "/static/images/amenities/no_plastic_bag.png"),
+  ("Good For Kids", "/static/images/amenities/kids.png"),
+  ("Good for Groups", "/static/images/amenities/groups.png"),
+  ("Drive-Thru", "/static/images/amenities/drive_thru.png"),
+  ("Vegan Options", "/static/images/amenities/vegan.png"),
+  ("Romantic", "/static/images/amenities/romantic.png"),
+  ("Casual Dress", "/static/images/amenities/casual_dress.png")
 ]
 
 def generate_amenities():
