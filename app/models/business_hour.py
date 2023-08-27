@@ -1,4 +1,4 @@
-from .db import db, add_prefix_for_prod
+from .db import db, add_prefix_for_prod, SCHEMA, environment
 
 business_hours = db.Table(
     'business_hours',
