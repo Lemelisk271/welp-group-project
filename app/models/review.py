@@ -10,6 +10,7 @@ class Review(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   date = db.Column(db.DateTime, default=datetime.datetime.now)
   stars = db.Column(db.Integer, nullable=False, default=1)
+  review = db.Column(db.String(2000), nullable=False)
   userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")) , nullable=False)
   businessId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("businesses.id")) , nullable=False)
 

@@ -42,7 +42,7 @@ def seed_amenities():
 
 def undo_amenities():
   if environment == "production":
-    sb.session.execute(f"TRUNCATE table {SCHEMA}.amenities RESTART IDENTITY CASCADE")
+    db.session.execute(f"TRUNCATE table {SCHEMA}.amenities RESTART IDENTITY CASCADE")
   else:
     db.session.execute(text("DELETE FROM amenities"))
 
