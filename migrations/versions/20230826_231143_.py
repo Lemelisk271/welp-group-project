@@ -157,6 +157,19 @@ def upgrade():
 
     if environment == "production":
         op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE amenities SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE categories SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE days SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE businesses SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE business_amenities SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE business_categories SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE business_hours SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE business_images SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE questions SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE reviews SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE answers SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE review_comments SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE votes SET SCHEMA {SCHEMA};")
 
     # ### end Alembic commands ###
 
