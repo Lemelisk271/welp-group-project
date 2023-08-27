@@ -5,6 +5,8 @@ from .business_images import seed_business_images, undo_business_images
 from .amenities import seed_amenities, undo_amenities
 from .questions import seed_questions, undo_questions
 from .answers import seed_answers, undo_answers
+from .categories import seed_categories, undo_categories
+from .votes import seed_votes, undo_votes
 
 from app.models.db import db, environment, SCHEMA
 
@@ -27,12 +29,16 @@ def seed():
         undo_businesses()
         undo_amenities
         undo_users()
+        undo_categories()
+        undo_votes()
     # Add other seed functions here
     amenities = seed_amenities()
     seed_businesses(amenities)
     seed_business_images()
     seed_questions()
     seed_answers()
+    seed_categories()
+    seed_votes()
 
 
 # Creates the `flask seed undo` command
@@ -45,3 +51,5 @@ def undo():
     undo_users()
     undo_questions()
     undo_answers()
+    undo_categories()
+    undo_votes()
