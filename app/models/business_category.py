@@ -3,9 +3,12 @@ from .db import db, add_prefix_for_prod
 business_categories = db.Table(
     'business_categories',
     db.Model.metadata,
-    db.Column("businessId", db.Integer, db.ForeignKey(add_prefix_for_prod("businesses.id"))),
-    db.Column("categoryId", db.Integer, db.ForeignKey(add_prefix_for_prod("categories.id")))
+    db.Column("businessId", db.Integer, db.ForeignKey(add_prefix_for_prod("businesses.id")), primary_key=True),
+    db.Column("categoryId", db.Integer, db.ForeignKey(add_prefix_for_prod("categories.id")), primary_key=True)
 )
+
+if environment == "production":
+    business_categories.schema = SCHEMA
 
 # __________________________________
 
