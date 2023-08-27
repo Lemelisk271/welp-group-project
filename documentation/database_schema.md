@@ -43,10 +43,11 @@
 
 ## `amenities`
 
-| column name | data type   | details                               |
-|-------------|-------------|---------------------------------------|
-| id          | integer     | not null, primary key, auto increment |
-| amenity     | varchar(50) | not null                              |
+| column name | data type    | details                               |
+|-------------|--------------|---------------------------------------|
+| id          | integer      | not null, primary key, auto increment |
+| amenity     | varchar(50)  | not null                              |
+| icon_url    | varchar(255) |                                       |
 
 ## `business_amenity`
 
