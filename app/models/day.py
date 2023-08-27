@@ -8,7 +8,7 @@ class Day(db.Model):
     __table_args__ = {'schema': SCHEMA}
 
   id = db.Column(db.Integer, primary_key=True)
-  day = db.Column(db.Enum("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))
+  day = db.Column(db.Enum("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", name="days_type"))
   open_time = db.Column(db.Time)
   close_time = db.Column(db.Time)
   closed = db.Column(db.Boolean, nullable=False, default=False)
