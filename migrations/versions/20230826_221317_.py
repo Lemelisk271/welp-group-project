@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: a05c98c86e74
+Revision ID: 829364939271
 Revises:
-Create Date: 2023-08-26 21:51:20.704643
+Create Date: 2023-08-26 22:13:17.098419
 
 """
 from alembic import op
@@ -13,7 +13,7 @@ environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = 'a05c98c86e74'
+revision = '829364939271'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -83,10 +83,11 @@ def upgrade():
     sa.ForeignKeyConstraint(['categoryId'], ['categories.id'], )
     )
     op.create_table('business_hours',
-    sa.Column('businessId', sa.Integer(), nullable=True),
-    sa.Column('dayId', sa.Integer(), nullable=True),
+    sa.Column('businessId', sa.Integer(), nullable=False),
+    sa.Column('dayId', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['businessId'], ['businesses.id'], ),
-    sa.ForeignKeyConstraint(['dayId'], ['days.id'], )
+    sa.ForeignKeyConstraint(['dayId'], ['days.id'], ),
+    sa.PrimaryKeyConstraint('businessId', 'dayId')
     )
     op.create_table('business_images',
     sa.Column('id', sa.Integer(), nullable=False),
