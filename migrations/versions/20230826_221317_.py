@@ -1,16 +1,19 @@
 """empty message
 
-Revision ID: 01cc62246958
-Revises: 
-Create Date: 2023-08-26 20:42:58.504771
+Revision ID: 829364939271
+Revises:
+Create Date: 2023-08-26 22:13:17.098419
 
 """
 from alembic import op
 import sqlalchemy as sa
 
+import os
+environment = os.getenv("FLASK_ENV")
+SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = '01cc62246958'
+revision = '829364939271'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,7 +35,7 @@ def upgrade():
     )
     op.create_table('days',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('day', sa.Enum('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'), nullable=True),
+    sa.Column('day', sa.Enum('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', name='days_type'), nullable=True),
     sa.Column('open_time', sa.Time(), nullable=True),
     sa.Column('close_time', sa.Time(), nullable=True),
     sa.Column('closed', sa.Boolean(), nullable=False),
@@ -57,7 +60,7 @@ def upgrade():
     sa.Column('phone', sa.String(length=14), nullable=False),
     sa.Column('address', sa.String(length=255), nullable=False),
     sa.Column('city', sa.String(length=100), nullable=False),
-    sa.Column('state', sa.Enum('AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'), nullable=False),
+    sa.Column('state', sa.Enum('AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY', name='business_state'), nullable=False),
     sa.Column('zip_code', sa.Integer(), nullable=False),
     sa.Column('about', sa.String(length=2000), nullable=True),
     sa.Column('price', sa.Integer(), nullable=False),
@@ -150,6 +153,9 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('userId', 'reviewId')
     )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
     # ### end Alembic commands ###
 
 
