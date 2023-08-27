@@ -3,8 +3,8 @@ from .db import db, add_prefix_for_prod
 business_hours = db.Table(
     'business_hours',
     db.Model.metadata,
-    db.Column("businessId", db.Integer, db.ForeignKey(add_prefix_for_prod("businesses.id"))),
-    db.Column("dayId", db.Integer, db.ForeignKey(add_prefix_for_prod("days.id")))
+    db.Column("businessId", db.Integer, db.ForeignKey(add_prefix_for_prod("businesses.id")), primary_key=True),
+    db.Column("dayId", db.Integer, db.ForeignKey(add_prefix_for_prod("days.id")), primary_key=True)
 )
 
 
