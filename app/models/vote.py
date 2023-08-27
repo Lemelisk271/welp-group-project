@@ -10,8 +10,8 @@ class Vote(db.Model):
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     type = db.Column(db.Enum("Useful", "Funny", "Cool", name="vote_type"))
-    reviewId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("reviews.id")))
-    userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
+    reviewId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("reviews.id")), nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
 
     __table_args__ = (UniqueConstraint('userId', 'reviewId'),)
 
