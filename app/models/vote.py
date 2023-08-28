@@ -1,5 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from sqlalchemy import UniqueConstraint
+# from sqlalchemy import UniqueConstraint
 
 
 class Vote(db.Model):
@@ -13,7 +13,7 @@ class Vote(db.Model):
     reviewId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("reviews.id")), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
 
-    __table_args__ = (UniqueConstraint('userId', 'reviewId'),)
+    # __table_args__ = (UniqueConstraint('userId', 'reviewId'),)
 
     review = db.relationship("Review", back_populates="votes")
     user = db.relationship("User", back_populates="votes")
