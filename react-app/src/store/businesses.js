@@ -1,4 +1,5 @@
 import { normalizeObj } from "./normalizeHelper";
+const cloneDeep = require('clone-deep');
 export const LOAD_BUSINESS = "businesses/LOAD_BUSINESS";
 
 const get = (business) => ({
@@ -20,7 +21,7 @@ const businessReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
     case LOAD_BUSINESS:
-      newState = { ...state };
+      newState = cloneDeep(state);
       newState.singleBusiness = action.business;
       return newState;
     default:
