@@ -9,6 +9,7 @@ from .reviews import seed_reviews, undo_reviews
 from .categories import seed_categories, undo_categories
 from .votes import seed_votes, undo_votes
 from .days import seed_days, undo_days
+from .review_comments import seed_review_comments, undo_review_comments
 
 from app.models.db import db, environment, SCHEMA
 
@@ -35,6 +36,7 @@ def seed():
         undo_businesses()
         undo_users()
         undo_amenities()
+        undo_review_comments()
     # Add other seed functions here
     amenities = seed_amenities()
     users = seed_users()
@@ -46,6 +48,8 @@ def seed():
     seed_categories()
     seed_votes()
     seed_days(businesses)
+    reviews = seed_reviews(users, businesses)
+    seed_review_comments(reviews)
 
 
 # Creates the `flask seed undo` command
@@ -62,3 +66,4 @@ def undo():
     undo_businesses()
     undo_users()
     undo_amenities()
+    undo_review_comments

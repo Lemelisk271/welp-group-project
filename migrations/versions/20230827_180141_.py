@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 5e219150ec60
+Revision ID: 42d0d311bda7
 Revises:
-Create Date: 2023-08-27 16:50:15.454754
+Create Date: 2023-08-27 18:01:41.688235
 
 """
 from alembic import op
@@ -13,7 +13,7 @@ environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = '5e219150ec60'
+revision = '42d0d311bda7'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -108,8 +108,7 @@ def upgrade():
     sa.Column('userId', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['businessId'], ['businesses.id'], ),
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('userId', 'businessId')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -120,8 +119,7 @@ def upgrade():
     sa.Column('businessId', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['businessId'], ['businesses.id'], ),
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('userId', 'businessId')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('answers',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -131,18 +129,17 @@ def upgrade():
     sa.Column('userId', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['questionId'], ['questions.id'], ),
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('userId', 'questionId')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('review_comments',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('date', sa.Date(), nullable=False),
     sa.Column('comment', sa.Integer(), nullable=False),
     sa.Column('businessId', sa.Integer(), nullable=True),
     sa.Column('reviewId', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['businessId'], ['businesses.id'], ),
     sa.ForeignKeyConstraint(['reviewId'], ['reviews.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('businessId', 'reviewId')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('votes',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -151,8 +148,7 @@ def upgrade():
     sa.Column('userId', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['reviewId'], ['reviews.id'], ),
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('userId', 'reviewId')
+    sa.PrimaryKeyConstraint('id')
     )
 
     if environment == "production":
