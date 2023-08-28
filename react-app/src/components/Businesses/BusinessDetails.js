@@ -10,13 +10,16 @@ const BusinessDetails = () => {
   const { id } = useParams();
   const business = useSelector((state) => state.business.singleBusiness);
 
-  useEffect(() => {
-    try {
-      dispatch(getBusiness(id));
-      setIsLoaded(true);
-    } catch (error) {
-    }
-  }, dispatch, isLoaded);
+  useEffect(
+    () => {
+      try {
+        dispatch(getBusiness(id));
+        setIsLoaded(true);
+      } catch (error) {}
+    },
+    dispatch,
+    isLoaded
+  );
 
   return (
     <>
@@ -40,9 +43,7 @@ const BusinessDetails = () => {
           {business.images.map((element) => {
             return (
               <ul>
-                <li key={element.id}>
-                  {element.url}
-                </li>
+                <li key={element.id}>{element.url}</li>
               </ul>
             );
           })}
@@ -55,7 +56,7 @@ const BusinessDetails = () => {
             return (
               <ul>
                 <li key={element.id}>
-                  {element.date} - Stars: {element.stars}
+                  {element.date} - Stars: {element.stars} - {element.review}
                 </li>
               </ul>
             );
@@ -112,7 +113,9 @@ const BusinessDetails = () => {
                   {element.question}
                   {element.answers.length > 0 && (
                     <ul>
-                      <li key={element.answers.id}>{element.answers[0].answer}</li>
+                      <li key={element.answers.id}>
+                        {element.answers[0].answer}
+                      </li>
                     </ul>
                   )}
                 </li>
