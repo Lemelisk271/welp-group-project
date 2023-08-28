@@ -6,15 +6,8 @@
   display: none;
 }
 
-.hero-bar {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  height: 682px;
-  background: linear-gradient(90deg,#0006,#0000001a 55%);
-}
-
 .nav-container {
+  background: none;
   border: 1px solid red;
   display: flex;
   justify-content: space-between;
@@ -42,12 +35,29 @@
 
 .nav-right {
   border: 1px solid red;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.nav-user-button {
-  color: #EEEEEF;
-  border: none;
+.nav-links {
+  font-family: sans-serif;
+  font-size: 14px;
+  color: #ffffff;
+  margin: auto 8px;
+}
+
+.nav-login-button {
   background: none;
-  font-size: 36px;
   cursor: pointer;
+  border: 2px solid #c8c9ca;
+  color: #ffffff;
+  margin: auto 4px;
+  padding: 10px 16px;
+  height: 44px;
+  border-radius: 4px;
+}
+
+.nav-signup {
+  background-color: red
 }
