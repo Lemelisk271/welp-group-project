@@ -5,3 +5,49 @@
 .hidden {
   display: none;
 }
+
+.hero-bar {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 682px;
+  background: linear-gradient(90deg,#0006,#0000001a 55%);
+}
+
+.nav-container {
+  border: 1px solid red;
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 40px 0;
+}
+
+.nav-left {
+  border: 1px solid red;
+}
+
+.nav-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid red;
+  width: 40%;
+  margin: 0px 16px;
+}
+
+.nav-search-bar {
+  border: 1px solid red;
+  width: 60%;
+  margin: auto 0px;
+}
+
+.nav-right {
+  border: 1px solid red;
+}
+
+.nav-user-button {
+  color: #EEEEEF;
+  border: none;
+  background: none;
+  font-size: 36px;
+  cursor: pointer;
+}
