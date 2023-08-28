@@ -22,7 +22,7 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          <Route path="/">
+          <Route exact path="/">
             <LandingPage />
           </Route>
           <Route path="/login">
@@ -37,7 +37,7 @@ function App() {
           <Route path="/business/:id">
             <BusinessDetails />
           </Route>
-          <Route path="/profile/:userId">
+          <Route exact path="/profile/:userId">
             <UserProfilePage />
           </Route>
         </Switch>
