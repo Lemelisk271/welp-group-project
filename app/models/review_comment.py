@@ -1,5 +1,6 @@
-from .db import db, environment, SCHEMA, add_prefix_for_prod
-# from sqlalchemy import UniqueConstraint
+from .db import db, SCHEMA, add_prefix_for_prod, environment
+from sqlalchemy import UniqueConstraint
+
 
 
 class ReviewComment(db.Model):
@@ -9,6 +10,7 @@ class ReviewComment(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
+    date  = db.Column(db.Date, nullable=False)
     comment = db.Column(db.Integer, nullable=False)
     businessId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("businesses.id")))
     reviewId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("reviews.id")))
@@ -22,6 +24,7 @@ class ReviewComment(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
+            "date": self.date,
             "comment": self.comment,
             "businessId": self.businessId,
             "reviewId": self.reviewId
