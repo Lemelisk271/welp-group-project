@@ -1,5 +1,5 @@
 import "./LandingPage.css"
-import Navigation from "../Navigation";
+import Footer from "../Footer";
 
 export default function LandingPage() {
     return (
@@ -7,6 +7,7 @@ export default function LandingPage() {
         <div className="landing-page hero-bar">
         </div>
         <h1>LandingPage</h1>
+        <Footer />
         </>
     )
 }
