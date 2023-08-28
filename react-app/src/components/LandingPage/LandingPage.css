@@ -1,0 +1,8 @@
+.hero-bar {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 682px;
+    background: linear-gradient(90deg,#0006,#0000001a 55%), url(https://picsum.photos/1280/720.jpg);
+    background-size: cover;
+  }
