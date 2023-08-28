@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getBusiness } from "../../store/businesses";
+import { getBusiness } from "../../store/business";
 import "./Businesses.css";
 
 const BusinessDetails = () => {

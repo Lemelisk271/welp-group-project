@@ -28,7 +28,7 @@ export const getBusiness = (id) => async (dispatch) => {
   }
 };
 
-const businessReducer = (state = {allBusinesses: [], singleBusiness: null}) => {
+const businessReducer = (state = {allBusinesses: [], singleBusiness: null}, action) => {
   let newState = cloneDeep(state);
   switch (action.type) {
     case GET_ALL_BUSINESS:
