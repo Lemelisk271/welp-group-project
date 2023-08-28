@@ -1,6 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 import datetime
-# from sqlalchemy import UniqueConstraint
 
 class Review(db.Model):
   __tablename__ = 'reviews'
@@ -14,8 +13,6 @@ class Review(db.Model):
   review = db.Column(db.String(2000), nullable=False)
   userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
   businessId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("businesses.id")), nullable=False)
-
-  # __table_args__ = (UniqueConstraint('userId', 'businessId'),)
 
   user = db.relationship("User", back_populates="review")
   business = db.relationship("Business", back_populates="review")

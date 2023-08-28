@@ -1,6 +1,4 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-# from sqlalchemy import UniqueConstraint
-
 
 class Question(db.Model):
     __tablename__ = "questions"
@@ -13,8 +11,6 @@ class Question(db.Model):
     date = db.Column(db.Date, nullable=False, default="CURRENT_DATE")
     businessId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("businesses.id")))
     userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
-
-    # __table_args__ = (UniqueConstraint('userId', 'businessId'),)
 
     business = db.relationship("Business", back_populates="questions")
     user = db.relationship("User", back_populates="questions")
