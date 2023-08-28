@@ -1,1 +1,14 @@
 /* TODO Add site wide styles */
+body {
+    background-color: #d8d8d8;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+ul.no-bullets {
+    list-style-type: none;
+}
+
+.bold {
+    font-weight: bold;
+}
