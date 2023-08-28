@@ -1,16 +1,19 @@
 """empty message
 
-Revision ID: 457d4db41a42
-Revises: 
-Create Date: 2023-08-27 09:37:02.053542
+Revision ID: 42d0d311bda7
+Revises:
+Create Date: 2023-08-27 18:01:41.688235
 
 """
 from alembic import op
 import sqlalchemy as sa
 
+import os
+environment = os.getenv("FLASK_ENV")
+SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = '457d4db41a42'
+revision = '42d0d311bda7'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -105,8 +108,7 @@ def upgrade():
     sa.Column('userId', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['businessId'], ['businesses.id'], ),
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('userId', 'businessId')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -117,8 +119,7 @@ def upgrade():
     sa.Column('businessId', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['businessId'], ['businesses.id'], ),
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('userId', 'businessId')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('answers',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -128,8 +129,7 @@ def upgrade():
     sa.Column('userId', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['questionId'], ['questions.id'], ),
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('userId', 'questionId')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('review_comments',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -139,8 +139,7 @@ def upgrade():
     sa.Column('reviewId', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['businessId'], ['businesses.id'], ),
     sa.ForeignKeyConstraint(['reviewId'], ['reviews.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('businessId', 'reviewId')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('votes',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -149,9 +148,24 @@ def upgrade():
     sa.Column('userId', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['reviewId'], ['reviews.id'], ),
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('userId', 'reviewId')
+    sa.PrimaryKeyConstraint('id')
     )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE amenities SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE categories SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE days SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE businesses SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE business_amenities SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE business_categories SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE business_hours SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE business_images SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE questions SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE reviews SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE answers SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE review_comments SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE votes SET SCHEMA {SCHEMA};")
     # ### end Alembic commands ###
 
 
