@@ -15,6 +15,10 @@ input {
     padding: 13px 16px;
 }
 
+hr {
+    margin: 12px;
+}
+
 ul.no-bullets {
     list-style-type: none;
     padding-left: 0;
