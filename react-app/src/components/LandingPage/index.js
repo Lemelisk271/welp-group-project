@@ -1,5 +1,4 @@
 import "./LandingPage.css"
-import Footer from "../Footer";
 
 export default function LandingPage() {
     return (
@@ -31,9 +30,6 @@ export default function LandingPage() {
                     Restaurants
                 </div>
             </div>
-        </div>
-        <div>
-
         </div>
         </>
     )
