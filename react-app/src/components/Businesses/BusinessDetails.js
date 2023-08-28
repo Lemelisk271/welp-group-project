@@ -7,7 +7,6 @@ import "./Businesses.css";
 const BusinessDetails = () => {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  //   const [business, setBusiness] = useState(null);
   const { id } = useParams();
   const business = useSelector((state) => state.business.singleBusiness);
 
@@ -16,9 +15,8 @@ const BusinessDetails = () => {
       dispatch(getBusiness(id));
       setIsLoaded(true);
     } catch (error) {
-      console.log(error);
     }
-  }, dispatch);
+  }, dispatch, isLoaded);
 
   return (
     <>
