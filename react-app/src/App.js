@@ -9,10 +9,7 @@ import Footer from "./components/Footer";
 import LandingPage from "./components/LandingPage";
 import BusinessDetails from "./components/Businesses/BusinessDetails";
 import UserProfilePage from "./components/UserProfilePage";
-import Footer from "./components/Footer"
-import UserProfilePage from "./components/UserProfilePage"
 
-import LandingPage from "./components/LandingPage";
 
 function App() {
   const dispatch = useDispatch();
