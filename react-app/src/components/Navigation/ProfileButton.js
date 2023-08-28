@@ -40,7 +40,7 @@ function ProfileButton({ user }) {
   return (
     <>
       <button className="navigation nav-user-button" onClick={openMenu}>
-        <i class="fa-solid fa-circle-user"></i>
+        <i className="fa-solid fa-circle-user"></i>
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
