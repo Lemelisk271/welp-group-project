@@ -50,11 +50,14 @@ def seed_users():
         birthday = fake.date_of_birth(),
         profile_image = 'https://picsum.photos/800/600.jpg')
 
-    db.session.add(demo)
-    db.session.add(marnie)
-    db.session.add(bobbie)
+    # db.session.add(demo)
+    # db.session.add(marnie)
+    # db.session.add(bobbie)
 
     generated_users = list(generate_users())
+    generated_users.append(demo)
+    generated_users.append(marnie)
+    generated_users.append(bobbie)
     add_users = [db.session.add(user) for user in generated_users]
     db.session.commit()
     return generated_users
