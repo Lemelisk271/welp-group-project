@@ -5,6 +5,10 @@ body {
     margin: 0;
 }
 
+hr {
+    margin: 12px;
+}
+
 ul.no-bullets {
     list-style-type: none;
 }
