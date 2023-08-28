@@ -20,6 +20,17 @@ export default function LandingPage() {
                 </div>
             </div>
         </div>
+        <div className="landing-page-categories-container">
+            <h2 className="landing-page-categories-header">Categories</h2>
+            <div className="landing-page-categories-buttons">
+                <div className="landing-page-category">
+                    Restaurants
+                </div>
+            </div>
+        </div>
+        <div>
+
+        </div>
         </>
     )
 }
