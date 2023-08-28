@@ -6,21 +6,25 @@ export default function LandingPage() {
         <>
         <div className="landing-page hero-bar">
         </div>
-        <div className="landing-page card-container">
-            <h2 className="landing-page-card-header">Your Next Review Awaits</h2>
-            {/* Map over query results for businesses to review */}
+        <div className="landing-page-card-container">
+            <h2 className="landing-page-card-header">Recent Activity</h2>
+            {/* Map over query results for recent reviews */}
             <div className="landing-page-card">
-                <div className="landing-page-card-image">
-                    <img src="https://placehold.co/200x200.png?text=Preview+Image" />
+                <div className="landing-page-card-header">
+                    <h4>Username</h4>
+                    <p>Wrote a review</p>
                 </div>
+                <img className="landing-page-card-image" src="https://picsum.photos/200/300.jpg" />
                 <div className="landing-page-card-details">
-                    <h3>Business Name</h3>
-                    <p>Do you recommend this business?</p>
-                    <p>Insert Star Rating Here</p>
+                    <h4>Business Name</h4>
+                    <p>Star Rating</p>
+                    <p>Review Here</p>
                 </div>
             </div>
         </div>
+        <hr></hr>
         <div className="landing-page-categories-container">
+            {/* Map over query results for categories */}
             <h2 className="landing-page-categories-header">Categories</h2>
             <div className="landing-page-categories-buttons">
                 <div className="landing-page-category">

@@ -7,13 +7,44 @@
     background-size: cover;
   }
 
-  .landing-page-card {
-    display: flex;
-    border: 1px solid red;
-    max-width: 500px;
-  }
+.landing-page-card-container {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1224px;
+  padding: 0px 40px;
+  margin: 0px auto;
+}
 
-  .landing-page-category {
+.landing-page-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid grey;
+  max-height: 376px;
+  width: 20%;
+  padding: 16px 24px;
+}
+
+.landing-page-card-image {
+  height: 89px;
+  width:100%;
+  object-fit: cover;
+}
+
+.landing-page-categories-container {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1224px;
+  padding: 0px 40px;
+  margin: 0px auto;
+}
+
+.landing-page-category {
     width: 256px;
     height: 183px;
     border: 1px solid grey;
