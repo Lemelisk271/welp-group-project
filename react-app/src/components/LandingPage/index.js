@@ -7,7 +7,6 @@ export default function LandingPage() {
         <div className="landing-page hero-bar">
         </div>
         <h1>LandingPage</h1>
-        <Footer />
         </>
     )
 }
