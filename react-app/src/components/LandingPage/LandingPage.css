@@ -6,3 +6,9 @@
     background: linear-gradient(90deg,#0006,#0000001a 55%), url(https://picsum.photos/1280/720.jpg);
     background-size: cover;
   }
+
+  .landing-page-card {
+    display: flex;
+    border: 1px solid red;
+    max-width: 500px;
+  }
