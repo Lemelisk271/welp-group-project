@@ -1,5 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from sqlalchemy import UniqueConstraint
+# from sqlalchemy import UniqueConstraint
 
 
 class Question(db.Model):
@@ -14,7 +14,7 @@ class Question(db.Model):
     businessId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("businesses.id")))
     userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
 
-    __table_args__ = (UniqueConstraint('userId', 'businessId'),)
+    # __table_args__ = (UniqueConstraint('userId', 'businessId'),)
 
     business = db.relationship("Business", back_populates="questions")
     user = db.relationship("User", back_populates="questions")
