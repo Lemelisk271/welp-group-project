@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: #d8d8d8;
+    background-color: #ffffff;
     font-family: sans-serif;
     margin: 0;
 }
@@ -13,6 +13,7 @@ body {
 input {
     height: 48px;
     padding: 13px 16px;
+    border-radius: 4px;
 }
 
 hr {
@@ -25,7 +26,6 @@ ul.no-bullets {
 }
 
 button.big-red-button {
-    width: 320px;
     height: 44px;
     background: #E00807;
     color: #ffffff;
@@ -38,4 +38,8 @@ button.big-red-button {
 
 .bold {
     font-weight: bold;
+}
+
+.fa-magnifying-glass {
+    font-size: 16px;
 }

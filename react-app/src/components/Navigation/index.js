@@ -22,7 +22,7 @@ function Navigation({ isLoaded }) {
         </div>
         <div className="navigation nav-center">
           <input className="navigation nav-search-bar" placeholder="tacos, cheap dinner, Max's" />
-          <button>Search</button>
+          <button className="big-red-button search-icon"><i className="fa-light fa-magnifying-glass"></i></button>
         </div>
         <div className="navigation nav-right">
 			<span className="navigation nav-links">Welp for Business</span>
