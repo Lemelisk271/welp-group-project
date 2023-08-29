@@ -1,11 +1,12 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { findCity } from '../HelperFunctions/helper'
 import { getAllBusiness } from '../../store/business'
 import UserReviewListItem from '../UserReviewListItem'
 import OpenModalButton from '../OpenModalButton'
 import UpdateProfileModal from "../UpdateProfileModal"
+import UserPictureModal from '../UserPictureModal'
 import './UserProfilePage.css'
 
 const UserProfile = () => {
@@ -15,6 +16,7 @@ const UserProfile = () => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [city, setCity] = useState('')
   const [reviews, setReviews] = useState([])
+  const selectUser = useSelector(state => state.session.user)
 
   useEffect(() => {
     const getUser = async () => {
@@ -32,7 +34,7 @@ const UserProfile = () => {
     }
     getUser()
     // eslint-disable-next-line
-  }, [])
+  }, [selectUser])
 
   return (
     <div className='userProfile'>
@@ -54,8 +56,8 @@ const UserProfile = () => {
               <div className='userProfile-buttonsPic'>
                 <i className="fa-regular fa-circle-user"></i>
                 <OpenModalButton
-                  buttonText="Edit Profile"
-                  modalComponent={<UpdateProfileModal />}
+                  buttonText="Change Picture"
+                  modalComponent={<UserPictureModal user={user} />}
                 />
               </div>
             </div>
