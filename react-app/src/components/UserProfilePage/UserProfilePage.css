@@ -154,3 +154,7 @@
 .reviewListItem-businessInfo p {
   color: grey
 }
+
+.profileForm-errors {
+  color: red
+}

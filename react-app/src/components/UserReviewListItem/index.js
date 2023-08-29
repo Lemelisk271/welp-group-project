@@ -15,9 +15,6 @@ const UserReviewListItem = ({ review }) => {
         <img src={business?.preview_image.url} alt={business?.name} />
         <div className="reviewListItem-businessInfo">
           <h3>{business?.name}</h3>
-          {/* {business?.categories.map(category => (
-            <p key={category.id}>{ category.category }</p>
-          ))} */}
           <p>{ categories }</p>
           <p>{business?.city}, {business?.state}</p>
         </div>
