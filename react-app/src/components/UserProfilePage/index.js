@@ -27,7 +27,6 @@ const UserProfile = () => {
       setIsLoaded(true)
       setCity(cityData)
       setReviews(userData.reviews)
-      console.log(userData)
     }
     getUser()
     // eslint-disable-next-line
@@ -41,7 +40,7 @@ const UserProfile = () => {
             <img src={user.profile_image} alt=""/>
             <h2>{user.first_name} {user.last_name}</h2>
             <p>{city}</p>
-            <p><i className="fa-solid fa-star userProfile-userReviews"></i>{user['reviews'].length}</p>
+            <p className='userProfile-userReviewsCount'><i className="fa-solid fa-star userProfile-userReviews"></i>{user['reviews'].length}</p>
             <div className='userProfile-buttons'>
               <button><i className="fa-solid fa-pencil"></i>Edit Profile</button>
               <button><i className="fa-regular fa-circle-user"></i>Change Picture</button>
