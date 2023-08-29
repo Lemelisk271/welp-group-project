@@ -13,6 +13,10 @@ def reviews():
     reviews = Review.query.all()
     return {'reviews': [review.to_dict() for review in reviews]}
 
+@review_routes.route('/<int:id>')
+def getReview(id):
+    get_review = Review.query.get(id)
+    return get_review.to_dict()
 
 @review_routes.route('/<int:id>', methods=["PUT"])
 def editReview(id):
