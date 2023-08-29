@@ -1,0 +1,58 @@
+.hero-bar {
+    display: flex;
+    flex-direction: column;
+    /* position: relative; */
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 682px;
+    background: linear-gradient(90deg,#0006,#0000001a 55%), url(https://picsum.photos/1280/720.jpg);
+    background-size: cover;
+  }
+
+.landing-page-card-container {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1224px;
+  padding: 56px 0px;
+  margin-top: 610px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.landing-page-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid grey;
+  max-height: 376px;
+  width: 20%;
+  padding: 16px 24px;
+}
+
+.landing-page-card-image {
+  height: 89px;
+  width:100%;
+  object-fit: cover;
+}
+
+.landing-page-categories-container {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1224px;
+  padding: 48px 0px;
+  margin: 0px auto;
+}
+
+.landing-page-category {
+    width: 256px;
+    height: 183px;
+    border: 1px solid grey;
+  }

@@ -1,0 +1,125 @@
+.filled > i {
+  background-color: #fa413c;
+  color: white;
+  padding: 2px;
+  border-radius: 5px;
+}
+
+.empty > i {
+  background-color: darkgray;
+  color: black;
+  padding: 2px;
+  border-radius: 5px;
+}
+
+.userProfile {
+  width: 95%;
+  margin: 0 auto;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+}
+
+.userProfile-info {
+  width: 30%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+  margin-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  align-items: center;
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+
+.userProfile-info > img {
+  aspect-ratio: 1/1;
+  width: 50%;
+  border-radius: 180px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.userProfile-userReviews {
+  border: 2px solid grey;
+}
+
+.userProfile-info p {
+  margin-top: 5px;
+  margin-bottom: 5px
+}
+
+.userProfile-reviews {
+  width: 70%;
+  margin-left: 10px
+}
+
+.userProfile-reviews > h1 {
+  margin-top: 0;
+  font-size: 48px;
+}
+
+.userProfile-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.userProfile-buttons i {
+  background-color: lightgray;
+  font-size: 36px;
+  padding: 10px;
+  border-radius: 180px;
+  color: black;
+}
+
+.userProfile-buttons > button {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.reviewListItem {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid black;
+  padding-top: 15px;
+}
+
+.reviewListItem-business {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.reviewListItem-business > img {
+  margin-right: 20px;
+  aspect-ratio: 1/1;
+  width: 100px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.reviewListItem-stars {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.reviewListItem-stars div {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.reviewListItem-stars > p {
+  margin-left: 10px
+}

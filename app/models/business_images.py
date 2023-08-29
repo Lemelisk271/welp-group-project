@@ -14,3 +14,10 @@ class BusinessImages(db.Model):
 
   business = db.relationship("Business", back_populates="business_images")
   user = db.relationship("User", back_populates="business_images")
+
+  def to_dict(self):
+    return {
+      "id": self.id,
+      "url": self.url,
+      "preview": self.preview
+    }
