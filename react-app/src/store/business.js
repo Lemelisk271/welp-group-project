@@ -5,6 +5,7 @@ const GET_ALL_BUSINESS = "business/GET_ALL_BUSINESS";
 const LOAD_BUSINESS = "business/LOAD_BUSINESS";
 const CREATE_BUSINESS = "business/CREATE_BUSINESS";
 const UPDATE_BUSINESS = "business/UPDATE_BUSINESS";
+const DELETE_BUSINESS = "business/DELETE_BUSINESS";
 
 /**  Action Creators: */
 const getBusinesses = (businesses) => ({
@@ -26,6 +27,13 @@ const editBusiness = (business) => ({
   type: UPDATE_BUSINESS,
   business,
 });
+
+const removeBusiness = (business) => ({
+  type: DELETE_BUSINESS,
+  business
+})
+
+
 
 /** Thunk Action Creators: */
 export const getAllBusiness = () => async (dispatch) => {
@@ -75,7 +83,7 @@ export const createBusiness = (businessData) => async (dispatch) => {
 export const updateBusiness = (businessData) => async (dispatch) => {
   try {
     const res = await fetch(`/api/business/${businessData.id}/edit`, {
-      method: "put",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -93,6 +101,24 @@ export const updateBusiness = (businessData) => async (dispatch) => {
     }
   }
 };
+
+export const deleteBusiness = (id) => async (dispatch) => {
+  try {
+    const res = await fetch(`/api/business/${id}`, {
+      method: "delete",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.ok) {
+      await dispatch(removeBusiness(id))
+      return;
+    }
+  } catch (err) {
+    const {errors} = err.json()
+    return errors
+  }
+}
 
 const businessReducer = (
   state = { allBusinesses: [], singleBusiness: null },
@@ -114,6 +140,8 @@ const businessReducer = (
       return newState;
     case UPDATE_BUSINESS:
       newState.singleBusiness = action.business;
+      return newState;
+    case DELETE_BUSINESS:
       return newState;
     default:
       return state;

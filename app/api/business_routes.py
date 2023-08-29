@@ -90,10 +90,11 @@ def createNewBusiness():
     else:
         return form.errors, 400
 
-@business_routes.route("/business/<int:id>/edit", methods=["PUT"])
+@business_routes.route("/<int:id>/edit", methods=["PUT"])
 def updateBusiness(id):
     request_data = request.get_json()
     form = BusinessForm(
+        id = id,
         name = request_data["name"],
         url = request_data["url"],
         phone = request_data["phone"],
@@ -109,15 +110,15 @@ def updateBusiness(id):
     data = form.data
     if form.validate_on_submit():
         updatedBusiness = Business.query.get(id)
-        updatedBusiness.name = data["name"],
-        updatedBusiness.url = data["url"],
-        updatedBusiness.phone = data["phone"],
-        updatedBusiness.address = data["address"],
-        updatedBusiness.city = data["city"],
-        updatedBusiness.state = data["state"],
-        updatedBusiness.zip_code = data["zip_code"],
-        updatedBusiness.about = data["about"],
-        updatedBusiness.price = data["price"],
+        updatedBusiness.name = data["name"]
+        updatedBusiness.url = data["url"]
+        updatedBusiness.phone = data["phone"]
+        updatedBusiness.address = data["address"]
+        updatedBusiness.city = data["city"]
+        updatedBusiness.state = data["state"]
+        updatedBusiness.zip_code = data["zip_code"]
+        updatedBusiness.about = data["about"]
+        updatedBusiness.price = data["price"]
         updatedBusiness.ownerId = data["ownerId"]
         db.session.commit()
         return updatedBusiness.to_dict()
@@ -173,3 +174,15 @@ def getSingleBusiness(id):
     images_dict = [image.to_dict() for image in business_images]
 
     return {**biz_dict, "reviews": reviews_dict, "images": images_dict, "amenities": amenities_dict, "hours": hours_dict, "categories": categories_dict, "questions": questions_dict}
+
+
+@business_routes.route("/<int:id>", methods=["DELETE"])
+def deleteBusiness(id):
+    business = Business.query.get(id)
+
+    if business:
+        db.session.delete(business)
+        db.session.commit()
+        return business.to_dict()
+    else:
+        abort(404, "Business not found")

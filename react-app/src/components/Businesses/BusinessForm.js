@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createBusiness, updateBusiness } from "../../store/business";
 import { useHistory } from "react-router-dom";
+import {state_choices} from "./StateList"
 
-const BusinessForm = ({businessData}) => {
+const BusinessForm = ({ businessData }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [name, setName] = useState("");
@@ -16,10 +17,11 @@ const BusinessForm = ({businessData}) => {
   const [about, setAbout] = useState("");
   const [price, setPrice] = useState("");
   const [errors, setErrors] = useState({});
-  const [image, setImage] = useState('')
+  const [image, setImage] = useState("");
   const [unavailable, setUnavailable] = useState("");
   const [disableLogin, setDisableLogin] = useState(true);
-  const ownerId = useSelector((state) => state.session.user.id);
+  const userId = useSelector((state) => state.session.user.id);
+
 
   useEffect(() => {
     if (!name || !phone || !address || !city || !state || !zipCode || !price) {
@@ -32,24 +34,25 @@ const BusinessForm = ({businessData}) => {
   }, [name, phone, address, city, state, zipCode, price]);
 
   useEffect(() => {
-
-    if(businessData){
+    if (businessData) {
       setName(businessData?.name);
-      setUrl(businessData?.url)
-      setPhone(businessData?.phone)
-      setAddress(businessData?.address)
-      setState(businessData?.state)
-      setCity(businessData?.city)
-      setZipCode(businessData?.zip_code)
-      setAbout(businessData?.about)
-      setPrice(businessData?.price)
-      for (let image of businessData?.images) {
-        if (image.preview === true){
-          setImage(image.url)
+      setUrl(businessData?.url);
+      setPhone(businessData?.phone);
+      setAddress(businessData?.address);
+      setState(businessData?.state);
+      setCity(businessData?.city);
+      setZipCode(businessData?.zip_code);
+      setAbout(businessData?.about);
+      setPrice(businessData?.price);
+      if (businessData?.images?.length > 0){
+        for (let image of businessData?.images) {
+          if (image.preview === true) {
+            setImage(image.url);
+          }
         }
       }
     }
-  }, [businessData])
+  }, [businessData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,16 +66,16 @@ const BusinessForm = ({businessData}) => {
       zip_code: zipCode,
       about,
       price,
-      ownerId,
+      ownerId: userId,
       imgUrl: image,
-      preview: true
+      preview: true,
     };
-    let resBusiness
+    let resBusiness;
 
     try {
-      if(businessData){
-        newBusiness.id = businessData.id
-        resBusiness = await dispatch(updateBusiness(newBusiness))
+      if (businessData) {
+        newBusiness.id = businessData.id;
+        resBusiness = await dispatch(updateBusiness(newBusiness));
         if (resBusiness && !resBusiness.errors) {
           history.push(`/business/${resBusiness.id}`);
         } else {
@@ -96,8 +99,8 @@ const BusinessForm = ({businessData}) => {
 
   return (
     <>
-    {businessData && <h1>UPDATE BUSINESS FORM</h1>}
-    {!businessData && <h1>NEW BUSINESS FORM</h1>}
+      {businessData && <h1>UPDATE BUSINESS FORM</h1>}
+      {!businessData && <h1>NEW BUSINESS FORM</h1>}
 
       <form className="new-business-form" onSubmit={handleSubmit}>
         <input
@@ -131,12 +134,16 @@ const BusinessForm = ({businessData}) => {
           value={city}
           onChange={(e) => setCity(e.target.value)}
         />
-        <input
-          type="text"
-          placeholder="State"
-          value={state}
-          onChange={(e) => setState(e.target.value)}
-        />
+        <select value={state} onChange={(e) => setState(e.target.value)}>
+          <option value="" disabled>
+            Select a state
+          </option>
+          {state_choices.map((state) => (
+            <option key={state} value={state}>
+              {state}
+            </option>
+          ))}
+        </select>
         <input
           type="number"
           placeholder="Zipcode"
@@ -168,8 +175,8 @@ const BusinessForm = ({businessData}) => {
           disabled={disableLogin}
           className={`signup button ${unavailable}`}
         >
-          {businessData && "Create Business"}
-          {!businessData && "Update Business"}
+          {!businessData && "Create"}
+          {businessData && "Update"}
         </button>
       </form>
     </>

@@ -40,11 +40,11 @@ function App() {
           <Route exact path="/business/new">
             <BusinessForm />
           </Route>
-          <Route exact path="/business/:id">
-            <BusinessDetails />
-          </Route>
           <Route exact path="/business/:id/edit">
             <UpdateBusiness />
+          </Route>
+          <Route exact path="/business/:id">
+            <BusinessDetails />
           </Route>
           <Route exact path="/profile/:userId">
             <UserProfilePage />
