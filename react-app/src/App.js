@@ -10,6 +10,7 @@ import LandingPage from "./components/LandingPage";
 import BusinessDetails from "./components/Businesses/BusinessDetails";
 import UserProfilePage from "./components/UserProfilePage";
 import BusinessForm from "./components/Businesses/BusinessForm";
+import ReviewForm from "./components/ReviewForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -43,6 +44,9 @@ function App() {
           </Route>
           <Route exact path="/profile/:userId">
             <UserProfilePage />
+          </Route>
+          <Route exact path="/review/:reviewId">
+            <ReviewForm />
           </Route>
         </Switch>
       )}
