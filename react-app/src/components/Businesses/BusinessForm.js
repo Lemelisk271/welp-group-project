@@ -34,7 +34,7 @@ const BusinessForm = () => {
 
   return (
     <>
-      <p>NEW BUSINESS FORM</p>
+      <h1>NEW BUSINESS FORM</h1>
       <form className="new-business-form" onSubmit={handleSubmit}>
         <input
           type="text"
