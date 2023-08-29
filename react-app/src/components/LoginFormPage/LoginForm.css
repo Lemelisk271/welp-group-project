@@ -1,0 +1,17 @@
+.login-modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    width: 400px;
+}
+
+.login-modal-signin-buttons {
+    width: 320px;
+}
+
+.login-modal-signin-form {
+    width: 320px;
+}
+

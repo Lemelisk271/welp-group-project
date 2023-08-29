@@ -5,3 +5,59 @@
 .hidden {
   display: none;
 }
+
+.nav-container {
+  background: none;
+  border: 1px solid red;
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 40px 0;
+}
+
+.nav-left {
+  border: 1px solid red;
+}
+
+.nav-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid red;
+  width: 40%;
+  margin: 0px 16px;
+}
+
+.nav-search-bar {
+  border: 1px solid red;
+  width: 60%;
+  margin: auto 0px;
+}
+
+.nav-right {
+  border: 1px solid red;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.nav-links {
+  font-family: sans-serif;
+  font-size: 14px;
+  color: #ffffff;
+  margin: auto 8px;
+}
+
+.nav-login-button {
+  background: none;
+  cursor: pointer;
+  border: 2px solid #c8c9ca;
+  color: #ffffff;
+  margin: auto 4px;
+  padding: 10px 16px;
+  height: 44px;
+  border-radius: 4px;
+}
+
+.nav-signup {
+  background-color: red
+}

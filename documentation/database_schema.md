@@ -4,16 +4,16 @@
 
 ## `users`
 
-| column name   | data type    | details                               |
-|---------------|--------------|---------------------------------------|
-| id            | integer      | not null, primary key, auto increment |
-| first_name    | varchar(40)  | not null                              |
-| last_name     | varchar(40)  | not null                              |
-| email         | varchar(100) | not null                              |
-| password      | varchar(50)  | not null, unique                      |
-| zip_code      | integer      | not null                              |
-| birthday      | date         |                                       |
-| profile_image | varchar(255) |                                       |
+| column name     | data type    | details                               |
+|-----------------|--------------|---------------------------------------|
+| id              | integer      | not null, primary key, auto increment |
+| first_name      | varchar(40)  | not null                              |
+| last_name       | varchar(40)  | not null                              |
+| email           | varchar(100) | not null, unique                      |
+| hashed_password | varchar(50)  | not null                              |
+| zip_code        | integer      | not null                              |
+| birthday        | date         |                                       |
+| profile_image   | varchar(255) |                                       |
 
 ## `businesses`
 
@@ -39,7 +39,7 @@
 | url         | varchar(250) | not null                              |
 | preview     | boolean      | not null, default = false             |
 | businessId  | integer      | references: businesses.id             |
-| userId      | integer      | references: users.id                  |
+| ownerId     | integer      | references: users.id                  |
 
 ## `amenities`
 
@@ -66,8 +66,6 @@
 | review      | text      | not null,                             |
 | userId      | integer   | references: users.id                  |
 | businessId  | integer   | references: businesses.id             |
-
-Indexes: (userId, businessId), unique
 
 ## `days`
 
@@ -96,8 +94,6 @@ Indexes: (userId, businessId), unique
 | businessId  | integer   | references: businesses.id             |
 | userId      | integer   | references: users.id                  |
 
-Indexes: (businessId, userId), unique
-
 ## `answers`
 
 | column name | data type | details                               |
@@ -119,13 +115,12 @@ Indexes: (questionId, userId), unique
 | reviewId    | integer   | references: reviews.id                |
 | userId      | integer   | references: users. id                 |
 
-Indexes: (reviewId, userId) unique
-
 ## `review_comments`
 
 | column name | data type | details                               |
 |-------------|-----------|---------------------------------------|
 | id          | integer   | not null, primary key, auto increment |
+| date        | date      | not null                              |
 | comment     | text      | not null                              |
 | businessId  | integer   | references: businesses.id             |
 | reviewId    | integer   | references: reviews.id                |

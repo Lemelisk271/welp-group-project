@@ -25,5 +25,6 @@ class Review(db.Model):
       "date": self.date,
       "stars": self.stars,
       "userId": self.userId,
-      "businessId": self.businessId
+      "businessId": self.businessId,
+      "review": self.review
     }
