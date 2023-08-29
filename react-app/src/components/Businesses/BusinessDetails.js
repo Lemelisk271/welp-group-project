@@ -17,8 +17,8 @@ const BusinessDetails = () => {
         setIsLoaded(true);
       } catch (error) {}
     },
-    dispatch,
-    isLoaded
+    // eslint-disable-next-line
+    [dispatch, isLoaded]
   );
 
   return (
