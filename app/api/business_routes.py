@@ -4,6 +4,14 @@ from app.models import db, Business, business_amenities, business_hours, Amenity
 business_routes = Blueprint('businesses', __name__)
 
 
+@business_routes.route("/")
+def getAllBusinesses():
+  businesses = Business.query.all();
+  print(businesses)
+  [business.to_dict() for business in businesses]
+  return businesses
+
+
 @business_routes.route("/<int:id>")
 def getSingleBusiness(id):
     curr_business = Business.query.get(id)

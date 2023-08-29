@@ -1,5 +1,6 @@
 import { normalizeObj } from "./normalizeHelper";
 const cloneDeep = require('clone-deep');
+
 /** Action Type Constants: */
 const GET_ALL_BUSINESS = "business/GET_ALL_BUSINESS"
 const LOAD_BUSINESS = "businesses/LOAD_BUSINESS";
