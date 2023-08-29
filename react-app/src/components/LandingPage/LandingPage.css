@@ -23,13 +23,19 @@
   margin-right: auto;
 }
 
+.landing-page-activity-cards {
+  display: flex;
+}
+
 .landing-page-card {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   border: 1px solid grey;
-  max-height: 376px;
+  height: 376px;
   width: 20%;
   padding: 16px 24px;
+  margin: auto 8px;
 }
 
 .landing-page-card-image {
