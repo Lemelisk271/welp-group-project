@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createBusiness } from "../../store/business";
+import { createBusiness, updateBusiness } from "../../store/business";
+import { useHistory } from "react-router-dom";
 
-const BusinessForm = () => {
+const BusinessForm = ({businessData}) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
   const [phone, setPhone] = useState("");
@@ -13,7 +15,41 @@ const BusinessForm = () => {
   const [zipCode, setZipCode] = useState("");
   const [about, setAbout] = useState("");
   const [price, setPrice] = useState("");
-  const ownerId = useSelector(state => state.session.user.id)
+  const [errors, setErrors] = useState({});
+  const [image, setImage] = useState('')
+  const [unavailable, setUnavailable] = useState("");
+  const [disableLogin, setDisableLogin] = useState(true);
+  const ownerId = useSelector((state) => state.session.user.id);
+
+  useEffect(() => {
+    if (!name || !phone || !address || !city || !state || !zipCode || !price) {
+      setDisableLogin(true);
+      setUnavailable("unavailable");
+    } else {
+      setDisableLogin(false);
+      setUnavailable("");
+    }
+  }, [name, phone, address, city, state, zipCode, price]);
+
+  useEffect(() => {
+
+    if(businessData){
+      setName(businessData?.name);
+      setUrl(businessData?.url)
+      setPhone(businessData?.phone)
+      setAddress(businessData?.address)
+      setState(businessData?.state)
+      setCity(businessData?.city)
+      setZipCode(businessData?.zip_code)
+      setAbout(businessData?.about)
+      setPrice(businessData?.price)
+      for (let image of businessData?.images) {
+        if (image.preview === true){
+          setImage(image.url)
+        }
+      }
+    }
+  }, [businessData])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,13 +64,41 @@ const BusinessForm = () => {
       about,
       price,
       ownerId,
+      imgUrl: image,
+      preview: true
     };
-    await dispatch(createBusiness(newBusiness));
+    let resBusiness
+
+    try {
+      if(businessData){
+        newBusiness.id = businessData.id
+        resBusiness = await dispatch(updateBusiness(newBusiness))
+        if (resBusiness && !resBusiness.errors) {
+          history.push(`/business/${resBusiness.id}`);
+        } else {
+          setErrors(errors);
+        }
+      } else {
+        resBusiness = await dispatch(createBusiness(newBusiness));
+        if (resBusiness && !resBusiness.errors) {
+          history.push(`/business/${resBusiness.id}`);
+        } else {
+          setErrors(errors);
+        }
+      }
+    } catch (err) {
+      if (err) {
+        const { errors1 } = err;
+        setErrors(errors1);
+      }
+    }
   };
 
   return (
     <>
-      <h1>NEW BUSINESS FORM</h1>
+    {businessData && <h1>UPDATE BUSINESS FORM</h1>}
+    {!businessData && <h1>NEW BUSINESS FORM</h1>}
+
       <form className="new-business-form" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -42,9 +106,10 @@ const BusinessForm = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+        {}
         <input
           type="url"
-          placeholder="Image Url"
+          placeholder="Website Url"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
         />
@@ -90,12 +155,21 @@ const BusinessForm = () => {
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
+        <input
+          id="image"
+          type="url"
+          // accept="image/*"
+          placeholder="Image Url"
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
+        />
         <button
           type="submit"
-        //   disabled={disableLogin}
-          className={`signup button`}
+          disabled={disableLogin}
+          className={`signup button ${unavailable}`}
         >
-          Create Business
+          {businessData && "Create Business"}
+          {!businessData && "Update Business"}
         </button>
       </form>
     </>
