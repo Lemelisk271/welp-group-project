@@ -5,29 +5,30 @@ import { NavLink } from "react-router-dom";
 import LoginFormModal from "../LoginFormModal";
 import OpenModalButton from "../OpenModalButton";
 import SignupFormModal from "../SignupFormModal";
+import logo from "../../images/welp_logo_white_plain.png";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
   // const sessionUser = useSelector((state) => state.session.user);
 
   return (
-      <div className="navigation nav-container">
-        <div className="navigation nav-left">
+      <div className="nav-container">
+        <div className="nav-left">
           <NavLink exact to="/">
             <img
-              className="navigation nav-logo"
-              src="https://placehold.co/80x40/000000/FFFFFF.png"
+              className="nav-logo"
+              src={logo}
               alt=""
             />
           </NavLink>
         </div>
-        <div className="navigation nav-center">
-          <input className="navigation nav-search-bar" placeholder="tacos, cheap dinner, Max's" />
-          <button>Search</button>
+        <div className="nav-center">
+          <input className="nav-search-bar" placeholder="tacos, cheap dinner, Max's" />
+          <button className="input-red-button"><i className="fa-light fa-magnifying-glass" /></button>
         </div>
-        <div className="navigation nav-right">
-			<span className="navigation nav-links">Welp for Business</span>
-			<span className="navigation nav-links">Write a Review</span>
+        <div className="nav-right">
+			<span className="nav-links">Welp for Business</span>
+			<span className="nav-links">Write a Review</span>
           {isLoaded && (
             <>
               <OpenModalButton
