@@ -26,3 +26,8 @@ def user(id):
     userData = user.to_dict()
     userData['reviews'] = [review.to_dict() for review in reviews]
     return userData
+
+@user_routes.route('/update/<int:id>', methods=["POST"])
+@login_required
+def update_profile(id):
+    pass
