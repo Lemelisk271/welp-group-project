@@ -1,9 +1,20 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from app.models import User, Review
+from app.models import User, Review, db
+from app.forms import UpdateProfileForm
+from flask_login import current_user
 
 user_routes = Blueprint('users', __name__)
 
+def validation_errors_to_error_messages(validation_errors):
+    """
+    Simple function that turns the WTForms validation errors into a simple list
+    """
+    errorMessages = []
+    for field in validation_errors:
+        for error in validation_errors[field]:
+            errorMessages.append(f'{field} : {error}')
+    return errorMessages
 
 @user_routes.route('/')
 @login_required
@@ -26,3 +37,25 @@ def user(id):
     userData = user.to_dict()
     userData['reviews'] = [review.to_dict() for review in reviews]
     return userData
+
+@user_routes.route('/update/<int:id>', methods=["POST"])
+@login_required
+def update_profile(id):
+    """
+    Update a user's information.
+    """
+    user = current_user.to_dict()
+    if user['id'] != id:
+        return {"errors": ["You are not authorized to edit this user."]}
+    form = UpdateProfileForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        user_to_update = User.query.get(id)
+        user_to_update.first_name = form.data['first_name']
+        user_to_update.last_name = form.data['last_name']
+        user_to_update.email = form.data['email']
+        user_to_update.zip_code = form.data['zip_code']
+        user_to_update.birthday = form.data['birthday']
+        db.session.commit()
+        return user_to_update.to_dict()
+    return {"errors": validation_errors_to_error_messages(form.errors)}, 401

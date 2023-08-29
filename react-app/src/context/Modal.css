@@ -20,7 +20,29 @@
 }
 
 #modal-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   background-color:white;
+  border-radius: 4px;
+  width: 400px;
   padding: 40px;
+}
+
+#modal-content form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+#modal-content input {
+  width: 100%;
+  margin: 6px auto;
+}
+
+#modal-content span {
+  margin: 6px auto;
 }
