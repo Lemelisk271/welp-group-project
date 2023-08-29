@@ -1,7 +1,48 @@
 from flask import Blueprint, jsonify, request
 from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review
+from ..forms import BusinessForm
 
 business_routes = Blueprint('businesses', __name__)
+
+
+@business_routes.route("/new", methods=["POST"])
+def createNewBusiness():
+    request_data = request.get_json()
+    form = BusinessForm(
+        name = request_data["name"],
+        url = request_data["url"],
+        phone = request_data["phone"],
+        address = request_data["address"],
+        city = request_data["city"],
+        state = request_data["state"],
+        zip_code = request_data["zip_code"],
+        about = request_data["about"],
+        price = request_data["price"],
+        ownerId = request_data["ownerId"]
+    )
+    form['csrf_token'].data = request.cookies['csrf_token']
+    data = form.data
+    print(form.to_dict())
+    if form.validate_on_submit():
+
+        newBusiness = Business(
+            name = data["name"],
+            url = data["url"],
+            phone = data["phone"],
+            address = data["address"],
+            city = data["city"],
+            state = data["state"],
+            zip_code = data["zip_code"],
+            about = data["about"],
+            price = data["price"],
+            ownerId = data["ownerId"]
+        )
+        db.session.add(newBusiness)
+        db.session.commit()
+        return newBusiness.to_dict()
+    else:
+        print(form.errors)
+        return form.errors, 400
 
 
 @business_routes.route("/<int:id>")
