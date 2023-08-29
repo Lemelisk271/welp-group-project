@@ -13,6 +13,7 @@ const UpdateProfileModal = ({ user }) => {
   const [zip_code, setZipCode] = useState(user.zip_code)
   const [birthday, setBirthDay] = useState('')
   const [validationErrors, setValidationErrors] = useState({})
+  const [errors, setErrors] = useState([])
   const [isSubmitted, setIsSubmitted] = useState(false)
 
   useEffect(() => {
@@ -70,12 +71,12 @@ const UpdateProfileModal = ({ user }) => {
       last_name,
       email,
       zip_code,
-      birthday: new Date(birthday)
+      birthday
     }
 
     const data = await dispatch(editUser(userObj))
     if (data) {
-      setValidationErrors(data)
+      setErrors(data)
     } else {
       closeModal()
     }
@@ -85,6 +86,11 @@ const UpdateProfileModal = ({ user }) => {
     <div className='updateProfile'>
       <h1>Update Profile</h1>
       <form onSubmit={handleSubmit}>
+        <ul>
+          {errors.map((error, i) => (
+            <li key={i}>{ error }</li>
+          ))}
+        </ul>
         <div>
           <label htmlFor='first_name'>First Name:</label>
           <input
