@@ -19,7 +19,6 @@ export default function ReviewForm() {
       const getCurrReview = await fetch(`/api/review/${reviewId}`);
       const data = await getCurrReview.json();
       setCurrReview(data);
-    //   console.log(currReview.businessId)
     };
     getReview();
   }, []);
@@ -28,24 +27,20 @@ export default function ReviewForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(parseInt(reviewId), starRating, review, userId, currReview.businessId);
     const updateReview = await fetch(`/api/review/${reviewId}`, {
-        method: "put",
+        method: "PUT",
         headers: {
             'Content-Type': 'application/json'
         },
-        body: {
-            "id": parseInt(reviewId),
-            "stars": starRating,
-            "review": review,
-            "userId": userId,
-            "businessId": currReview.businessId
-        }
+        body: JSON.stringify({
+          stars: starRating,
+          review,
+          userId,
+          businessId: currReview.businessId
+        })
     })
-    // const data = await dispatch(login(email, password));
-    // if (res) {
-    //   setErrors(res);
-    // }
+    return updateReview;
+    // TO-DO: ERROR HANDLING
   };
 
   return (

@@ -21,7 +21,7 @@ def getReview(id):
 @review_routes.route('/<int:id>', methods=["PUT"])
 def editReview(id):
     request_data = request.get_json()
-    # print(request_data)
+    print(request_data)
     if request_data:
         updated_review = Review(
             id = id,
