@@ -27,11 +27,17 @@ def all_businesses():
             business_amenities.c.amenityId == Amenity.id
         ).filter(business_amenities.c.businessId == newBusiness['id']).all()
 
+        business_categories_join = db.session.query(Category).join(
+            business_categories,
+            business_categories.c.categoryId == Category.id
+        ).filter(business_categories.c.businessId == newBusiness['id']).all()
+
         newBusiness["owner"] = owner.to_dict()
         newBusiness["images"] = [image.to_dict() for image in images]
         newBusiness["reviews"] = [review.to_dict() for review in reviews]
         newBusiness["amenities"] = [amenity.to_dict() for amenity in business_amenities_join]
         newBusiness['preview_image'] = preview_image[0].to_dict()
+        newBusiness['categories'] = [category.to_dict() for category in business_categories_join]
         allBusinesses.append(newBusiness)
     return {"businesses": allBusinesses}
 

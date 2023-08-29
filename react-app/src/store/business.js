@@ -72,7 +72,6 @@ const businessReducer = (state = {allBusinesses: [], singleBusiness: null}, acti
       action.payload.forEach(business => {
         newState.allBusinesses[business.id] = business
       })
-      // newState.allBusinesses = action.payload;
       return newState;
     case LOAD_BUSINESS:
       newState.singleBusiness = action.business;
