@@ -1,14 +1,14 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
-import ProfileButton from "./ProfileButton";
+// import { useSelector } from "react-redux";
+// import ProfileButton from "./ProfileButton";
 import LoginFormModal from "../LoginFormModal";
 import OpenModalButton from "../OpenModalButton";
 import SignupFormModal from "../SignupFormModal";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
-  const sessionUser = useSelector((state) => state.session.user);
+  // const sessionUser = useSelector((state) => state.session.user);
 
   return (
       <div className="navigation nav-container">
@@ -17,6 +17,7 @@ function Navigation({ isLoaded }) {
             <img
               className="navigation nav-logo"
               src="https://placehold.co/80x40/000000/FFFFFF.png"
+              alt=""
             />
           </NavLink>
         </div>

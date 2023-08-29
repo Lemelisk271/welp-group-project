@@ -1,7 +1,79 @@
 from flask import Blueprint, jsonify, request
-from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review
+from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User
+from ..forms import BusinessForm
 
 business_routes = Blueprint('businesses', __name__)
+
+@business_routes.route("/")
+def all_businesses():
+    """
+    Query for all businesses and returns them in a list of business dictionaries
+    """
+    allBusinesses = []
+    businesses = Business.query.all()
+    for business in businesses:
+        newBusiness = business.to_dict()
+
+        owner = User.query.get(newBusiness['ownerId'])
+
+        images = BusinessImages.query.filter(BusinessImages.businessId == newBusiness['id']).all()
+
+        preview_image = BusinessImages.query.filter(BusinessImages.businessId == newBusiness['id']).filter(BusinessImages.preview == True).all()
+
+        reviews = Review.query.filter(Review.businessId == newBusiness['id']).all()
+
+        business_amenities_join = db.session.query(Amenity).join(
+            business_amenities,
+            business_amenities.c.amenityId == Amenity.id
+        ).filter(business_amenities.c.businessId == newBusiness['id']).all()
+
+        newBusiness["owner"] = owner.to_dict()
+        newBusiness["images"] = [image.to_dict() for image in images]
+        newBusiness["reviews"] = [review.to_dict() for review in reviews]
+        newBusiness["amenities"] = [amenity.to_dict() for amenity in business_amenities_join]
+        newBusiness['preview_image'] = preview_image[0].to_dict()
+        allBusinesses.append(newBusiness)
+    return {"businesses": allBusinesses}
+
+
+@business_routes.route("/new", methods=["POST"])
+def createNewBusiness():
+    request_data = request.get_json()
+    form = BusinessForm(
+        name = request_data["name"],
+        url = request_data["url"],
+        phone = request_data["phone"],
+        address = request_data["address"],
+        city = request_data["city"],
+        state = request_data["state"],
+        zip_code = request_data["zip_code"],
+        about = request_data["about"],
+        price = request_data["price"],
+        ownerId = request_data["ownerId"]
+    )
+    form['csrf_token'].data = request.cookies['csrf_token']
+    data = form.data
+    print(form.to_dict())
+    if form.validate_on_submit():
+
+        newBusiness = Business(
+            name = data["name"],
+            url = data["url"],
+            phone = data["phone"],
+            address = data["address"],
+            city = data["city"],
+            state = data["state"],
+            zip_code = data["zip_code"],
+            about = data["about"],
+            price = data["price"],
+            ownerId = data["ownerId"]
+        )
+        db.session.add(newBusiness)
+        db.session.commit()
+        return newBusiness.to_dict()
+    else:
+        print(form.errors)
+        return form.errors, 400
 
 
 @business_routes.route("/<int:id>")
