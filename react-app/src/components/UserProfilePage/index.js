@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux'
 import { findCity } from '../HelperFunctions/helper'
 import { getAllBusiness } from '../../store/business'
 import UserReviewListItem from '../UserReviewListItem'
+import OpenModalButton from '../OpenModalButton'
+import UpdateProfileModal from "../UpdateProfileModal"
 import './UserProfilePage.css'
 
 const UserProfile = () => {
@@ -27,7 +29,6 @@ const UserProfile = () => {
       setIsLoaded(true)
       setCity(cityData)
       setReviews(userData.reviews)
-      console.log(userData)
     }
     getUser()
     // eslint-disable-next-line
@@ -41,10 +42,22 @@ const UserProfile = () => {
             <img src={user.profile_image} alt=""/>
             <h2>{user.first_name} {user.last_name}</h2>
             <p>{city}</p>
-            <p><i className="fa-solid fa-star userProfile-userReviews"></i>{user['reviews'].length}</p>
+            <p className='userProfile-userReviewsCount'><i className="fa-solid fa-star userProfile-userReviews"></i>{user['reviews'].length}</p>
             <div className='userProfile-buttons'>
-              <button><i className="fa-solid fa-pencil"></i>Edit Profile</button>
-              <button><i className="fa-regular fa-circle-user"></i>Change Picture</button>
+              <div className='userProfile-buttonsProfile'>
+                <i className="fa-solid fa-pencil"></i>
+                <OpenModalButton
+                  buttonText="Edit Profile"
+                  modalComponent={<UpdateProfileModal user={user} />}
+                />
+              </div>
+              <div className='userProfile-buttonsPic'>
+                <i className="fa-regular fa-circle-user"></i>
+                <OpenModalButton
+                  buttonText="Edit Profile"
+                  modalComponent={<UpdateProfileModal />}
+                />
+              </div>
             </div>
           </div>
           <div className='userProfile-reviews'>
