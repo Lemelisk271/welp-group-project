@@ -1,10 +1,13 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { findCity } from '../HelperFunctions/helper'
+import { getAllBusiness } from '../../store/business'
 import UserReviewListItem from '../UserReviewListItem'
 import './UserProfilePage.css'
 
 const UserProfile = () => {
+  const dispatch = useDispatch()
   const { userId } = useParams()
   const [user, setUser] = useState({})
   const [isLoaded, setIsLoaded] = useState(false)
@@ -13,6 +16,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     const getUser = async () => {
+      dispatch(getAllBusiness())
       const singleUser = await fetch(`/api/users/${userId}`)
       const userData = await singleUser.json()
       const cityData = await findCity(userData.zip_code)

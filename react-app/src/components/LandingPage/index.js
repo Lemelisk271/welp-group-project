@@ -13,7 +13,7 @@ export default function LandingPage() {
                     <h4>Username</h4>
                     <p>Wrote a review</p>
                 </div>
-                <img className="landing-page-card-image" src="https://picsum.photos/200/300.jpg" />
+                <img className="landing-page-card-image" src="https://picsum.photos/200/300.jpg" alt="Landing Page" />
                 <div className="landing-page-card-details">
                     <h4>Business Name</h4>
                     <p>Star Rating</p>

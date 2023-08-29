@@ -1,4 +1,4 @@
-import { normalizeObj } from "./normalizeHelper";
+// import { normalizeObj } from "./normalizeHelper";
 const cloneDeep = require('clone-deep');
 /** Action Type Constants: */
 const GET_ALL_BUSINESS = "business/GET_ALL_BUSINESS"
@@ -22,8 +22,15 @@ const createNewBusiness = (business) => ({
 })
 
 /** Thunk Action Creators: */
-export function getAllBusiness(){
-
+export const getAllBusiness = () => async (dispatch) => {
+  const res = await fetch('/api/business')
+  if (res.ok) {
+    const businesses = await res.json()
+    dispatch(getBusinesses(businesses.businesses))
+  } else {
+    const {errors} = await res.json()
+    return errors
+  }
 }
 
 export const getBusiness = (id) => async (dispatch) => {
@@ -61,8 +68,11 @@ const businessReducer = (state = {allBusinesses: [], singleBusiness: null}, acti
   let newState = cloneDeep(state);
   switch (action.type) {
     case GET_ALL_BUSINESS:
-      newState.allBusinesses = [];
-      newState.allBusinesses = action.payload;
+      newState.allBusinesses = {};
+      action.payload.forEach(business => {
+        newState.allBusinesses[business.id] = business
+      })
+      // newState.allBusinesses = action.payload;
       return newState;
     case LOAD_BUSINESS:
       newState.singleBusiness = action.business;
