@@ -39,6 +39,7 @@ export const getBusiness = (id) => async (dispatch) => {
   if (res.ok) {
     const business = await res.json();
     dispatch(getSingleBusiness(business));
+    return business
   } else {
     const {errors} = await res.json();
     return errors

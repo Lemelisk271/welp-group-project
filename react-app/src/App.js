@@ -10,6 +10,7 @@ import LandingPage from "./components/LandingPage";
 import BusinessDetails from "./components/Businesses/BusinessDetails";
 import UserProfilePage from "./components/UserProfilePage";
 import BusinessForm from "./components/Businesses/BusinessForm";
+import BusinessList from "./components/Businesses/BusinessList";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,9 +33,9 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          {/* <Route path="/business">
-            <AllBusinessess />
-          </Route> */}
+          <Route exact path="/business">
+            <BusinessList />
+          </Route>
           <Route exact path="/business/new">
             <BusinessForm />
           </Route>
