@@ -108,8 +108,8 @@ const BusinessForm = ({ businessData }) => {
 
   return (
     <>
-      {businessData && <h1>UPDATE BUSINESS FORM</h1>}
-      {!businessData && <h1>NEW BUSINESS FORM</h1>}
+      {businessData && <h1 className="business-form title">Update {businessData.name}</h1>}
+      {!businessData && <h1 className="business-form title">NEW BUSINESS FORM</h1>}
 
       <form className="new-business-form" onSubmit={handleSubmit}>
         <div className="new-business-form container">
@@ -149,9 +149,9 @@ const BusinessForm = ({ businessData }) => {
             onChange={(e) => setCity(e.target.value)}
           />
           <p className="business-form label">State</p>
-          <select value={state} onChange={(e) => setState(e.target.value)}>
+          <select className="business-form" value={state} onChange={(e) => setState(e.target.value)}>
             <option value="" disabled>
-              Select a state
+              Select
             </option>
             {state_choices.map((state) => (
               <option key={state} value={state}>

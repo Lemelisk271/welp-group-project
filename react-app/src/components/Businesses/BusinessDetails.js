@@ -1,32 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getBusiness } from "../../store/business";
 import "./Businesses.css";
 
 const BusinessDetails = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const { id } = useParams();
   const business = useSelector((state) => state.business.singleBusiness);
   const user = useSelector((state) => state.session.user);
 
-  useEffect(
-    () => {
-      try {
-        dispatch(getBusiness(id));
-        setIsLoaded(true);
-      } catch (error) {}
-    },
-    // eslint-disable-next-line
-    [dispatch, isLoaded]
-  );
+  useEffect(() => {
+    dispatch(getBusiness(id))
+      .then(() => setIsLoaded(true))
+      .catch(() => history.push("/notfound"));
+  }, [dispatch, isLoaded]);
 
   useEffect(() => {
-    if (user?.id === business?.ownerId) setIsOwner(true)
+    if (user?.id === business?.ownerId) setIsOwner(true);
   }, [business, user]);
-
 
   return (
     <>

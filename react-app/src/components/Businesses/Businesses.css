@@ -4,6 +4,10 @@ div.price-rating {
 
 }
 
+.business-form.title {
+    text-align: center;
+}
+
 form.new-business-form {
     align-content: center;
     display: flex;
@@ -12,6 +16,10 @@ form.new-business-form {
 }
 
 div.new-business-form.container {
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
     width: 50%;
 }
 
@@ -19,6 +27,48 @@ div.new-business-form.container input {
     width: 100%;
 }
 
+select.business-form {
+    width: 15%;
+}
+
 p.business-form.label {
     margin: 10px 0 5px 0;
+}
+
+div.business-form.delete {
+    justify-content: center;
+    display: flex;
+    width: 100%;
+}
+
+button.delete-business {
+    /* align-self: center; */
+    background-color: #fa413c;
+    border: 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: white;
+    font-size: 20px;
+    height: 40px;
+    margin-top: 5px;
+    width: 100px;
+}
+
+button.delete-business:hover,
+button.signup:hover {
+    cursor: pointer;
+}
+
+button.signup,
+button.business-form.delete {
+    align-self: center;
+    background-color: #fa413c;
+    border: 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: white;
+    font-size: 20px;
+    height: 40px;
+    margin-top: 5px;
+    width: 100px;
 }
