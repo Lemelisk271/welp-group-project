@@ -12,10 +12,26 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px 40px 0;
+  border-bottom: 2px solid grey;
+  padding-bottom: 20px;
+}
+
+.nav-container-home {
+  background: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 40px 0;
 }
 
 /* .nav-left {
 } */
+
+.nav-logo {
+  background-color: #E00807;
+  padding: 5px;
+  border-radius: 10px;
+}
 
 .nav-center {
   display: flex;
@@ -30,20 +46,33 @@
   margin: auto 0px;
 }
 
+.nav-right-home {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .nav-right {
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
-.nav-links {
+.nav-links-home {
   font-family: sans-serif;
   font-size: 14px;
   color: #ffffff;
   margin: auto 8px;
 }
 
-.nav-login-button {
+.nav-links {
+  font-family: sans-serif;
+  font-size: 14px;
+  color: black;
+  margin: auto 8px;
+}
+
+.nav-right-home > button {
   background: none;
   cursor: pointer;
   border: 2px solid #c8c9ca;
@@ -54,9 +83,16 @@
   border-radius: 4px;
 }
 
-/* .nav-signup {
-  background-color: red
-} */
+.nav-right > button {
+  background-color: #E00807;
+  cursor: pointer;
+  border: 2px solid #c8c9ca;
+  color: #ffffff;
+  margin: auto 4px;
+  padding: 10px 16px;
+  height: 44px;
+  border-radius: 4px;
+}
 
 .profile-dropdown {
   position: absolute;
@@ -98,8 +134,19 @@
   border: none;
 }
 
+.nav-user-button-home {
+  background: none;
+  border: none;
+}
+
 .nav-user-button > i {
-  font-size: 36px;
+  font-size: 46px;
   color: #E00807;
+  cursor: pointer;
+}
+
+.nav-user-button-home > i {
+  font-size: 36px;
+  color: white;
   cursor: pointer;
 }
