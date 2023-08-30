@@ -51,16 +51,13 @@ function App() {
           <Route exact path="/business/:id">
             <BusinessDetails />
           </Route>
-          <ProtectedRoute>
-            <Route exact path="/profile/:userId">
+          <Route exact path="/profile/:userId">
+            <ProtectedRoute>
               <UserProfilePage />
-            </Route>
-          </ProtectedRoute>
+            </ProtectedRoute>
+          </Route>
           <Route exact path="/review/:reviewId">
             <ReviewForm />
-          </Route>
-          <Route>
-            <h1>Error 404: Page not found</h1>
           </Route>
         </Switch>
       )}

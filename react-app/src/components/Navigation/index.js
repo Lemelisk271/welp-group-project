@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
@@ -10,9 +10,9 @@ import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
-  const ulRef = useRef()
+  const location = window.location.href
 
-  console.log(ulRef)
+  console.log(location)
 
   let sessionLinks
 

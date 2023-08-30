@@ -49,7 +49,7 @@ const UserProfile = () => {
     // eslint-disable-next-line
   }, [search])
 
-  if (selectUser.id !== userId) {
+  if (parseInt(selectUser.id) !== parseInt(userId)) {
     return <Redirect to={`/profile/${selectUser.id}`} />
   }
 
