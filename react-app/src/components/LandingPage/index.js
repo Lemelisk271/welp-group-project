@@ -12,6 +12,7 @@ export default function LandingPage() {
       console.log("Recent Activity ==>", recentActivity);
     };
     getRecentActivity();
+    // eslint-disable-next-line
   }, []);
 
   return (
