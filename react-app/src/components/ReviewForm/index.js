@@ -10,7 +10,8 @@ export default function ReviewForm({ isUpdate }) {
     const [currReview, setCurrReview] = useState(null);
     const [starRating, setStarRating] = useState(0);
     const [review, setReview] = useState("");
-    const [errors, setErrors] = useState({});
+    const [frontEndErrors, setFrontEndErrors] = useState({});
+    const [errors, setErrors] = useState([]);
     const { reviewId, id } = useParams(null);
     const history = useHistory();
 
@@ -22,9 +23,9 @@ export default function ReviewForm({ isUpdate }) {
                 const data = await getCurrReview.json();
                 setCurrReview(data);
                 setStarRating(data.stars);
-                setReview(data.review)
-              };
-              getReview();
+                setReview(data.review);
+            };
+            getReview();
         } else {
             console.log("REVIEW IS NEW!", id);
         }
@@ -50,14 +51,14 @@ export default function ReviewForm({ isUpdate }) {
             error.review = "Review must be less than 2000 characters long.";
         }
 
-        setErrors(error);
+        setFrontEndErrors(error);
 
-        if (Object.values(errors).length > 0) {
+        if (Object.values(frontEndErrors).length > 0) {
             console.log("SUBMIT ERRORS ==>", errors);
             return;
         }
 
-        if (isUpdate && !Object.values(errors).length) {
+        if (isUpdate && !Object.values(frontEndErrors).length) {
             console.log("UPDATE REVIEW SUBMITTED!", reviewId);
             const updateReview = await fetch(`/api/review/${reviewId}`, {
                 method: "PUT",
@@ -71,10 +72,11 @@ export default function ReviewForm({ isUpdate }) {
                     businessId: currReview.businessId,
                 }),
             });
-            if (updateReview.errors) {
-                setErrors(updateReview.errors);
+            const data = await updateReview.json();
+            if (data) {
+                console.log("DATA ==>", data.errors)
+                setErrors(data.errors);
             } else {
-                console.log(updateReview);
                 return history.push(`/business/${currReview.businessId}`);
             }
         } else {
@@ -100,6 +102,21 @@ export default function ReviewForm({ isUpdate }) {
         }
     };
 
+    const deleteReview = async (e) => {
+        e.preventDefault();
+        console.log("DELETE REVIEW ==>", reviewId);
+        console.log("isUpdate is ==>", isUpdate);
+        const deleteReview = await fetch(`/api/review/${reviewId}`, {
+            method: "DELETE",
+        });
+        const data = await deleteReview.json();
+        if (data) {
+            setErrors(data.errors);
+        } else {
+            return history.push(`/business/${currReview.businessId}`);
+        }
+    };
+
     return (
         <>
             <div className="review-form-container">
@@ -111,8 +128,15 @@ export default function ReviewForm({ isUpdate }) {
                 </div>
                 <div className="review-form">
                     <form onSubmit={handleSubmit}>
+                        <ul>
+                            {errors.map((error, i) => (
+                                <li className="profileForm-errors" key={i}>
+                                    {error}
+                                </li>
+                            ))}
+                        </ul>
                         <label>
-                            <h4>{errors.stars}</h4>
+                            <h4>{frontEndErrors.stars}</h4>
                         </label>
                         <div className="star-rating">
                             {[...Array(5)].map((star, idx) => {
@@ -136,7 +160,7 @@ export default function ReviewForm({ isUpdate }) {
                             })}
                         </div>
                         <label>
-                            <h4>{errors.review}</h4>
+                            <h4>{frontEndErrors.review}</h4>
                         </label>
                         <textarea
                             placeholder="Leave your review here..."
@@ -159,6 +183,14 @@ export default function ReviewForm({ isUpdate }) {
                         >
                             Post Review
                         </button>
+                        {isUpdate && (
+                            <button
+                                className="big-red-button"
+                                onClick={deleteReview}
+                            >
+                                Delete Review
+                            </button>
+                        )}
                     </form>
                 </div>
             </div>
