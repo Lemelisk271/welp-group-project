@@ -36,10 +36,10 @@ function LoginFormModal() {
         <div>
           <ul className="login-modal-signin-buttons no-bullets">
             <li>
-              <img src="https://placehold.co/340x44/FFFFFF/000000.png?text=Continue+with+Google" />
+              <img src="https://placehold.co/340x44/FFFFFF/000000.png?text=Continue+with+Google" alt="" />
             </li>
             <li>
-              <img src="https://placehold.co/340x44/000000/FFFFFF.png?text=Continue+with+Apple" />
+              <img src="https://placehold.co/340x44/000000/FFFFFF.png?text=Continue+with+Apple" alt="" />
             </li>
           </ul>
         </div>

@@ -12,6 +12,7 @@ export default function LandingPage() {
       console.log("Recent Activity ==>", recentActivity);
     };
     getRecentActivity();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -23,24 +24,22 @@ export default function LandingPage() {
           {/* Map over query results for recent reviews */}
           {recentActivity.map(({ businessId, stars, review, userId }) => (
             // console.log("Mapped Activity ==>", activity)
-            <>
-              <div className="landing-page-card">
-                <div className="landing-page-card-header">
-                  <h4>{userId}</h4>
-                  <p>Wrote a review</p>
-                </div>
-                <img
-                  className="landing-page-card-image"
-                  src="https://picsum.photos/200/300.jpg"
-                  alt="Landing Page"
-                />
-                <div className="landing-page-card-details">
-                  <h4>{businessId}</h4>
-                  <p>{stars}</p>
-                  <p>{review.substring(0,80)}...</p>
-                </div>
+            <div className="landing-page-card" key={userId}>
+              <div className="landing-page-card-header">
+                <h4>{userId}</h4>
+                <p>Wrote a review</p>
               </div>
-            </>
+              <img
+                className="landing-page-card-image"
+                src="https://picsum.photos/200/300.jpg"
+                alt="Landing Page"
+              />
+              <div className="landing-page-card-details">
+                <h4>{businessId}</h4>
+                <p>{stars}</p>
+                <p>{review.substring(0,80)}...</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>
