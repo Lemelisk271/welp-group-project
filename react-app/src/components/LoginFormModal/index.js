@@ -23,7 +23,6 @@ function LoginFormModal() {
 
   return (
     <>
-      <div className="login-modal-container">
         <h1 className="login-modal-header">Sign in to Welp</h1>
 
         <p>Connect with great local businesses</p>
@@ -74,11 +73,10 @@ function LoginFormModal() {
               <span>Forgot password?</span>
             </li>
             <li>
-              <button type="submit">Log In</button>
+              <button className="big-red-button" type="submit">Log In</button>
             </li>
           </ul>
         </form>
-      </div>
     </>
   );
 }

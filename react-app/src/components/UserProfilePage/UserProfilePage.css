@@ -45,6 +45,13 @@
 
 .userProfile-userReviews {
   border: 2px solid grey;
+  color: grey;
+  padding: 2px;
+  border-radius: 5px;
+}
+
+.userProfile-userReviewsCount {
+  color: grey
 }
 
 .userProfile-info p {
@@ -52,9 +59,15 @@
   margin-bottom: 5px
 }
 
+.userProfile-info > h2 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .userProfile-reviews {
   width: 70%;
-  margin-left: 10px
+  margin-left: 10px;
+  margin-right: 20px
 }
 
 .userProfile-reviews > h1 {
@@ -69,15 +82,22 @@
   width: 100%;
 }
 
+.userProfile-buttons div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .userProfile-buttons i {
   background-color: lightgray;
   font-size: 36px;
   padding: 10px;
   border-radius: 180px;
   color: black;
+  margin-bottom: 10px;
 }
 
-.userProfile-buttons > button {
+.userProfile-buttons button {
   display: flex;
   flex-direction: column;
   width: 40%;
@@ -86,6 +106,8 @@
   background-color: white;
   border: none;
   cursor: pointer;
+  color: grey;
+  font-weight: bold;
 }
 
 .reviewListItem {
@@ -122,4 +144,17 @@
 
 .reviewListItem-stars > p {
   margin-left: 10px
+}
+
+.reviewListItem-businessInfo p, h3 {
+  margin-top: 5px;
+  margin-bottom: 5px
+}
+
+.reviewListItem-businessInfo p {
+  color: grey
+}
+
+.profileForm-errors {
+  color: red
 }

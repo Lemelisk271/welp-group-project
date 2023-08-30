@@ -1,18 +1,26 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { findCity } from '../HelperFunctions/helper'
+import { getAllBusiness } from '../../store/business'
 import UserReviewListItem from '../UserReviewListItem'
+import OpenModalButton from '../OpenModalButton'
+import UpdateProfileModal from "../UpdateProfileModal"
+import UserPictureModal from '../UserPictureModal'
 import './UserProfilePage.css'
 
 const UserProfile = () => {
+  const dispatch = useDispatch()
   const { userId } = useParams()
   const [user, setUser] = useState({})
   const [isLoaded, setIsLoaded] = useState(false)
   const [city, setCity] = useState('')
   const [reviews, setReviews] = useState([])
+  const selectUser = useSelector(state => state.session.user)
 
   useEffect(() => {
     const getUser = async () => {
+      dispatch(getAllBusiness())
       const singleUser = await fetch(`/api/users/${userId}`)
       const userData = await singleUser.json()
       const cityData = await findCity(userData.zip_code)
@@ -23,11 +31,10 @@ const UserProfile = () => {
       setIsLoaded(true)
       setCity(cityData)
       setReviews(userData.reviews)
-      console.log(userData)
     }
     getUser()
     // eslint-disable-next-line
-  }, [])
+  }, [selectUser])
 
   return (
     <div className='userProfile'>
@@ -37,10 +44,22 @@ const UserProfile = () => {
             <img src={user.profile_image} alt=""/>
             <h2>{user.first_name} {user.last_name}</h2>
             <p>{city}</p>
-            <p><i className="fa-solid fa-star userProfile-userReviews"></i>{user['reviews'].length}</p>
+            <p className='userProfile-userReviewsCount'><i className="fa-solid fa-star userProfile-userReviews"></i>{user['reviews'].length}</p>
             <div className='userProfile-buttons'>
-              <button><i className="fa-solid fa-pencil"></i>Edit Profile</button>
-              <button><i className="fa-regular fa-circle-user"></i>Change Picture</button>
+              <div className='userProfile-buttonsProfile'>
+                <i className="fa-solid fa-pencil"></i>
+                <OpenModalButton
+                  buttonText="Edit Profile"
+                  modalComponent={<UpdateProfileModal user={user} />}
+                />
+              </div>
+              <div className='userProfile-buttonsPic'>
+                <i className="fa-regular fa-circle-user"></i>
+                <OpenModalButton
+                  buttonText="Change Picture"
+                  modalComponent={<UserPictureModal user={user} />}
+                />
+              </div>
             </div>
           </div>
           <div className='userProfile-reviews'>

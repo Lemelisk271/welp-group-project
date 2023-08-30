@@ -1,17 +1,22 @@
 import { useState } from "react"
+import { useSelector } from "react-redux"
 
 const UserReviewListItem = ({ review }) => {
   const [rating] = useState(review.stars)
+  let business = useSelector((state) => state.business.allBusinesses[review.businessId])
 
   let newDate = new Date(review.date)
+
+  let categories = business?.categories.map(category => category.category).join(", ")
 
   return (
     <div className="reviewListItem">
       <div className="reviewListItem-business">
-        <img src="https://picsum.photos/100/100.jpg" alt="Business" />
+        <img src={business?.preview_image.url} alt={business?.name} />
         <div className="reviewListItem-businessInfo">
-          <p>Business Name</p>
-          <p>Business Categories</p>
+          <h3>{business?.name}</h3>
+          <p>{ categories }</p>
+          <p>{business?.city}, {business?.state}</p>
         </div>
       </div>
       <div className="reviewListItem-stars">
@@ -44,6 +49,7 @@ const UserReviewListItem = ({ review }) => {
       </div>
       <div className="reviewListItem-review">
         <p>{review.review}</p>
+        <a href={'/review/' + review.id}>Write an update</a>
       </div>
     </div>
   )

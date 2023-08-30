@@ -37,7 +37,7 @@ def generate_businesses(amenities, categories):
             about = fake.bs(),
             price = random_price(),
             ownerId = random_owner(),
-            categories_business = random.sample(categories, k=1),
+            categories_business = random.sample(categories, k=random_price()),
             business_business_amenities = random.sample(amenities, k=5)
         )
 
