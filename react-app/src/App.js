@@ -46,7 +46,7 @@ function App() {
             <UpdateBusiness />
           </Route>
           <Route exact path="/business/:id/review">
-            <ReviewForm />
+            <NewReviewForm />
           </Route>
           <Route exact path="/business/:id">
             <BusinessDetails />
@@ -57,7 +57,7 @@ function App() {
             </Route>
           </ProtectedRoute>
           <Route exact path="/review/:reviewId">
-            <ReviewForm isUpdate={true} />
+            <ReviewForm />
           </Route>
           <Route>
             <h1>Error 404: Page not found</h1>
