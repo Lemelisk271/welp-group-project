@@ -46,9 +46,10 @@ const UserProfile = () => {
     } else {
       setReviews(rawReviews.filter(review => regex.exec(review.review)))
     }
+    // eslint-disable-next-line
   }, [search])
 
-  if (selectUser.id != userId) {
+  if (parseInt(selectUser.id) !== parseInt(userId)) {
     return <Redirect to={`/profile/${selectUser.id}`} />
   }
 
