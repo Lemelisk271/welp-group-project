@@ -39,6 +39,10 @@ button.big-red-button {
     font-weight: 500;
 }
 
+button.big-red-button[type="submit"]:disabled {
+    background: grey;
+}
+
 button.wide-red-button {
     height: 44px;
     width: 320px;
@@ -60,6 +64,14 @@ button.input-red-button {
     padding: 10px 16px;
     font-size: 16px;
     font-weight: 500;
+}
+
+.red-button-small {
+    background-color: #ff5b5f;
+    border: 2px solid #222222;
+    border-radius: 3px;
+    color: #fffffe;
+    font-size: small;
 }
 
 .bold {
