@@ -49,7 +49,7 @@ const UserReviewListItem = ({ review }) => {
       </div>
       <div className="reviewListItem-review">
         <p>{review.review}</p>
-        <a href={'/review/' + review.id}>Write an update</a>
+        <a href={'/review/' + review.id}>Update Review</a>
       </div>
     </div>
   )

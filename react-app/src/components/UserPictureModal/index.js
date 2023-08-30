@@ -46,12 +46,11 @@ const UserPictureModal = ({ user }) => {
       <img src={user.profile_image} alt={user.first_name} />
       {isSubmitted && <ul>
           {validationErrors.map((error, i) => (
-            <li key={i}>{ error }</li>
+            <li className='profileForm-errors' key={i}>{ error }</li>
           ))}
         </ul>}
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div>
-          <label htmlFor='image'>Image:</label>
           <input
             id="image"
             type="file"
