@@ -122,6 +122,25 @@ export const editUser = (user) => async (dispatch) => {
 	}
 }
 
+export const changeImage = (id, formData) => async (dispatch) => {
+	const res = await fetch(`/api/users/image/${id}`, {
+		method: "POST",
+		body: formData
+	})
+	if (res.ok) {
+		const data = await res.json()
+		dispatch(updateUser(data))
+		return null
+	} else if (res.status < 500) {
+		const data = await res.json()
+		if (data.errors) {
+			return data.errors
+		}
+	} else {
+		return ["An error occurred. Please Try Again."]
+	}
+}
+
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case SET_USER:
