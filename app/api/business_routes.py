@@ -44,6 +44,9 @@ def all_businesses():
 
 @business_routes.route("/new", methods=["POST"])
 def createNewBusiness():
+    """
+    Creates new business based on ht
+    """
     request_data = request.get_json()
     form = BusinessForm(
         name = request_data["name"],
@@ -59,7 +62,6 @@ def createNewBusiness():
     )
     form['csrf_token'].data = request.cookies['csrf_token']
     data = form.data
-    print(form.to_dict())
     if form.validate_on_submit():
 
         newBusiness = Business(
@@ -76,10 +78,55 @@ def createNewBusiness():
         )
         db.session.add(newBusiness)
         db.session.commit()
+        businessImage = BusinessImages(
+            url = request_data["imgUrl"],
+            preview = request_data["preview"],
+            businessId = newBusiness.id,
+            ownerId = request_data["ownerId"]
+        )
+        db.session.add(businessImage)
+        db.session.commit()
         return newBusiness.to_dict()
     else:
-        print(form.errors)
         return form.errors, 400
+
+@business_routes.route("/<int:id>/edit", methods=["PUT"])
+def updateBusiness(id):
+    request_data = request.get_json()
+    form = BusinessForm(
+        id = id,
+        name = request_data["name"],
+        url = request_data["url"],
+        phone = request_data["phone"],
+        address = request_data["address"],
+        city = request_data["city"],
+        state = request_data["state"],
+        zip_code = request_data["zip_code"],
+        about = request_data["about"],
+        price = request_data["price"],
+        ownerId = request_data["ownerId"]
+    )
+    form['csrf_token'].data = request.cookies['csrf_token']
+    data = form.data
+    if form.validate_on_submit():
+        updatedBusiness = Business.query.get(id)
+        updatedBusiness.name = data["name"]
+        updatedBusiness.url = data["url"]
+        updatedBusiness.phone = data["phone"]
+        updatedBusiness.address = data["address"]
+        updatedBusiness.city = data["city"]
+        updatedBusiness.state = data["state"]
+        updatedBusiness.zip_code = data["zip_code"]
+        updatedBusiness.about = data["about"]
+        updatedBusiness.price = data["price"]
+        updatedBusiness.ownerId = data["ownerId"]
+        db.session.commit()
+        return updatedBusiness.to_dict()
+
+    if form.errors:
+        return {"errors": form.errors}
+
+    return {"errors": "invalid entry"}
 
 @business_routes.route("/<int:id>/review", methods=["POST"])
 def createBusinessReview(id):
@@ -147,5 +194,3 @@ def getSingleBusiness(id):
     images_dict = [image.to_dict() for image in business_images]
 
     return {**biz_dict, "reviews": reviews_dict, "images": images_dict, "amenities": amenities_dict, "hours": hours_dict, "categories": categories_dict, "questions": questions_dict}
-
-
