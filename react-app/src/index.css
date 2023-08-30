@@ -64,6 +64,7 @@ button.input-red-button {
     padding: 10px 16px;
     font-size: 16px;
     font-weight: 500;
+    cursor: pointer;
 }
 
 .red-button-small {
