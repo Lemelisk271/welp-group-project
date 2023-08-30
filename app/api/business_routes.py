@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User
-from ..forms import BusinessForm
+from ..forms import BusinessForm, ReviewForm
 
 business_routes = Blueprint('businesses', __name__)
 
@@ -81,6 +81,26 @@ def createNewBusiness():
         print(form.errors)
         return form.errors, 400
 
+@business_routes.route("/<int:id>/review", methods=["POST"])
+def createBusinessReview(id):
+    """
+    Post a new review for a business based on business id
+    """
+    request_data = request.get_json()
+    form = ReviewForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    print(form)
+    if form.validate_on_submit():
+        review = Review(
+            stars=form.data['stars'],
+            review=form.data['review'],
+            userId=form.data['userId'],
+            businessId=id
+        )
+        db.session.add(review)
+        db.session.commit()
+        return review.to_dict()
+    # return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 @business_routes.route("/<int:id>")
 def getSingleBusiness(id):
@@ -127,3 +147,5 @@ def getSingleBusiness(id):
     images_dict = [image.to_dict() for image in business_images]
 
     return {**biz_dict, "reviews": reviews_dict, "images": images_dict, "amenities": amenities_dict, "hours": hours_dict, "categories": categories_dict, "questions": questions_dict}
+
+

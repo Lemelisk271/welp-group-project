@@ -4,31 +4,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams } from "react-router-dom";
 import "./ReviewForm.css";
 
-export default function ReviewForm() {
+export default function NewReviewForm() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const userId = sessionUser.id;
-  const [currReview, setCurrReview] = useState(null);
+//   const [currReview, setCurrReview] = useState(null);
   const [starRating, setStarRating] = useState(0);
   const [review, setReview] = useState("");
   const [errors, setErrors] = useState([]);
-  const { reviewId } = useParams(null);
+  const { id } = useParams();
 
-  useEffect(() => {
-    const getReview = async () => {
-      const getCurrReview = await fetch(`/api/review/${reviewId}`);
-      const data = await getCurrReview.json();
-      setCurrReview(data);
-    };
-    getReview();
-  }, []);
+//   useEffect(() => {
+//     const getReview = async () => {
+//       const getCurrReview = await fetch(`/api/review/${reviewId}`);
+//       const data = await getCurrReview.json();
+//       setCurrReview(data);
+//     };
+//     getReview();
+//   }, []);
 
   if (!sessionUser) return <Redirect to="/" />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updateReview = await fetch(`/api/review/${reviewId}`, {
-        method: "PUT",
+    const createReview = await fetch(`/api/business/${id}/review`, {
+        method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
@@ -36,10 +36,10 @@ export default function ReviewForm() {
           stars: starRating,
           review,
           userId,
-          businessId: currReview.businessId
+          businessId: id
         })
     })
-    return updateReview;
+    return createReview;
     // TO-DO: ERROR HANDLING
   };
 
@@ -47,7 +47,7 @@ export default function ReviewForm() {
     <>
       <div className="review-form-container">
         <div className="review-form-header">
-          <span className="header">Business Name</span>
+          <span className="header">NEW Business Name</span>
           <span className="blue-link">Read our review guidelines</span>
         </div>
         <div className="review-form">

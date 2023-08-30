@@ -11,6 +11,7 @@ import BusinessDetails from "./components/Businesses/BusinessDetails";
 import UserProfilePage from "./components/UserProfilePage";
 import BusinessForm from "./components/Businesses/BusinessForm";
 import ReviewForm from "./components/ReviewForm";
+import NewReviewForm from "./components/ReviewForm/NewReview";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,6 +39,9 @@ function App() {
           </Route> */}
           <Route exact path="/business/new">
             <BusinessForm />
+          </Route>
+          <Route exact path="/business/:id/review">
+            <NewReviewForm />
           </Route>
           <Route exact path="/business/:id">
             <BusinessDetails />
