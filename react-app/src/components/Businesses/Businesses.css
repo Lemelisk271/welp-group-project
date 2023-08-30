@@ -41,28 +41,16 @@ div.business-form.delete {
     width: 100%;
 }
 
-button.delete-business {
-    /* align-self: center; */
-    background-color: #fa413c;
-    border: 0;
-    box-sizing: border-box;
-    border-radius: 4px;
-    color: white;
-    font-size: 20px;
-    height: 40px;
-    margin-top: 5px;
-    width: 100px;
-}
-
-button.delete-business:hover,
-button.signup:hover {
+div.delete.button button.delete-business:hover,
+div.new-business-form.container button.signup:hover {
     cursor: pointer;
 }
 
-button.signup,
-button.business-form.delete {
+div.new-business-form.container button.signup,
+div.delete.button button.business-form.delete,
+div.delete.button button.delete-business {
     align-self: center;
-    background-color: #fa413c;
+    background-color: #E00807;
     border: 0;
     box-sizing: border-box;
     border-radius: 4px;
@@ -71,4 +59,10 @@ button.business-form.delete {
     height: 40px;
     margin-top: 5px;
     width: 100px;
+}
+
+div.new-business-form.container button.signup.unavailable:hover,
+div.new-business-form.container button.signup.unavailable {
+    background-color: gray;
+    cursor: not-allowed;
 }

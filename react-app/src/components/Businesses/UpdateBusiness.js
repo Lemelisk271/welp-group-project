@@ -11,8 +11,8 @@ const UpdateBusiness = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  const curr_business = useSelector((state) => state.business.singleBusiness);
-  const userId = useSelector((state) => state.session.user.id);
+  const curr_business = useSelector((state) => state.business?.singleBusiness);
+  const userId = useSelector((state) => state.session?.user?.id);
 
   useEffect(() => {
     dispatch(getBusiness(id));

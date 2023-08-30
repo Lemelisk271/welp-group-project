@@ -15,14 +15,13 @@ const BusinessForm = ({ businessData }) => {
   const [state, setState] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [about, setAbout] = useState("");
-  const [price, setPrice] = useState("");
   const [errors, setErrors] = useState({});
   const [image, setImage] = useState("");
   const [priceRating, setPriceRating] = useState(0);
   const [tempRating, setTempRating] = useState(0);
   const [unavailable, setUnavailable] = useState("");
   const [disableLogin, setDisableLogin] = useState(true);
-  const userId = useSelector((state) => state.session.user.id);
+  const userId = useSelector((state) => state?.session?.user?.id);
 
   useEffect(() => {
     if (
@@ -40,7 +39,7 @@ const BusinessForm = ({ businessData }) => {
       setDisableLogin(false);
       setUnavailable("");
     }
-  }, [name, phone, address, city, state, zipCode, price]);
+  }, [name, phone, address, city, state, zipCode, priceRating]);
 
   useEffect(() => {
     if (businessData) {
@@ -62,6 +61,17 @@ const BusinessForm = ({ businessData }) => {
       }
     }
   }, [businessData]);
+
+  const handleUrlOnChange = (e) => {
+    const inputValue = e.target.value;
+    if (inputValue === "https://" || inputValue === "") {
+      setUrl("https://");
+    } else if (!inputValue.startsWith("https://")) {
+      setUrl("https://" + inputValue);
+    } else {
+      setUrl(inputValue);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -108,8 +118,12 @@ const BusinessForm = ({ businessData }) => {
 
   return (
     <>
-      {businessData && <h1 className="business-form title">Update {businessData.name}</h1>}
-      {!businessData && <h1 className="business-form title">NEW BUSINESS FORM</h1>}
+      {businessData && (
+        <h1 className="business-form title">Update {businessData.name}</h1>
+      )}
+      {!businessData && (
+        <h1 className="business-form title">NEW BUSINESS FORM</h1>
+      )}
 
       <form className="new-business-form" onSubmit={handleSubmit}>
         <div className="new-business-form container">
@@ -120,12 +134,12 @@ const BusinessForm = ({ businessData }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <p className="business-form label">Website Url</p>
+          <p className="business-form label">Website Url (Optional)</p>
           <input
             type="url"
-            placeholder="Website Url"
+            placeholder="Example: https://www.example.com"
             value={url}
-            onChange={(e) => setUrl(e.target.value)}
+            onChange={handleUrlOnChange}
           />
           <p className="business-form label">Phone</p>
           <input
@@ -149,7 +163,11 @@ const BusinessForm = ({ businessData }) => {
             onChange={(e) => setCity(e.target.value)}
           />
           <p className="business-form label">State</p>
-          <select className="business-form" value={state} onChange={(e) => setState(e.target.value)}>
+          <select
+            className="business-form"
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+          >
             <option value="" disabled>
               Select
             </option>
