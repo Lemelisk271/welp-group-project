@@ -32,8 +32,8 @@ const BusinessDetails = () => {
         {business && <h2>Phone: {business?.phone}</h2>}
         {business && (
           <h2>
-            Address: {business.address} {business.city}, {business.state}{" "}
-            {business.zip_codes}
+            Address: {business?.address} {business?.city}, {business?.state}{" "}
+            {business?.zip_code}
           </h2>
         )}
         {business && <h2>About: {business?.about}</h2>}

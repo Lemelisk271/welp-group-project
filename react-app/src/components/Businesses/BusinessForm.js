@@ -73,8 +73,48 @@ const BusinessForm = ({ businessData }) => {
     }
   };
 
+  let errorObj = {};
   const handleSubmit = async (e) => {
     e.preventDefault();
+    errorObj = {}
+    setErrors({});
+    if (name.length > 100 || !name) {
+      // errorObj.name = "Please enter a name with 100 characters or less";
+      errorObj.name = "Please enter a name with 100 characters or less";
+      // setErrors({
+      //   ...errors,
+      //   name: "Please enter a name with 100 characters or less",
+      // });
+    }
+    if (phone.length > 14 || !phone) {
+      errorObj.phone = "Enter a valid Phone Number";
+      // setErrors({ ...errors, phone: "Enter a valid Phone Number" });
+    }
+    if (address.length > 255 || !address) {
+      errorObj.address = "Enter a valid Address";
+      // setErrors({ ...errors, address: "Enter a valid Address" });
+    }
+    if (city.length > 100 || !city) {
+      errorObj.city = "Enter a valid City";
+      // setErrors({ ...errors, city: "Enter a valid City" });
+    }
+    if (!state) {
+      errorObj.state = "Please select a State";
+      // setErrors({ ...errors, state: "Please select a State" });
+    }
+    if (zipCode.length > 5 || !zipCode) {
+      errorObj.zipCode = "Enter a valid Five-Digit Zipcode";
+      // setErrors({ ...errors, zipCode: "Enter a valid Five-Digit Zipcode" });
+    }
+    if (!about) {
+      errorObj.about = "Enter a description of your business";
+      // setErrors({ ...errors, about: "Enter a description of your business" });
+    }
+    if (!priceRating) {
+      errorObj.price = "Please select an average cost";
+      // setErrors({ ...errors, price: "Please select an average cost" });
+    }
+
     const newBusiness = {
       name,
       url,
@@ -90,30 +130,34 @@ const BusinessForm = ({ businessData }) => {
       preview: true,
     };
     let resBusiness;
-
-    try {
-      if (businessData) {
-        newBusiness.id = businessData.id;
-        resBusiness = await dispatch(updateBusiness(newBusiness));
-        if (resBusiness && !resBusiness.errors) {
-          history.push(`/business/${resBusiness.id}`);
+    if (Object.keys(errorObj).length === 0) {
+      try {
+        if (businessData) {
+          newBusiness.id = businessData.id;
+          resBusiness = await dispatch(updateBusiness(newBusiness));
+          if (resBusiness && !resBusiness.errors) {
+            history.push(`/business/${resBusiness.id}`);
+          } else {
+            setErrors(errors);
+          }
         } else {
-          setErrors(errors);
+          resBusiness = await dispatch(createBusiness(newBusiness));
+          if (resBusiness && !resBusiness.errors) {
+            history.push(`/business/${resBusiness.id}`);
+          } else {
+            setErrors(errors);
+          }
         }
-      } else {
-        resBusiness = await dispatch(createBusiness(newBusiness));
-        if (resBusiness && !resBusiness.errors) {
-          history.push(`/business/${resBusiness.id}`);
-        } else {
-          setErrors(errors);
+      } catch (err) {
+        if (err) {
+          const { errors1 } = err;
+          setErrors(errors1);
         }
-      }
-    } catch (err) {
-      if (err) {
-        const { errors1 } = err;
-        setErrors(errors1);
       }
     }
+    setErrors({ ...errorObj });
+    console.log(errors)
+    console.log(Object.keys(errors).length)
   };
 
   return (
@@ -127,42 +171,70 @@ const BusinessForm = ({ businessData }) => {
 
       <form className="new-business-form" onSubmit={handleSubmit}>
         <div className="new-business-form container">
-          <p className="business-form label">Business Name</p>
+          <div className="business-form error-label container">
+            <p className="business-form label">Business Name</p>
+            {errors.name && (
+              <p className="business-form-error">{errors.name}</p>
+            )}
+          </div>
           <input
             type="text"
             placeholder="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <p className="business-form label">Website Url (Optional)</p>
+          <div className="business-form error-label container">
+            <p className="business-form label">Website Url (Optional)</p>
+            {errors.url && <p className="business-form-error">{errors.url}</p>}
+          </div>
           <input
             type="url"
             placeholder="Example: https://www.example.com"
             value={url}
             onChange={handleUrlOnChange}
           />
-          <p className="business-form label">Phone</p>
+          <div className="business-form error-label container">
+            <p className="business-form label">Phone</p>
+            {errors.phone && (
+              <p className="business-form-error">{errors.phone}</p>
+            )}
+          </div>
           <input
-            type="tel"
+            type="text"
             placeholder="Phone"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
-          <p className="business-form label">Address</p>
+          <div className="business-form error-label container">
+            <p className="business-form label">Address</p>
+            {errors.address && (
+              <p className="business-form-error">{errors.address}</p>
+            )}
+          </div>
           <input
             type="text"
             placeholder="Address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
-          <p className="business-form label">City</p>
+          <div className="business-form error-label container">
+            <p className="business-form label">City</p>
+            {errors.city && (
+              <p className="business-form-error">{errors.city}</p>
+            )}
+          </div>
           <input
             type="text"
             placeholder="City"
             value={city}
             onChange={(e) => setCity(e.target.value)}
           />
-          <p className="business-form label">State</p>
+          <div className="business-form error-label container">
+            <p className="business-form label">State</p>
+            {errors.state && (
+              <p className="business-form-error">{errors.state}</p>
+            )}
+          </div>
           <select
             className="business-form"
             value={state}
@@ -177,21 +249,36 @@ const BusinessForm = ({ businessData }) => {
               </option>
             ))}
           </select>
-          <p className="business-form label">Zipcode</p>
+          <div className="business-form error-label container">
+            <p className="business-form label">Zipcode</p>
+            {errors.zipCode && (
+              <p className="business-form-error">{errors.zipCode}</p>
+            )}
+          </div>
           <input
             type="number"
             placeholder="Zipcode"
             value={zipCode}
             onChange={(e) => setZipCode(e.target.value)}
           />
-          <p className="business-form label">About</p>
+          <div className="business-form error-label container">
+            <p className="business-form label">About</p>
+            {errors.about && (
+              <p className="business-form-error">{errors.about}</p>
+            )}
+          </div>
           <input
             type="text"
             placeholder="About"
             value={about}
             onChange={(e) => setAbout(e.target.value)}
           />
-          <p className="business-form label">Price Rating</p>
+          <div className="business-form error-label container">
+            <p className="business-form label">Price Rating</p>
+            {errors.price && (
+              <p className="business-form-error">{errors.price}</p>
+            )}
+          </div>
           <div className="price-rating">
             {[1, 2, 3, 4, 5].map((rating) => (
               <div
@@ -212,7 +299,12 @@ const BusinessForm = ({ businessData }) => {
               </div>
             ))}
           </div>
-          <p className="business-form label">Images</p>
+          <div className="business-form error-label container">
+            <p className="business-form label">Images</p>
+            {errors.images && (
+              <p className="business-form-error">{errors.images}</p>
+            )}
+          </div>
           <input
             id="image"
             type="url"

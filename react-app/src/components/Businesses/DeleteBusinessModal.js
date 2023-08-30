@@ -18,12 +18,12 @@ const DeleteBusinessModal = ({ business }) => {
     <>
       <div className="delete modal container">
         <h1 className="delete modal title"> Confirm Delete</h1>
-        <h2 className="delete modal title">Are you sure you want to remove this business?</h2>
+        <h2 className="delete modal title">Are you sure you want to remove {business.name}?</h2>
         <div className="delete modal button container">
-          <button className="delete modal yes" onClick={handleDelete}>
+          <button className="delete-business modal yes" onClick={handleDelete}>
             Yes (Delete Business)
           </button>
-          <button className="delete modal no" onClick={closeModal}>
+          <button className="delete-business modal no" onClick={closeModal}>
             No (Keep Business)
           </button>
         </div>
