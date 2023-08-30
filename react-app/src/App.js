@@ -10,6 +10,9 @@ import LandingPage from "./components/LandingPage";
 import BusinessDetails from "./components/Businesses/BusinessDetails";
 import UserProfilePage from "./components/UserProfilePage";
 import BusinessForm from "./components/Businesses/BusinessForm";
+import UpdateBusiness from "./components/Businesses/UpdateBusiness"
+import ReviewForm from "./components/ReviewForm";
+import NewReviewForm from "./components/ReviewForm/NewReview";
 import BusinessList from "./components/Businesses/BusinessList";
 
 function App() {
@@ -39,11 +42,20 @@ function App() {
           <Route exact path="/business/new">
             <BusinessForm />
           </Route>
+          <Route exact path="/business/:id/edit">
+            <UpdateBusiness />
+          </Route>
+          <Route exact path="/business/:id/review">
+            <NewReviewForm />
+          </Route>
           <Route exact path="/business/:id">
             <BusinessDetails />
           </Route>
           <Route exact path="/profile/:userId">
             <UserProfilePage />
+          </Route>
+          <Route exact path="/review/:reviewId">
+            <ReviewForm />
           </Route>
         </Switch>
       )}

@@ -1,7 +1,6 @@
 .hero-bar {
     display: flex;
     flex-direction: column;
-    /* position: relative; */
     position: absolute;
     z-index: -1;
     top: 0;
@@ -13,7 +12,6 @@
   }
 
 .landing-page-card-container {
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,13 +23,19 @@
   margin-right: auto;
 }
 
+.landing-page-activity-cards {
+  display: flex;
+}
+
 .landing-page-card {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   border: 1px solid grey;
-  max-height: 376px;
+  height: 376px;
   width: 20%;
   padding: 16px 24px;
+  margin: auto 8px;
 }
 
 .landing-page-card-image {
@@ -41,7 +45,6 @@
 }
 
 .landing-page-categories-container {
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   justify-content: center;
