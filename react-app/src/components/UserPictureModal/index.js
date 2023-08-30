@@ -51,7 +51,6 @@ const UserPictureModal = ({ user }) => {
         </ul>}
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div>
-          <label htmlFor='image'>Image:</label>
           <input
             id="image"
             type="file"

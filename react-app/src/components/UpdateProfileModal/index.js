@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { editUser } from '../../store/session'
 import { useModal } from '../../context/Modal'
 import { lookup } from 'zipcodes'
+import './UpdateProfileModal.css'
 
 const UpdateProfileModal = ({ user }) => {
   const { closeModal } = useModal()
@@ -87,7 +88,7 @@ const UpdateProfileModal = ({ user }) => {
 
   return (
     <div className='updateProfile'>
-      <h1>Update Profile</h1>
+      <h2>Update {user.first_name}'s Profile</h2>
       <form onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, i) => (
