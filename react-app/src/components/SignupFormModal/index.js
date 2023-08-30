@@ -19,7 +19,7 @@ function SignupFormModal() {
         e.preventDefault();
         // if (password === confirmPassword) {
         if (!confirmPassword) {
-            const data = await dispatch(signUp(email, password));
+            const data = await dispatch(signUp(firstName, lastName, email, password, zipCode));
             if (data) {
                 setErrors(data);
             } else {
