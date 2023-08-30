@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request, redirect, url_for
+from flask_login import login_required, current_user
 from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User
 from ..forms import BusinessForm, ReviewForm
 
@@ -122,13 +123,12 @@ def updateBusiness(id):
         updatedBusiness.ownerId = data["ownerId"]
         db.session.commit()
         return updatedBusiness.to_dict()
-
     if form.errors:
         return {"errors": form.errors}
-
     return {"errors": "invalid entry"}
 
 @business_routes.route("/<int:id>/review", methods=["POST"])
+@login_required
 def createBusinessReview(id):
     """
     Post a new review for a business based on business id
@@ -142,7 +142,6 @@ def createBusinessReview(id):
     )
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        print("CREATE REVIEW FORM ==>", form.data)
         data = form.data
         new_review = Review(
             stars=data['stars'],
@@ -153,7 +152,18 @@ def createBusinessReview(id):
         db.session.add(new_review)
         db.session.commit()
         return new_review.to_dict()
-    # return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    return {'errors': 'Form is not valid.'}, 401
+
+@business_routes.route("/<int:id>/review/all")
+def getBusinessReviews(id):
+    """
+    Get all reviews for a business based on business id
+    """
+    reviews = Review.query.filter_by(businessId=id)
+    if (reviews):
+        return {'reviews': [review.to_dict() for review in reviews]}
+    else:
+        return {'errors': 'No reviews found for this business'}, 401
 
 @business_routes.route("/<int:id>")
 def getSingleBusiness(id):
