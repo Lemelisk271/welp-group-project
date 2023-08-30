@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, Redirect } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { findCity } from '../HelperFunctions/helper'
@@ -47,6 +47,10 @@ const UserProfile = () => {
       setReviews(rawReviews.filter(review => regex.exec(review.review)))
     }
   }, [search])
+
+  if (selectUser.id != userId) {
+    return <Redirect to={`/profile/${selectUser.id}`} />
+  }
 
   return (
     <div className='userProfile'>
