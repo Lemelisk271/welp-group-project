@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useParams } from "react-router-dom";
+import { Redirect, useParams, useHistory } from "react-router-dom";
 import "./ReviewForm.css";
 
 export default function NewReviewForm() {
@@ -11,11 +11,12 @@ export default function NewReviewForm() {
   const [review, setReview] = useState("");
   const [errors, setErrors] = useState({});
   const { id } = useParams();
-
+  const history = useHistory();
   
-  useEffect(() => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const error = {}
-    
+
     if (!starRating) {
       error.stars = "Review must contain a star rating."
     }
@@ -23,7 +24,7 @@ export default function NewReviewForm() {
     if (starRating < 1 || starRating > 5) {
       error.stars = "Please select between 1 and 5 stars for this review."
     }
-
+    
     if (!review.length) {
       error.review = "Review cannot be empty."
     }
@@ -31,13 +32,9 @@ export default function NewReviewForm() {
     if (review.length > 2000) {
       error.review = "Review must be less than 2000 characters long."
     }
-    
+
     setErrors(error)
-  }, [starRating, review])
-  
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
+
     // console.log("ERRORS ==>", errors)
     if (Object.values(errors).length > 0) {
       console.log("SUBMIT ERRORS ==>", errors)
@@ -60,7 +57,7 @@ export default function NewReviewForm() {
       setErrors(createReview.errors)
     } else {
       console.log(createReview)
-      return createReview;
+      return history.push(`/business/${id}`);
     }
   };
 
@@ -75,11 +72,6 @@ export default function NewReviewForm() {
         </div>
         <div className="review-form">
           <form onSubmit={handleSubmit}>
-            {/* <ul>
-              {errors.map((error, idx) => (
-                <li key={idx}>{error}</li>
-              ))}
-            </ul> */}
             <label>
               <h4>{errors.stars}</h4>
             </label>
@@ -114,7 +106,7 @@ export default function NewReviewForm() {
               onChange={(e) => setReview(e.target.value)}
             />
             <h2>Attach Photos</h2>
-            <button className="big-red-button" type="submit">Post Review</button>
+            <button className="big-red-button" type="submit" disabled={!starRating || !review.length || errors.review || errors.stars}>Post Review</button>
           </form>
         </div>
       </div>

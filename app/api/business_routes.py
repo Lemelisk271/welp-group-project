@@ -152,7 +152,7 @@ def createBusinessReview(id):
         )
         db.session.add(new_review)
         db.session.commit()
-        return redirect(url_for(getSingleBusiness(id)))
+        return new_review.to_dict()
     # return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 @business_routes.route("/<int:id>")

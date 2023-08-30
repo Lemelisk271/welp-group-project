@@ -39,6 +39,10 @@ button.big-red-button {
     font-weight: 500;
 }
 
+button.big-red-button[type="submit"]:disabled {
+    background: grey;
+}
+
 button.wide-red-button {
     height: 44px;
     width: 320px;
