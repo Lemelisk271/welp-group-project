@@ -66,6 +66,14 @@ button.input-red-button {
     font-weight: 500;
 }
 
+.red-button-small {
+    background-color: #ff5b5f;
+    border: 2px solid #222222;
+    border-radius: 3px;
+    color: #fffffe;
+    font-size: small;
+}
+
 .bold {
     font-weight: bold;
 }
