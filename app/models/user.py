@@ -18,12 +18,12 @@ class User(db.Model, UserMixin):
     birthday = db.Column(db.Date)
     profile_image = db.Column(db.String(255))
 
-    business = db.relationship("Business", back_populates="user")
-    business_images = db.relationship("BusinessImages", back_populates="user")
-    questions = db.relationship("Question", back_populates="user")
-    answers = db.relationship("Answer", back_populates="user")
-    votes = db.relationship("Vote", back_populates="user")
-    review = db.relationship("Review", back_populates="user")
+    business = db.relationship("Business", back_populates="user", cascade="all, delete-orphan")
+    business_images = db.relationship("BusinessImages", back_populates="user", cascade="all, delete-orphan")
+    questions = db.relationship("Question", back_populates="user", cascade="all, delete-orphan")
+    answers = db.relationship("Answer", back_populates="user", cascade="all, delete-orphan")
+    votes = db.relationship("Vote", back_populates="user", cascade="all, delete-orphan")
+    review = db.relationship("Review", back_populates="user", cascade="all, delete-orphan")
 
     @property
     def password(self):

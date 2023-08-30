@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { editUser } from '../../store/session'
 import { useModal } from '../../context/Modal'
 import { lookup } from 'zipcodes'
+import './UpdateProfileModal.css'
 
 const UpdateProfileModal = ({ user }) => {
   const { closeModal } = useModal()
@@ -29,8 +30,10 @@ const UpdateProfileModal = ({ user }) => {
     let year = userBirthday.getFullYear()
     const date = `${year}-${month}-${day}`
     setBirthDay(date)
+    // eslint-disable-next-line
   }, [])
 
+  // eslint-disable-next-line
   const emailReg = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
 
   useEffect(() => {
@@ -49,12 +52,13 @@ const UpdateProfileModal = ({ user }) => {
     }
 
     const zip = lookup(zip_code)
-    if (zip == undefined) {
+    if (zip === undefined) {
       errors.zip_code = "Please enter a valid zip"
     }
 
     setValidationErrors(errors)
-  }, [first_name, last_name, zip_code])
+    // eslint-disable-next-line
+  }, [first_name, last_name, zip_code, email])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -84,11 +88,11 @@ const UpdateProfileModal = ({ user }) => {
 
   return (
     <div className='updateProfile'>
-      <h1>Update Profile</h1>
+      <h2>Update {user.first_name}'s Profile</h2>
       <form onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, i) => (
-            <li key={i}>{ error }</li>
+            <li className='profileForm-errors' key={i}>{ error }</li>
           ))}
         </ul>
         <div>
