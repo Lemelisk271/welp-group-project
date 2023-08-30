@@ -16,6 +16,8 @@ const UserProfile = () => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [city, setCity] = useState('')
   const [reviews, setReviews] = useState([])
+  const [rawReviews, setRawReviews] = useState([])
+  const [search, setSearch] = useState('')
   const selectUser = useSelector(state => state.session.user)
 
   useEffect(() => {
@@ -31,10 +33,20 @@ const UserProfile = () => {
       setIsLoaded(true)
       setCity(cityData)
       setReviews(userData.reviews)
+      setRawReviews(userData.reviews)
     }
     getUser()
     // eslint-disable-next-line
   }, [selectUser])
+
+  useEffect(() => {
+    const regex = new RegExp(`${search}.*`, 'i')
+    if (search === "" || search === null) {
+      setReviews(rawReviews)
+    } else {
+      setReviews(rawReviews.filter(review => regex.exec(review.review)))
+    }
+  }, [search])
 
   return (
     <div className='userProfile'>
@@ -64,6 +76,14 @@ const UserProfile = () => {
           </div>
           <div className='userProfile-reviews'>
             <h1>Reviews</h1>
+            <div className='userProfile-search'>
+              <input
+                type='text'
+                placeholder='Search Reviews'
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+              />
+            </div>
             {reviews.map(review => (
               <UserReviewListItem key={review.id} review={review} />
             ))}
