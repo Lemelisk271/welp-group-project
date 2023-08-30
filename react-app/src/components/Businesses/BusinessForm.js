@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createBusiness, updateBusiness } from "../../store/business";
 import { useHistory } from "react-router-dom";
-import {state_choices} from "./StateList"
+import { state_choices } from "./StateList";
 
 const BusinessForm = ({ businessData }) => {
   const dispatch = useDispatch();
@@ -18,10 +18,10 @@ const BusinessForm = ({ businessData }) => {
   const [price, setPrice] = useState("");
   const [errors, setErrors] = useState({});
   const [image, setImage] = useState("");
+  const [starRating, setStarRating] = useState(0);
   const [unavailable, setUnavailable] = useState("");
   const [disableLogin, setDisableLogin] = useState(true);
   const userId = useSelector((state) => state.session.user.id);
-
 
   useEffect(() => {
     if (!name || !phone || !address || !city || !state || !zipCode || !price) {
@@ -44,7 +44,7 @@ const BusinessForm = ({ businessData }) => {
       setZipCode(businessData?.zip_code);
       setAbout(businessData?.about);
       setPrice(businessData?.price);
-      if (businessData?.images?.length > 0){
+      if (businessData?.images?.length > 0) {
         for (let image of businessData?.images) {
           if (image.preview === true) {
             setImage(image.url);
@@ -162,6 +162,37 @@ const BusinessForm = ({ businessData }) => {
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
+        <div className="star-rating">
+          {[...Array(5)].map((star, idx) => {
+            idx += 1;
+            return (
+              <i
+                type="i"
+                key={idx}
+                className={`fa-solid fa-dollar ${idx <= starRating ? " filled" : " empty"}`}
+                onClick={() => setStarRating(idx)}
+                onMouseEnter={() => setStarRating(idx)}
+                onMouseLeave={() => setStarRating(starRating)}
+              >
+              </i>
+            );
+          })}
+          <div className={starRating >= 1 ? "filled" : "empty"}>
+            <i className="fa-solid fa-star"></i>
+          </div>
+          <div className={starRating >= 2 ? "filled" : "empty"}>
+            <i className="fa-solid fa-star"></i>
+          </div>
+          <div className={starRating >= 3 ? "filled" : "empty"}>
+            <i className="fa-solid fa-star"></i>
+          </div>
+          <div className={starRating >= 4 ? "filled" : "empty"}>
+            <i className="fa-solid fa-star"></i>
+          </div>
+          <div className={starRating >= 5 ? "filled" : "empty"}>
+            <i className="fa-solid fa-star"></i>
+          </div>
+        </div>
         <input
           id="image"
           type="url"
