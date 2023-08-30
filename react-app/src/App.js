@@ -12,8 +12,6 @@ import UserProfilePage from "./components/UserProfilePage";
 import BusinessForm from "./components/Businesses/BusinessForm";
 import UpdateBusiness from "./components/Businesses/UpdateBusiness"
 import ReviewForm from "./components/ReviewForm";
-import NewReviewForm from "./components/ReviewForm/NewReview";
-import ProtectedRoute from "./components/auth/ProtectedRoute"
 
 function App() {
   const dispatch = useDispatch();
@@ -46,21 +44,16 @@ function App() {
             <UpdateBusiness />
           </Route>
           <Route exact path="/business/:id/review">
-            <NewReviewForm />
+            <ReviewForm />
           </Route>
           <Route exact path="/business/:id">
             <BusinessDetails />
           </Route>
-          <ProtectedRoute>
-            <Route exact path="/profile/:userId">
-              <UserProfilePage />
-            </Route>
-          </ProtectedRoute>
-          <Route exact path="/review/:reviewId">
-            <ReviewForm />
+          <Route exact path="/profile/:userId">
+            <UserProfilePage />
           </Route>
-          <Route>
-            <h1>Error 404: Page not found</h1>
+          <Route exact path="/review/:reviewId">
+            <ReviewForm isUpdate={true} />
           </Route>
         </Switch>
       )}
