@@ -194,3 +194,14 @@ def getSingleBusiness(id):
     images_dict = [image.to_dict() for image in business_images]
 
     return {**biz_dict, "reviews": reviews_dict, "images": images_dict, "amenities": amenities_dict, "hours": hours_dict, "categories": categories_dict, "questions": questions_dict}
+
+@business_routes.route("/<int:id>/edit", methods=["DELETE"])
+def deleteBusiness(id):
+    business = Business.query.get(id)
+
+    if business:
+        db.session.delete(business)
+        db.session.commit()
+        return business.to_dict()
+    else:
+        abort(404, "Business not found")

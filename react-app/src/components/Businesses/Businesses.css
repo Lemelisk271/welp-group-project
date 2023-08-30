@@ -1,0 +1,24 @@
+div.price-rating {
+    display: flex;
+    flex-direction: row;
+
+}
+
+form.new-business-form {
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+div.new-business-form.container {
+    width: 50%;
+}
+
+div.new-business-form.container input {
+    width: 100%;
+}
+
+p.business-form.label {
+    margin: 10px 0 5px 0;
+}

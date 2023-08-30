@@ -27,9 +27,7 @@ const UpdateBusiness = () => {
     e.preventDefault();
     try {
       const res = await dispatch(deleteBusiness(id));
-      if (res) {
-        history.push("/");
-      }
+      history.push("/");
     } catch (err) {
       console.log(err);
     }
