@@ -12,8 +12,7 @@ import UserProfilePage from "./components/UserProfilePage";
 import BusinessForm from "./components/Businesses/BusinessForm";
 import UpdateBusiness from "./components/Businesses/UpdateBusiness"
 import ReviewForm from "./components/ReviewForm";
-import NewReviewForm from "./components/ReviewForm/NewReview";
-import ProtectedRoute from "./components/auth/ProtectedRoute"
+import ProtectedRoute from './components/auth/ProtectedRoute'
 
 function App() {
   const dispatch = useDispatch();
@@ -46,7 +45,7 @@ function App() {
             <UpdateBusiness />
           </Route>
           <Route exact path="/business/:id/review">
-            <NewReviewForm />
+            <ReviewForm />
           </Route>
           <Route exact path="/business/:id">
             <BusinessDetails />
@@ -57,7 +56,7 @@ function App() {
             </ProtectedRoute>
           </Route>
           <Route exact path="/review/:reviewId">
-            <ReviewForm />
+            <ReviewForm isUpdate={true} />
           </Route>
         </Switch>
       )}

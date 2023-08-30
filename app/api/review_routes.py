@@ -1,5 +1,5 @@
 from flask import Blueprint, abort, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app.models import db, User, Review
 from ..forms import ReviewForm
 from datetime import datetime
@@ -26,22 +26,35 @@ def getReview(id):
 
 
 @review_routes.route('/<int:id>', methods=["PUT"])
+@login_required
 def editReview(id):
     """
     Update a specific review by id and returns it in a review dictionaries
     """
+    user = current_user.to_dict()
+    review = Review.query.get(id)
     request_data = request.get_json()
-    print(request_data)
-    if request_data:
-        updated_review = Review(
-            id = id,
-            stars = request_data["stars"],
-            review = request_data["review"],
-            userId = request_data["userId"],
-            businessId = request_data["businessId"]
-        )
-        db.session.merge(updated_review)
-        db.session.commit()
-        return updated_review.to_dict()
-    else:
-        abort(404, "Review not found")
+    if user['id'] != review.userId:
+        return {"errors": ["You are not authorized to update this review."]}
+    updated_review = Review(
+        id = id,
+        stars = request_data["stars"],
+        review = request_data["review"],
+        userId = request_data["userId"],
+        businessId = request_data["businessId"]
+    )
+    db.session.merge(updated_review)
+    db.session.commit()
+    return updated_review.to_dict()
+    
+
+@review_routes.route('/<int:id>', methods=["DELETE"])
+@login_required
+def delete_review(id):
+    user = current_user.to_dict()
+    review = Review.query.get(id)
+    if user['id'] != review.userId:
+        return {"errors": ["You are not authorized to delete this review."]}
+    db.session.delete(review)
+    db.session.commit()
+    return review.to_dict()

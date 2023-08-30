@@ -80,7 +80,7 @@ const UpdateProfileModal = ({ user }) => {
 
     const data = await dispatch(editUser(userObj))
     if (data) {
-      setErrors(data)
+      setErrors(data.errors)
     } else {
       closeModal()
     }
