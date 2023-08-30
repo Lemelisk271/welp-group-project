@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, redirect, url_for
 from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User
 from ..forms import BusinessForm, ReviewForm
 
@@ -134,19 +134,25 @@ def createBusinessReview(id):
     Post a new review for a business based on business id
     """
     request_data = request.get_json()
-    form = ReviewForm()
+    form = ReviewForm(
+        stars=request_data["stars"],
+        review=request_data["review"],
+        userId=request_data["userId"],
+        businessId=id
+    )
     form['csrf_token'].data = request.cookies['csrf_token']
-    print(form)
     if form.validate_on_submit():
-        review = Review(
-            stars=form.data['stars'],
-            review=form.data['review'],
-            userId=form.data['userId'],
+        print("CREATE REVIEW FORM ==>", form.data)
+        data = form.data
+        new_review = Review(
+            stars=data['stars'],
+            review=data['review'],
+            userId=data['userId'],
             businessId=id
         )
-        db.session.add(review)
+        db.session.add(new_review)
         db.session.commit()
-        return review.to_dict()
+        return redirect(url_for(getSingleBusiness(id)))
     # return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 @business_routes.route("/<int:id>")
