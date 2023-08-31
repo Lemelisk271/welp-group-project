@@ -79,9 +79,9 @@ export const createBusiness = (businessData) => async (dispatch) => {
   } catch (err) {
     console.log("BACKEND THUNKKKKKKKKKKKKKKKKK", err);
     return err;
-    if (err) {
-      // const { errors } = await err.json();
-    }
+    // if (err) {
+    //   // const { errors } = await err.json();
+    // }
   }
 };
 
