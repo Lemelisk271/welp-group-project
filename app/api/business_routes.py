@@ -165,6 +165,14 @@ def getBusinessReviews(id):
     else:
         return {'errors': 'No reviews found for this business'}, 401
 
+@business_routes.route("/")
+def getAllBusinesses():
+  businesses = Business.query.all();
+  print(businesses)
+  [business.to_dict() for business in businesses]
+  return businesses
+
+
 @business_routes.route("/<int:id>")
 def getSingleBusiness(id):
     curr_business = Business.query.get(id)

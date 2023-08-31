@@ -1,5 +1,6 @@
 // import { normalizeObj } from "./normalizeHelper";
-const cloneDeep = require("clone-deep");
+const cloneDeep = require('clone-deep');
+
 /** Action Type Constants: */
 const GET_ALL_BUSINESS = "business/GET_ALL_BUSINESS";
 const LOAD_BUSINESS = "business/LOAD_BUSINESS";
@@ -52,6 +53,7 @@ export const getBusiness = (id) => async (dispatch) => {
   if (res.ok) {
     const business = await res.json();
     dispatch(getSingleBusiness(business));
+    return business
   } else {
     const { errors } = await res.json();
     return errors;

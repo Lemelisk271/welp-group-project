@@ -37,9 +37,9 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          {/* <Route path="/business">
-            <AllBusinessess />
-          </Route> */}
+          <Route exact path="/business">
+            <BusinessList />
+          </Route>
           <Route exact path="/business/new">
             <BusinessForm />
           </Route>
