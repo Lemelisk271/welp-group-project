@@ -85,6 +85,28 @@ Frontend:
 
 Link - [Welp](https://welp-686p.onrender.com)
 
+### Screenshots
+
+Landing Page:
+
+![Landing Page](https://welp-group-project.s3.us-west-2.amazonaws.com/welp/landingPage.png)
+
+Signup Form:
+
+![Signup Form](https://welp-group-project.s3.us-west-2.amazonaws.com/welp/signUp.png)
+
+Login Form:
+
+![Login Form](https://welp-group-project.s3.us-west-2.amazonaws.com/welp/loginForm.png)
+
+User Profile Page:
+
+![User Profile Page](https://welp-group-project.s3.us-west-2.amazonaws.com/welp/userProfile.png)
+
+Business Search Page:
+
+![Business Search Page](https://welp-group-project.s3.us-west-2.amazonaws.com/welp/businessSearch.png)
+
 ## Credits
 - Daniel Lewis [GitHub Profile](https://github.com/akatheduelist)
 - Darian Brooks [GitHub Profile](https://github.com/darocket34)
