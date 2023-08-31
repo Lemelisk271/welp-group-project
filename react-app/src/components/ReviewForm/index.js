@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Redirect, useParams, useHistory } from "react-router-dom";
 import "./ReviewForm.css";
 
 export default function ReviewForm({ isUpdate }) {
-    const dispatch = useDispatch();
     const sessionUser = useSelector((state) => state.session.user);
     const userId = sessionUser.id;
     const [currReview, setCurrReview] = useState(null);
@@ -29,6 +28,7 @@ export default function ReviewForm({ isUpdate }) {
         } else {
             console.log("REVIEW IS NEW!", id);
         }
+        // eslint-disable-next-line
     }, [isUpdate]);
 
     if (!sessionUser) return <Redirect to="/" />;

@@ -15,6 +15,7 @@ const BusinessSearchListItem = ({ business }) => {
     }
     let categories = business.categories.map(business => business.category)
     setBusinessCategories(categories)
+    // eslint-disable-next-line
   }, [])
 
   return (
