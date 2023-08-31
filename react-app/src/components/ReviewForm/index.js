@@ -5,7 +5,6 @@ import "./ReviewForm.css";
 
 export default function ReviewForm({ isUpdate }) {
     const sessionUser = useSelector((state) => state.session.user);
-    const userId = sessionUser.id;
     const [currReview, setCurrReview] = useState(null);
     const [starRating, setStarRating] = useState(0);
     const [review, setReview] = useState("");
@@ -16,7 +15,6 @@ export default function ReviewForm({ isUpdate }) {
 
     useEffect(() => {
         if (isUpdate) {
-            console.log("REVIEW IS UPDATE!", reviewId);
             const getReview = async () => {
                 const getCurrReview = await fetch(`/api/review/${reviewId}`);
                 const data = await getCurrReview.json();
@@ -26,12 +24,9 @@ export default function ReviewForm({ isUpdate }) {
             };
             getReview();
         } else {
-            console.log("REVIEW IS NEW!", id);
         }
         // eslint-disable-next-line
     }, [isUpdate]);
-
-    if (!sessionUser) return <Redirect to="/" />;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -54,12 +49,10 @@ export default function ReviewForm({ isUpdate }) {
         setFrontEndErrors(error);
 
         if (Object.values(frontEndErrors).length > 0) {
-            console.log("SUBMIT ERRORS ==>", errors);
             return;
         }
 
         if (isUpdate && !Object.values(frontEndErrors).length) {
-            console.log("UPDATE REVIEW SUBMITTED!", reviewId);
             const updateReview = await fetch(`/api/review/${reviewId}`, {
                 method: "PUT",
                 headers: {
@@ -68,19 +61,17 @@ export default function ReviewForm({ isUpdate }) {
                 body: JSON.stringify({
                     stars: starRating,
                     review,
-                    userId,
+                    userId: sessionUser.id,
                     businessId: currReview.businessId,
                 }),
             });
             const data = await updateReview.json();
             if (data) {
-                console.log("DATA ==>", data.errors)
                 setErrors(data.errors);
             } else {
                 return history.push(`/business/${currReview.businessId}`);
             }
         } else {
-            console.log("NEW REVIEW SUBMITTED!", id);
             const createReview = await fetch(`/api/business/${id}/review`, {
                 method: "POST",
                 headers: {
@@ -89,14 +80,13 @@ export default function ReviewForm({ isUpdate }) {
                 body: JSON.stringify({
                     stars: starRating,
                     review,
-                    userId,
+                    userId: sessionUser.id,
                     businessId: id,
                 }),
             });
             if (createReview.errors) {
                 setErrors(createReview.errors);
             } else {
-                console.log(createReview);
                 return history.push(`/business/${id}`);
             }
         }
@@ -104,8 +94,6 @@ export default function ReviewForm({ isUpdate }) {
 
     const deleteReview = async (e) => {
         e.preventDefault();
-        console.log("DELETE REVIEW ==>", reviewId);
-        console.log("isUpdate is ==>", isUpdate);
         const deleteReview = await fetch(`/api/review/${reviewId}`, {
             method: "DELETE",
         });
@@ -117,16 +105,21 @@ export default function ReviewForm({ isUpdate }) {
         }
     };
 
+    if (!sessionUser || sessionUser === null) {
+        return <Redirect to="/not-logged-in" />;
+    }
+
     return (
         <>
             <div className="review-form-container">
-                <div className="review-form-header">
-                    <span className="header">NEW REVIEW</span>
-                    <span className="blue-link">
-                        Read our review guidelines
-                    </span>
-                </div>
                 <div className="review-form">
+                    <div className="review-form-header">
+                        <h2 className="header">NEW REVIEW</h2>
+                        <span className="blue-link">
+                            Read our review guidelines
+                        </span>
+                    </div>
+                    <div className="review-form-input">
                     <form onSubmit={handleSubmit}>
                         <ul>
                             {errors.map((error, i) => (
@@ -163,7 +156,7 @@ export default function ReviewForm({ isUpdate }) {
                             <h4>{frontEndErrors.review}</h4>
                         </label>
                         <textarea
-                            placeholder="Leave your review here..."
+                            placeholder="A few things to consider in your review&#10;Service Requested, Quality, Value"
                             name="review"
                             rows="8"
                             cols="40"
@@ -192,6 +185,7 @@ export default function ReviewForm({ isUpdate }) {
                             </button>
                         )}
                     </form>
+                    </div>
                 </div>
             </div>
         </>
