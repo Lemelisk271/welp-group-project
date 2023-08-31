@@ -1,9 +1,11 @@
 import './DeleteReviewModal.css'
 import { useModal } from '../../context/Modal'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { ReviewContext } from '../../context/ReviewContext'
 
 const DeleteReviewModal = ({ id }) => {
   const { closeModal } = useModal()
+  const { currentReview, setCurrentReview } = useContext(ReviewContext)
   const [errors, setErrors] = useState([])
 
   const cancelButton = (e) => {
@@ -20,6 +22,7 @@ const DeleteReviewModal = ({ id }) => {
     if (data.errors) {
       setErrors(data.errors)
     } else {
+      setCurrentReview(!currentReview)
       closeModal()
     }
   }

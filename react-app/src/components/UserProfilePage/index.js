@@ -1,8 +1,9 @@
 import { useParams, Redirect } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { findCity } from '../HelperFunctions/helper'
 import { getAllBusiness } from '../../store/business'
+import { ReviewContext } from '../../context/ReviewContext'
 import UserReviewListItem from '../UserReviewListItem'
 import OpenModalButton from '../OpenModalButton'
 import UpdateProfileModal from "../UpdateProfileModal"
@@ -11,6 +12,7 @@ import './UserProfilePage.css'
 
 const UserProfile = () => {
   const dispatch = useDispatch()
+  const { currentReview } = useContext(ReviewContext)
   const { userId } = useParams()
   const [user, setUser] = useState({})
   const [isLoaded, setIsLoaded] = useState(false)
@@ -37,7 +39,7 @@ const UserProfile = () => {
     }
     getUser()
     // eslint-disable-next-line
-  }, [selectUser])
+  }, [selectUser, currentReview])
 
   useEffect(() => {
     const regex = new RegExp(`${search}.*`, 'i')
