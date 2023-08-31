@@ -13,6 +13,7 @@ import BusinessForm from "./components/Businesses/BusinessForm";
 import UpdateBusiness from "./components/Businesses/UpdateBusiness"
 import ReviewForm from "./components/ReviewForm";
 import ProtectedRoute from './components/auth/ProtectedRoute'
+import BusinessSearchPage from './components/BusinessSearchPage'
 
 function App() {
   const dispatch = useDispatch();
@@ -49,6 +50,9 @@ function App() {
           </Route>
           <Route exact path="/business/:id">
             <BusinessDetails />
+          </Route>
+          <Route exact path="/search">
+            <BusinessSearchPage />
           </Route>
           <Route exact path="/profile/:userId">
             <ProtectedRoute>
