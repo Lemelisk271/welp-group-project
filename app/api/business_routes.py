@@ -5,6 +5,16 @@ from ..forms import BusinessForm, ReviewForm
 
 business_routes = Blueprint('businesses', __name__)
 
+def validation_errors_to_error_messages(validation_errors):
+    """
+    Simple function that turns the WTForms validation errors into a simple list
+    """
+    errorMessages = []
+    for field in validation_errors:
+        for error in validation_errors[field]:
+            errorMessages.append(f'{field} : {error}')
+    return errorMessages
+
 @business_routes.route("/")
 def all_businesses():
     """
@@ -50,16 +60,16 @@ def createNewBusiness():
     """
     request_data = request.get_json()
     form = BusinessForm(
-        name = request_data["name"],
-        url = request_data["url"],
-        phone = request_data["phone"],
-        address = request_data["address"],
-        city = request_data["city"],
-        state = request_data["state"],
-        zip_code = request_data["zip_code"],
-        about = request_data["about"],
-        price = request_data["price"],
-        ownerId = request_data["ownerId"]
+        # name = request_data["name"],
+        # url = request_data["url"],
+        # phone = request_data["phone"],
+        # address = request_data["address"],
+        # city = request_data["city"],
+        # state = request_data["state"],
+        # zip_code = request_data["zip_code"],
+        # about = request_data["about"],
+        # price = request_data["price"],
+        # ownerId = request_data["ownerId"]
     )
     form['csrf_token'].data = request.cookies['csrf_token']
     data = form.data
@@ -80,16 +90,20 @@ def createNewBusiness():
         db.session.add(newBusiness)
         db.session.commit()
         businessImage = BusinessImages(
-            url = request_data["imgUrl"],
-            preview = request_data["preview"],
+            # url = request_data["imgUrl"],
+            # preview = request_data["preview"],
+            # businessId = newBusiness.id,
+            # ownerId = request_data["ownerId"]
+            url = data["imgUrl"],
+            preview = data["preview"],
             businessId = newBusiness.id,
-            ownerId = request_data["ownerId"]
+            ownerId = data["ownerId"]
         )
         db.session.add(businessImage)
         db.session.commit()
         return newBusiness.to_dict()
-    else:
-        return form.errors, 400
+    print("ERRORS", form.errors)
+    return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 @business_routes.route("/<int:id>/edit", methods=["PUT"])
 def updateBusiness(id):
@@ -123,9 +137,8 @@ def updateBusiness(id):
         updatedBusiness.ownerId = data["ownerId"]
         db.session.commit()
         return updatedBusiness.to_dict()
-    if form.errors:
-        return {"errors": form.errors}
-    return {"errors": "invalid entry"}
+
+    return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 @business_routes.route("/<int:id>/review", methods=["POST"])
 @login_required
@@ -164,6 +177,14 @@ def getBusinessReviews(id):
         return {'reviews': [review.to_dict() for review in reviews]}
     else:
         return {'errors': 'No reviews found for this business'}, 401
+
+@business_routes.route("/")
+def getAllBusinesses():
+  businesses = Business.query.all();
+  print(businesses)
+  [business.to_dict() for business in businesses]
+  return businesses
+
 
 @business_routes.route("/<int:id>")
 def getSingleBusiness(id):

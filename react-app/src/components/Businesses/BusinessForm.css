@@ -1,0 +1,49 @@
+.business-form-container {
+    display: flex;
+    justify-content: space-around;
+    height: 1224px;
+    margin: 0px auto;
+}
+
+.business-form-left {
+    display:flex;
+    flex-direction: column;
+    width: 40%;
+}
+
+.business-form-right {
+    width: 40%;
+    padding: 34px;
+    margin: 0px 16px;
+}
+
+.business-form-address {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.business-form-address-street {
+    width: 69%;
+    margin: 6px 0px;
+}
+
+.business-form-address-city {
+    width: 30%;
+    margin: 6px 0px;
+}
+
+.business-form-address-state {
+    width: 32%;
+    margin: 6px 0px;
+}
+
+.business-form-address-zip {
+    width: 33%;
+    margin: 6px 0px;
+}
+
+.business-form-address-country {
+    width: 32%;
+    margin: 6px 0px;
+}

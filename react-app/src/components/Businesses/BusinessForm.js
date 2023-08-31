@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createBusiness, updateBusiness } from "../../store/business";
 import { useHistory } from "react-router-dom";
 import { state_choices } from "./StateList";
+import "./BusinessForm.css";
 
 const BusinessForm = ({ businessData }) => {
   const dispatch = useDispatch();
@@ -15,24 +16,17 @@ const BusinessForm = ({ businessData }) => {
   const [state, setState] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [about, setAbout] = useState("");
+  const [price, setPrice] = useState("");
   const [errors, setErrors] = useState({});
   const [image, setImage] = useState("");
-  const [priceRating, setPriceRating] = useState(0);
-  const [tempRating, setTempRating] = useState(0);
+  const [priceRating, setPriceRating] = useState("")
+  const [tempRating, setTempRating] = useState(0)
   const [unavailable, setUnavailable] = useState("");
   const [disableLogin, setDisableLogin] = useState(true);
-  const userId = useSelector((state) => state?.session?.user?.id);
+  const userId = useSelector((state) => state.session.user.id);
 
   useEffect(() => {
-    if (
-      !name ||
-      !phone ||
-      !address ||
-      !city ||
-      !state ||
-      !zipCode ||
-      !priceRating
-    ) {
+    if (!name || !phone || !address || !city || !state || !zipCode || !priceRating) {
       setDisableLogin(true);
       setUnavailable("unavailable");
     } else {
@@ -76,7 +70,7 @@ const BusinessForm = ({ businessData }) => {
   let errorObj = {};
   const handleSubmit = async (e) => {
     e.preventDefault();
-    errorObj = {}
+    errorObj = {};
     setErrors({});
     if (name.length > 100 || !name) {
       // errorObj.name = "Please enter a name with 100 characters or less";
@@ -141,14 +135,21 @@ const BusinessForm = ({ businessData }) => {
             setErrors(errors);
           }
         } else {
+          try {
           resBusiness = await dispatch(createBusiness(newBusiness));
+          } catch (err) {
+            console.log("ERR", err)
+          }
+          console.log("HELLO", resBusiness)
           if (resBusiness && !resBusiness.errors) {
             history.push(`/business/${resBusiness.id}`);
           } else {
+            console.log("HELLO2", resBusiness)
             setErrors(errors);
           }
         }
       } catch (err) {
+        console.log("HELLO3", err)
         if (err) {
           const { errors1 } = err;
           setErrors(errors1);
@@ -160,169 +161,324 @@ const BusinessForm = ({ businessData }) => {
 
   return (
     <>
-      {businessData && (
-        <h1 className="business-form title">Update {businessData.name}</h1>
-      )}
-      {!businessData && (
-        <h1 className="business-form title">New Business Form</h1>
-      )}
-
-      <form className="new-business-form" onSubmit={handleSubmit}>
-        <div className="new-business-form container">
-          <div className="business-form error-label container">
-            <p className="business-form label">Business Name</p>
-            {errors.name && (
-              <p className="business-form-error">{errors.name}</p>
-            )}
-          </div>
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <div className="business-form error-label container">
-            <p className="business-form label">Website Url (Optional)</p>
-            {errors.url && <p className="business-form-error">{errors.url}</p>}
-          </div>
-          <input
-            type="url"
-            placeholder="Example: https://www.example.com"
-            value={url}
-            onChange={handleUrlOnChange}
-          />
-          <div className="business-form error-label container">
-            <p className="business-form label">Phone</p>
-            {errors.phone && (
-              <p className="business-form-error">{errors.phone}</p>
-            )}
-          </div>
-          <input
-            type="text"
-            placeholder="Phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-          <div className="business-form error-label container">
-            <p className="business-form label">Address</p>
-            {errors.address && (
-              <p className="business-form-error">{errors.address}</p>
-            )}
-          </div>
-          <input
-            type="text"
-            placeholder="Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <div className="business-form error-label container">
-            <p className="business-form label">City</p>
-            {errors.city && (
-              <p className="business-form-error">{errors.city}</p>
-            )}
-          </div>
-          <input
-            type="text"
-            placeholder="City"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          />
-          <div className="business-form error-label container">
-            <p className="business-form label">State</p>
-            {errors.state && (
-              <p className="business-form-error">{errors.state}</p>
-            )}
-          </div>
-          <select
-            className="business-form"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-          >
-            <option value="" disabled>
-              Select
-            </option>
-            {state_choices.map((state) => (
-              <option key={state} value={state}>
-                {state}
-              </option>
-            ))}
-          </select>
-          <div className="business-form error-label container">
-            <p className="business-form label">Zipcode</p>
-            {errors.zipCode && (
-              <p className="business-form-error">{errors.zipCode}</p>
-            )}
-          </div>
-          <input
-            type="number"
-            placeholder="Zipcode"
-            value={zipCode}
-            onChange={(e) => setZipCode(e.target.value)}
-          />
-          <div className="business-form error-label container">
-            <p className="business-form label">About</p>
-            {errors.about && (
-              <p className="business-form-error">{errors.about}</p>
-            )}
-          </div>
-          <input
-            type="text"
-            placeholder="About"
-            value={about}
-            onChange={(e) => setAbout(e.target.value)}
-          />
-          <div className="business-form error-label container">
-            <p className="business-form label">Price Rating</p>
-            {errors.price && (
-              <p className="business-form-error">{errors.price}</p>
-            )}
-          </div>
-          <div className="price-rating">
-            {[1, 2, 3, 4, 5].map((rating) => (
-              <div
-                key={rating}
-                className={`${
-                  priceRating >= rating || tempRating >= rating
-                    ? "filled"
-                    : "empty"
-                }`}
-                onClick={() => {
-                  setPriceRating(rating);
-                  setTempRating(rating);
-                }}
-                onMouseEnter={() => setTempRating(rating)}
-                onMouseLeave={() => setTempRating(0)}
+      <div className="business-form-container">
+        <div className="business-form-left">
+          {businessData && <h1>UPDATE BUSINESS FORM</h1>}
+          {!businessData && (
+            <div>
+              <h2>Hello! Let’s start with your business name</h2>
+              <p>
+                We’ll use this information to help you claim your Yelp page.
+                Your business will come up automatically if it is already
+                listed.
+              </p>
+            </div>
+          )}
+          {Object.keys(errorObj).length === 0 &&
+            Object.values(errorObj).map((error) => {
+              <p className="business-form-error">{error}</p>;
+            })}
+          <form className="new-business-form" onSubmit={handleSubmit}>
+            <input
+              className="full-width"
+              type="text"
+              placeholder="Your business name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            {}
+            <input
+              className="full-width"
+              type="url"
+              placeholder="e.g. www.your-website.com"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+            />
+            <input
+              className="full-width"
+              type="tel"
+              placeholder="Business phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+            <div className="business-form-address">
+              <input
+                className="business-form-address-street"
+                type="text"
+                placeholder="Street address (optional)"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+              <input
+                className="business-form-address-city"
+                type="text"
+                placeholder="City"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              />
+            </div>
+            <div className="business-form-address">
+              <select
+                className="business-form-address-state"
+                value={state}
+                onChange={(e) => setState(e.target.value)}
               >
-                <i className="fa-solid fa-dollar"></i>
+                <option value="" disabled>
+                  Select a state
+                </option>
+                {state_choices.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+              <input
+                className="business-form-address-zip"
+                type="number"
+                placeholder="Zipcode"
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value)}
+              />
+              <select
+                className="business-form-address-country"
+                placeholder="United States"
+                // value={state}
+                // onChange={(e) => setState(e.target.value)}
+              >
+                <option value="United States">United States</option>
+                {/* {state_choices.map((state) => (
+                                    <option key={state} value={state}>
+                                        {state}
+                                    </option>
+                                ))} */}
+              </select>
+            </div>
+            <textarea
+              className="full-width"
+              placeholder="Tell us a little about your business"
+              value={about}
+              onChange={(e) => setAbout(e.target.value)}
+            />
+            <div className="business-form-address">
+              {/* <input
+                className="business-form-address-city"
+                type="number"
+                placeholder="Price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              /> */}
+              <div className="price-rating">
+                {[1, 2, 3, 4, 5].map((rating) => (
+                  <div
+                    key={rating}
+                    className={`${
+                      priceRating >= rating || tempRating >= rating
+                        ? "filled"
+                        : "empty"
+                    }`}
+                    onClick={() => {
+                      setPriceRating(rating);
+                      setTempRating(rating);
+                    }}
+                    onMouseEnter={() => setTempRating(rating)}
+                    onMouseLeave={() => setTempRating(0)}
+                  >
+                    <i className="fa-solid fa-dollar"></i>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <div className="business-form error-label container">
-            <p className="business-form label">Images</p>
-            {errors.images && (
-              <p className="business-form-error">{errors.images}</p>
-            )}
-          </div>
-          <input
-            id="image"
-            type="url"
-            // accept="image/*"
-            placeholder="Image Url"
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-          />
-          <button
-            type="submit"
-            disabled={disableLogin}
-            className={`signup button ${unavailable}`}
-          >
-            {!businessData && "Create"}
-            {businessData && "Update"}
-          </button>
+              <input
+                className="business-form-address-street"
+                id="image"
+                type="url"
+                // accept="image/*"
+                placeholder="Image Url"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+              />
+            </div>
+            <button
+              className="big-red-button"
+              type="submit"
+              disabled={disableLogin}
+              // className={`signup button ${unavailable}`}
+            >
+              {!businessData && "Create"}
+              {businessData && "Update"}
+            </button>
+          </form>
         </div>
-      </form>
+        <div className="business-form-right">
+          <img src="https://picsum.photos/644/631.jpg" />
+        </div>
+      </div>
     </>
   );
 };
-
 export default BusinessForm;
+//   return (
+//     <>
+//       {businessData && (
+//         <h1 className="business-form title">Update {businessData.name}</h1>
+//       )}
+//       {!businessData && (
+//         <h1 className="business-form title">New Business Form</h1>
+//       )}
+
+//       <form className="new-business-form" onSubmit={handleSubmit}>
+//         <div className="new-business-form container">
+//           <div className="business-form error-label container">
+//             <p className="business-form label">Business Name</p>
+//             {errors.name && (
+//               <p className="business-form-error">{errors.name}</p>
+//             )}
+//           </div>
+//           <input
+//             type="text"
+//             placeholder="Name"
+//             value={name}
+//             onChange={(e) => setName(e.target.value)}
+//           />
+//           <div className="business-form error-label container">
+//             <p className="business-form label">Website Url (Optional)</p>
+//             {errors.url && <p className="business-form-error">{errors.url}</p>}
+//           </div>
+//           <input
+//             type="url"
+//             placeholder="Example: https://www.example.com"
+//             value={url}
+//             onChange={handleUrlOnChange}
+//           />
+//           <div className="business-form error-label container">
+//             <p className="business-form label">Phone</p>
+//             {errors.phone && (
+//               <p className="business-form-error">{errors.phone}</p>
+//             )}
+//           </div>
+//           <input
+//             type="text"
+//             placeholder="Phone"
+//             value={phone}
+//             onChange={(e) => setPhone(e.target.value)}
+//           />
+//           <div className="business-form error-label container">
+//             <p className="business-form label">Address</p>
+//             {errors.address && (
+//               <p className="business-form-error">{errors.address}</p>
+//             )}
+//           </div>
+//           <input
+//             type="text"
+//             placeholder="Address"
+//             value={address}
+//             onChange={(e) => setAddress(e.target.value)}
+//           />
+//           <div className="business-form error-label container">
+//             <p className="business-form label">City</p>
+//             {errors.city && (
+//               <p className="business-form-error">{errors.city}</p>
+//             )}
+//           </div>
+//           <input
+//             type="text"
+//             placeholder="City"
+//             value={city}
+//             onChange={(e) => setCity(e.target.value)}
+//           />
+//           <div className="business-form error-label container">
+//             <p className="business-form label">State</p>
+//             {errors.state && (
+//               <p className="business-form-error">{errors.state}</p>
+//             )}
+//           </div>
+//           <select
+//             className="business-form"
+//             value={state}
+//             onChange={(e) => setState(e.target.value)}
+//           >
+//             <option value="" disabled>
+//               Select
+//             </option>
+//             {state_choices.map((state) => (
+//               <option key={state} value={state}>
+//                 {state}
+//               </option>
+//             ))}
+//           </select>
+//           <div className="business-form error-label container">
+//             <p className="business-form label">Zipcode</p>
+//             {errors.zipCode && (
+//               <p className="business-form-error">{errors.zipCode}</p>
+//             )}
+//           </div>
+//           <input
+//             type="number"
+//             placeholder="Zipcode"
+//             value={zipCode}
+//             onChange={(e) => setZipCode(e.target.value)}
+//           />
+//           <div className="business-form error-label container">
+//             <p className="business-form label">About</p>
+//             {errors.about && (
+//               <p className="business-form-error">{errors.about}</p>
+//             )}
+//           </div>
+//           <input
+//             type="text"
+//             placeholder="About"
+//             value={about}
+//             onChange={(e) => setAbout(e.target.value)}
+//           />
+//           <div className="business-form error-label container">
+//             <p className="business-form label">Price Rating</p>
+//             {errors.price && (
+//               <p className="business-form-error">{errors.price}</p>
+//             )}
+//           </div>
+//           <div className="price-rating">
+//             {[1, 2, 3, 4, 5].map((rating) => (
+//               <div
+//                 key={rating}
+//                 className={`${
+//                   priceRating >= rating || tempRating >= rating
+//                     ? "filled"
+//                     : "empty"
+//                 }`}
+//                 onClick={() => {
+//                   setPriceRating(rating);
+//                   setTempRating(rating);
+//                 }}
+//                 onMouseEnter={() => setTempRating(rating)}
+//                 onMouseLeave={() => setTempRating(0)}
+//               >
+//                 <i className="fa-solid fa-dollar"></i>
+//               </div>
+//             ))}
+//           </div>
+//           <div className="business-form error-label container">
+//             <p className="business-form label">Images</p>
+//             {errors.images && (
+//               <p className="business-form-error">{errors.images}</p>
+//             )}
+//           </div>
+//           <input
+//             id="image"
+//             type="url"
+//             // accept="image/*"
+//             placeholder="Image Url"
+//             value={image}
+//             onChange={(e) => setImage(e.target.value)}
+//           />
+//           <button
+//             type="submit"
+//             disabled={disableLogin}
+//             className={`signup button ${unavailable}`}
+//           >
+//             {!businessData && "Create"}
+//             {businessData && "Update"}
+//           </button>
+//         </div>
+//       </form>
+//     </>
+//   );
+// };

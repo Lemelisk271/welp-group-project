@@ -13,7 +13,9 @@ import BusinessForm from "./components/Businesses/BusinessForm";
 import UpdateBusiness from "./components/Businesses/UpdateBusiness"
 import ReviewForm from "./components/ReviewForm";
 import ProtectedRoute from './components/auth/ProtectedRoute'
+import BusinessSearchPage from './components/BusinessSearchPage'
 import BusinessNotFound from "./components/Businesses/BusinessNotFound";
+import BusinessList from './components/Businesses/BusinessList'
 
 function App() {
   const dispatch = useDispatch();
@@ -36,9 +38,9 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          {/* <Route path="/business">
-            <AllBusinessess />
-          </Route> */}
+          <Route exact path="/business">
+            <BusinessList />
+          </Route>
           <Route exact path="/business/new">
             <BusinessForm />
           </Route>
@@ -50,6 +52,9 @@ function App() {
           </Route>
           <Route exact path="/business/:id">
             <BusinessDetails />
+          </Route>
+          <Route exact path="/search">
+            <BusinessSearchPage />
           </Route>
           <Route exact path="/profile/:userId">
             <ProtectedRoute>

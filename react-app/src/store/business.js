@@ -1,5 +1,6 @@
 // import { normalizeObj } from "./normalizeHelper";
 const cloneDeep = require("clone-deep");
+
 /** Action Type Constants: */
 const GET_ALL_BUSINESS = "business/GET_ALL_BUSINESS";
 const LOAD_BUSINESS = "business/LOAD_BUSINESS";
@@ -30,10 +31,8 @@ const editBusiness = (business) => ({
 
 const removeBusiness = (business) => ({
   type: DELETE_BUSINESS,
-  business
-})
-
-
+  business,
+});
 
 /** Thunk Action Creators: */
 export const getAllBusiness = () => async (dispatch) => {
@@ -52,6 +51,7 @@ export const getBusiness = (id) => async (dispatch) => {
   if (res.ok) {
     const business = await res.json();
     dispatch(getSingleBusiness(business));
+    return business;
   } else {
     const { errors } = await res.json();
     return errors;
@@ -73,6 +73,7 @@ export const createBusiness = (businessData) => async (dispatch) => {
       return business;
     }
   } catch (err) {
+    console.log("BACKEND THUNKKKKKKKKKKKKKKKKK", err);
     if (err) {
       const { errors } = await err.json();
       return errors;
@@ -111,14 +112,14 @@ export const deleteBusiness = (id) => async (dispatch) => {
       },
     });
     if (res.ok) {
-      await dispatch(removeBusiness(id))
+      await dispatch(removeBusiness(id));
       return;
     }
   } catch (err) {
-    const {errors} = err.json()
-    return errors
+    const { errors } = err.json();
+    return errors;
   }
-}
+};
 
 const businessReducer = (
   state = { allBusinesses: [], singleBusiness: null },

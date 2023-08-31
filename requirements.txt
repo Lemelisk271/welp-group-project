@@ -1,9 +1,10 @@
 -i https://pypi.org/simple
 alembic==1.6.5
 boto3==1.28.35
-botocore==1.31.35; python_version >= '3.7'
+botocore==1.31.38; python_version >= '3.7'
 click==7.1.2
-email-validator = "==2.0.0.post2"
+dnspython==2.4.2; python_version >= '3.8' and python_version < '4.0'
+email-validator==2.0.0.post2
 faker==18.13.0
 flask==2.0.1
 flask-cors==3.0.8
@@ -13,6 +14,7 @@ flask-sqlalchemy==2.5.1
 flask-wtf==0.15.1
 greenlet==1.1.0
 gunicorn==20.1.0
+idna==3.4; python_version >= '3.5'
 itsdangerous==2.0.1
 jinja2==3.0.1
 jmespath==1.0.1; python_version >= '3.7'
