@@ -1,5 +1,7 @@
 .businessList{
+  margin: auto;
   margin-top: 20px;
+  width: 60%;
 }
 
 .businessCard{
@@ -9,9 +11,17 @@
   margin-bottom: 20px;
 }
 
+.businessCard:hover{
+  cursor: pointer;
+}
+
 .businessCard>img{
-  height: 20%;
-  width: 40%;
+  height: 200px;
+  width: auto;
+}
+
+.businessCardHours>p{
+  margin-bottom:0px;
 }
 
 .businessCardCategories{
@@ -38,4 +48,12 @@
 
 .cardRight>h2{
   margin: 0px;
+}
+
+.totalReviews{
+  color: blue;
+}
+
+.fa-dollar{
+  width:5px;
 }
