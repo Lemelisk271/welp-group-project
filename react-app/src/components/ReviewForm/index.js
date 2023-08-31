@@ -12,11 +12,9 @@ export default function ReviewForm({ isUpdate }) {
     const [errors, setErrors] = useState([]);
     const { reviewId, id } = useParams(null);
     const history = useHistory();
-    
+
     useEffect(() => {
-        if (!sessionUser.id) return <Redirect to="/" />;
         if (isUpdate) {
-            console.log("REVIEW IS UPDATE!", reviewId);
             const getReview = async () => {
                 const getCurrReview = await fetch(`/api/review/${reviewId}`);
                 const data = await getCurrReview.json();
@@ -26,11 +24,9 @@ export default function ReviewForm({ isUpdate }) {
             };
             getReview();
         } else {
-            console.log("REVIEW IS NEW!", id);
         }
         // eslint-disable-next-line
     }, [isUpdate]);
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -53,12 +49,10 @@ export default function ReviewForm({ isUpdate }) {
         setFrontEndErrors(error);
 
         if (Object.values(frontEndErrors).length > 0) {
-            console.log("SUBMIT ERRORS ==>", errors);
             return;
         }
 
         if (isUpdate && !Object.values(frontEndErrors).length) {
-            console.log("UPDATE REVIEW SUBMITTED!", reviewId);
             const updateReview = await fetch(`/api/review/${reviewId}`, {
                 method: "PUT",
                 headers: {
@@ -73,13 +67,11 @@ export default function ReviewForm({ isUpdate }) {
             });
             const data = await updateReview.json();
             if (data) {
-                console.log("DATA ==>", data.errors)
                 setErrors(data.errors);
             } else {
                 return history.push(`/business/${currReview.businessId}`);
             }
         } else {
-            console.log("NEW REVIEW SUBMITTED!", id);
             const createReview = await fetch(`/api/business/${id}/review`, {
                 method: "POST",
                 headers: {
@@ -95,7 +87,6 @@ export default function ReviewForm({ isUpdate }) {
             if (createReview.errors) {
                 setErrors(createReview.errors);
             } else {
-                console.log(createReview);
                 return history.push(`/business/${id}`);
             }
         }
@@ -103,8 +94,6 @@ export default function ReviewForm({ isUpdate }) {
 
     const deleteReview = async (e) => {
         e.preventDefault();
-        console.log("DELETE REVIEW ==>", reviewId);
-        console.log("isUpdate is ==>", isUpdate);
         const deleteReview = await fetch(`/api/review/${reviewId}`, {
             method: "DELETE",
         });
@@ -116,16 +105,21 @@ export default function ReviewForm({ isUpdate }) {
         }
     };
 
+    if (!sessionUser || sessionUser === null) {
+        return <Redirect to="/not-logged-in" />;
+    }
+
     return (
         <>
             <div className="review-form-container">
-                <div className="review-form-header">
-                    <span className="header">NEW REVIEW</span>
-                    <span className="blue-link">
-                        Read our review guidelines
-                    </span>
-                </div>
                 <div className="review-form">
+                    <div className="review-form-header">
+                        <h2 className="header">NEW REVIEW</h2>
+                        <span className="blue-link">
+                            Read our review guidelines
+                        </span>
+                    </div>
+                    <div className="review-form-input">
                     <form onSubmit={handleSubmit}>
                         <ul>
                             {errors.map((error, i) => (
@@ -191,6 +185,7 @@ export default function ReviewForm({ isUpdate }) {
                             </button>
                         )}
                     </form>
+                    </div>
                 </div>
             </div>
         </>
