@@ -1,0 +1,38 @@
+.deleteReviewModal {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.deleteReviewModal h2 {
+  color: red;
+}
+
+.deleteReviewModal-errors {
+  color: red
+}
+
+.deleteReviewModal-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.deleteReviewModal-buttons button {
+  height: 44px;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.deleteReviewModal-deleteButton {
+  background: #E00807;
+}
+
+.deleteReviewModal-cancelButton {
+  background-color: green;
+}

@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { useSelector } from "react-redux"
+import OpenModalButton from "../OpenModalButton"
+import DeleteReviewModal from '../DeleteReviewModal'
 
 const UserReviewListItem = ({ review }) => {
   const [rating] = useState(review.stars)
@@ -49,7 +51,13 @@ const UserReviewListItem = ({ review }) => {
       </div>
       <div className="reviewListItem-review">
         <p>{review.review}</p>
-        <a href={'/review/' + review.id}>Update Review</a>
+      </div>
+      <div className="reviewListItem-buttons">
+        <button>Edit Review</button>
+        <OpenModalButton
+          buttonText="Delete Review"
+          modalComponent={<DeleteReviewModal id={review.id}/>}
+        />
       </div>
     </div>
   )
