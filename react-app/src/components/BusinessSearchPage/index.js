@@ -14,7 +14,7 @@ const BusinessSearchPage = () => {
 
   useEffect(() => {
     dispatch(getAllBusiness())
-  }, [])
+  }, [dispatch])
 
 
   useEffect(() => {
@@ -25,6 +25,7 @@ const BusinessSearchPage = () => {
       setSearchList(values.filter(business => regex.exec(business.name) || regex.exec(business.about) || regex.exec(business.categories.map(business => business.category).join())))
       setIsLoaded(true)
     }
+    // eslint-disable-next-line
   }, [currentSearch, businessList])
 
   return (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getBusiness } from "../../store/business";
 import { useHistory } from "react-router-dom";
 import "./businessCard.css";
@@ -48,7 +48,7 @@ const BusinessCard = ({ id }) => {
         <>
           <img
             src={business?.images?.filter((img) => img.preview === true)[0]?.url}
-            alt="No business image found"
+            alt="No business found"
           />
           <div className="cardRight">
             <h2>{business.name}</h2>
