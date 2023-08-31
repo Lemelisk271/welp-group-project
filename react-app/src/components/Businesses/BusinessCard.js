@@ -80,13 +80,14 @@ const BusinessCard = ({ id }) => {
                   <i className="fa-solid fa-star"></i>
                 </div>
                 <p>{rating}</p>
-                <p>{business.reviews.length} review(s)</p>
+                <p className="totalReviews">{business.reviews.length} review(s)</p>
               </div>
             </div>
             <div className="businessCardCategories">
               {business.categories.map((category)=>(
                 <p key={category.category}>{category.category}</p>
               ))}
+              {[...Array(business?.price)].map((e, i) => <i key={i} className="fa-solid fa-dollar"></i>)}
             </div>
             <div className="businessCardHours">
                 {business.hours[dayNumber].close_time && <p>Open until {business.hours[dayNumber].close_time}</p>}
