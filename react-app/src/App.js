@@ -12,8 +12,10 @@ import UserProfilePage from "./components/UserProfilePage";
 import BusinessForm from "./components/Businesses/BusinessForm";
 import UpdateBusiness from "./components/Businesses/UpdateBusiness"
 import ReviewForm from "./components/ReviewForm";
-import NewReviewForm from "./components/ReviewForm/NewReview";
-import BusinessList from "./components/Businesses/BusinessList";
+import ProtectedRoute from './components/auth/ProtectedRoute'
+import BusinessSearchPage from './components/BusinessSearchPage'
+import BusinessNotFound from "./components/Businesses/BusinessNotFound";
+import BusinessList from './components/Businesses/BusinessList'
 
 function App() {
   const dispatch = useDispatch();
@@ -46,16 +48,24 @@ function App() {
             <UpdateBusiness />
           </Route>
           <Route exact path="/business/:id/review">
-            <NewReviewForm />
+            <ReviewForm />
           </Route>
           <Route exact path="/business/:id">
             <BusinessDetails />
           </Route>
+          <Route exact path="/search">
+            <BusinessSearchPage />
+          </Route>
           <Route exact path="/profile/:userId">
-            <UserProfilePage />
+            <ProtectedRoute>
+              <UserProfilePage />
+            </ProtectedRoute>
           </Route>
           <Route exact path="/review/:reviewId">
-            <ReviewForm />
+            <ReviewForm isUpdate={true} />
+          </Route>
+          <Route exact path="/notfound">
+            <BusinessNotFound />
           </Route>
         </Switch>
       )}

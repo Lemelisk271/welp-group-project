@@ -22,10 +22,10 @@ class Business(db.Model):
   ownerId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
 
   user = db.relationship("User", back_populates="business")
-  business_images = db.relationship("BusinessImages", back_populates="business")
-  review = db.relationship("Review", back_populates="business")
-  review_comments = db.relationship("ReviewComment", back_populates="business")
-  questions = db.relationship("Question", back_populates="business")
+  business_images = db.relationship("BusinessImages", back_populates="business", cascade="all, delete-orphan")
+  review = db.relationship("Review", back_populates="business", cascade="all, delete-orphan")
+  review_comments = db.relationship("ReviewComment", back_populates="business", cascade="all, delete-orphan")
+  questions = db.relationship("Question", back_populates="business", cascade="all, delete-orphan")
   business_business_amenities = db.relationship(
     "Amenity",
     secondary=business_amenities,
@@ -34,7 +34,9 @@ class Business(db.Model):
   business_days_hours = db.relationship(
     "Day",
     secondary=business_hours,
-    back_populates="business_hours_days"
+    back_populates="business_hours_days",
+    cascade="all, delete-orphan",
+    single_parent=True
   )
   categories_business = db.relationship(
     "Category",

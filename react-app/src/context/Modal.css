@@ -43,6 +43,16 @@
   margin: 6px auto;
 }
 
+input.half-width {
+  width: 48% !important;
+  margin: 6px 0px !important;
+}
+
+.signup-form-names {
+  display: flex;
+  justify-content: space-between;
+}
+
 #modal-content span {
   margin: 6px auto;
 }
