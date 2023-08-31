@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { NavLink, useLocation, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { SearchContext } from '../../context/SearchContext'
 import ProfileButton from "./ProfileButton";
 import LoginFormModal from "../LoginFormModal";
 import OpenModalButton from "../OpenModalButton";
@@ -11,7 +12,10 @@ import "./Navigation.css";
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
   const location = useLocation()
+  const history = useHistory()
   const [homePage, setHomePage] = useState(true)
+  const [search, setSearch] = useState('')
+  const { setCurrentSearch } = useContext(SearchContext)
 
   useEffect(() => {
     if (location.pathname !== '/') {
@@ -49,6 +53,16 @@ function Navigation({ isLoaded }) {
     )
   }
 
+  const handelFormSubmit = (e) => {
+    if (search.length <= 0) {
+      return
+    }
+    e.preventDefault()
+    setCurrentSearch(search)
+    history.push('/search')
+    setSearch('')
+  }
+
   return (
       <div className={navClass}>
         <div className="nav-left">
@@ -60,10 +74,15 @@ function Navigation({ isLoaded }) {
             />
           </NavLink>
         </div>
-        <div className="nav-center">
-          <input className="nav-search-bar" placeholder="tacos, cheap dinner, Max's" />
-          <button className="input-red-button"><i class="fa-solid fa-magnifying-glass"></i></button>
-        </div>
+        <form className="nav-center" onSubmit={handelFormSubmit}>
+          <input
+            className="nav-search-bar"
+            placeholder="tacos, cheap dinner, Max's"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+          <button className="input-red-button" type='submit'><i className="fa-solid fa-magnifying-glass"></i></button>
+        </form>
         <div className={navRightClass}>
           <span className={linkClass}>Welp for Business</span>
           <span className={linkClass}>Write a Review</span>
