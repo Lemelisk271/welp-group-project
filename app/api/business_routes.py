@@ -89,21 +89,23 @@ def createNewBusiness():
         )
         db.session.add(newBusiness)
         db.session.commit()
-        businessImage = BusinessImages(
-            # url = request_data["imgUrl"],
-            # preview = request_data["preview"],
-            # businessId = newBusiness.id,
-            # ownerId = request_data["ownerId"]
-            url = data["imgUrl"],
-            preview = data["preview"],
-            businessId = newBusiness.id,
-            ownerId = data["ownerId"]
-        )
-        db.session.add(businessImage)
-        db.session.commit()
+        # print(form.data)
+        # if data["imgUrl"] and data["preview"]:
+        #     businessImage = BusinessImages(
+        #         # url = request_data["imgUrl"],
+        #         # preview = request_data["preview"],
+        #         # businessId = newBusiness.id,
+        #         # ownerId = request_data["ownerId"]
+        #         url = data["imgUrl"],
+        #         preview = data["preview"],
+        #         businessId = newBusiness.id,
+        #         ownerId = data["ownerId"]
+        #     )
+        #     db.session.add(businessImage)
+        # db.session.commit()
         return newBusiness.to_dict()
-    print("ERRORS", form.errors)
-    return {"errors": validation_errors_to_error_messages(form.errors)}, 401
+    print("ERRORS.PY", {"errors": form.errors})
+    return {"errors": form.errors}, 401
 
 @business_routes.route("/<int:id>/edit", methods=["PUT"])
 def updateBusiness(id):
@@ -137,8 +139,7 @@ def updateBusiness(id):
         updatedBusiness.ownerId = data["ownerId"]
         db.session.commit()
         return updatedBusiness.to_dict()
-
-    return {"errors": validation_errors_to_error_messages(form.errors)}, 401
+    return {"errors": form.errors}, 401
 
 @business_routes.route("/<int:id>/review", methods=["POST"])
 @login_required

@@ -4,6 +4,7 @@ import { createBusiness, updateBusiness } from "../../store/business";
 import { useHistory } from "react-router-dom";
 import { state_choices } from "./StateList";
 import "./BusinessForm.css";
+import "./Businesses.css";
 
 const BusinessForm = ({ businessData }) => {
   const dispatch = useDispatch();
@@ -16,17 +17,26 @@ const BusinessForm = ({ businessData }) => {
   const [state, setState] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [about, setAbout] = useState("");
-  const [price, setPrice] = useState("");
-  const [errors, setErrors] = useState({});
+  // const [price, setPrice] = useState("");
+  const [errors, setErrors] = useState(null);
+  const [frontEndErrors, setFrontEndErrors] = useState({});
   const [image, setImage] = useState("");
-  const [priceRating, setPriceRating] = useState("")
-  const [tempRating, setTempRating] = useState(0)
+  const [priceRating, setPriceRating] = useState("");
+  const [tempRating, setTempRating] = useState(0);
   const [unavailable, setUnavailable] = useState("");
   const [disableLogin, setDisableLogin] = useState(true);
   const userId = useSelector((state) => state.session.user.id);
 
   useEffect(() => {
-    if (!name || !phone || !address || !city || !state || !zipCode || !priceRating) {
+    if (
+      !name ||
+      !phone ||
+      !address ||
+      !city ||
+      !state ||
+      !zipCode ||
+      !priceRating
+    ) {
       setDisableLogin(true);
       setUnavailable("unavailable");
     } else {
@@ -71,7 +81,7 @@ const BusinessForm = ({ businessData }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     errorObj = {};
-    setErrors({});
+    setFrontEndErrors({});
     if (name.length > 100 || !name) {
       // errorObj.name = "Please enter a name with 100 characters or less";
       errorObj.name = "Please enter a name with 100 characters or less";
@@ -96,7 +106,7 @@ const BusinessForm = ({ businessData }) => {
       errorObj.state = "Please select a State";
       // setErrors({ ...errors, state: "Please select a State" });
     }
-    if (zipCode.length > 5 || !zipCode) {
+    if (zipCode.toString().length !== 5 || !zipCode) {
       errorObj.zipCode = "Enter a valid Five-Digit Zipcode";
       // setErrors({ ...errors, zipCode: "Enter a valid Five-Digit Zipcode" });
     }
@@ -129,34 +139,42 @@ const BusinessForm = ({ businessData }) => {
         if (businessData) {
           newBusiness.id = businessData.id;
           resBusiness = await dispatch(updateBusiness(newBusiness));
-          if (resBusiness && !resBusiness.errors) {
-            history.push(`/business/${resBusiness.id}`);
+          console.log("PONT1", resBusiness.errors);
+          if (resBusiness.errors) {
+            setErrors(resBusiness.errors);
           } else {
-            setErrors(errors);
+            history.push(`/business/${resBusiness.id}`);
           }
         } else {
           try {
-          resBusiness = await dispatch(createBusiness(newBusiness));
+            resBusiness = await dispatch(createBusiness(newBusiness));
+            if (resBusiness.errors) {
+              setErrors(resBusiness.errors);
+              console.log("HELLO", resBusiness.errors);
+            }
           } catch (err) {
-            console.log("ERR", err)
+            console.log("ERR", err);
           }
-          console.log("HELLO", resBusiness)
-          if (resBusiness && !resBusiness.errors) {
+          if (resBusiness.id && !resBusiness.errors) {
             history.push(`/business/${resBusiness.id}`);
-          } else {
-            console.log("HELLO2", resBusiness)
-            setErrors(errors);
           }
         }
       } catch (err) {
-        console.log("HELLO3", err)
+        console.log("HELLO3", err);
         if (err) {
-          const { errors1 } = err;
-          setErrors(errors1);
+          console.log("HELLO4", err);
+          const { errors } = err;
+          setErrors(errors);
         }
       }
     }
-    setErrors({ ...errorObj });
+
+    setFrontEndErrors({ ...errorObj });
+    console.log("FINALO FE", frontEndErrors);
+    console.log("FINALO BE", errors);
+    Object.values(frontEndErrors).map((error) => {
+      console.log(error);
+    });
   };
 
   return (
@@ -174,10 +192,20 @@ const BusinessForm = ({ businessData }) => {
               </p>
             </div>
           )}
-          {Object.keys(errorObj).length === 0 &&
-            Object.values(errorObj).map((error) => {
-              <p className="business-form-error">{error}</p>;
-            })}
+          <ul>
+            {Object.values(frontEndErrors).length != 0 &&
+              Object.values(frontEndErrors).map((error, idx) => (
+                <li key={idx + 20} className="business-form-error">
+                  {error}
+                </li>
+              ))}
+            {errors &&
+              Object.values(errors).map((error, idx) => (
+                <li key={idx} className="business-form-error">
+                  {error}
+                </li>
+              ))}
+          </ul>
           <form className="new-business-form" onSubmit={handleSubmit}>
             <input
               className="full-width"

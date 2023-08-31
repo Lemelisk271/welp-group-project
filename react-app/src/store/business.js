@@ -71,12 +71,16 @@ export const createBusiness = (businessData) => async (dispatch) => {
       const business = await res.json();
       dispatch(createNewBusiness(business));
       return business;
+    } else {
+      const errors = await res.json();
+      console.log("ERRORS.JS", errors);
+      return errors;
     }
   } catch (err) {
     console.log("BACKEND THUNKKKKKKKKKKKKKKKKK", err);
+    return err;
     if (err) {
-      const { errors } = await err.json();
-      return errors;
+      // const { errors } = await err.json();
     }
   }
 };
@@ -95,10 +99,12 @@ export const updateBusiness = (businessData) => async (dispatch) => {
       dispatch(editBusiness(business));
       return business;
     }
+    const errors = await res.json();
+    console.log("ERRORS.JS", errors);
+    return errors;
   } catch (err) {
     if (err) {
-      const { errors } = await err.json();
-      return errors;
+      return err;
     }
   }
 };
@@ -112,7 +118,7 @@ export const deleteBusiness = (id) => async (dispatch) => {
       },
     });
     if (res.ok) {
-      await dispatch(removeBusiness(id));
+      dispatch(removeBusiness(id));
       return;
     }
   } catch (err) {
@@ -137,7 +143,7 @@ const businessReducer = (
       newState.singleBusiness = action.business;
       return newState;
     case CREATE_BUSINESS:
-      newState.allBusinesses[action.business.id] = action.business;
+      newState.singleBusiness = action.business;
       return newState;
     case UPDATE_BUSINESS:
       newState.singleBusiness = action.business;

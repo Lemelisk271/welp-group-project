@@ -1,19 +1,16 @@
 """empty message
 
-Revision ID: 7b29147b321f
-Revises:
-Create Date: 2023-08-30 09:07:18.002384
+Revision ID: fa9dc4faf7e3
+Revises: 
+Create Date: 2023-08-31 14:08:11.012796
 
 """
 from alembic import op
 import sqlalchemy as sa
 
-import os
-environment = os.getenv("FLASK_ENV")
-SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = '7b29147b321f'
+revision = 'fa9dc4faf7e3'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -66,8 +63,7 @@ def upgrade():
     sa.Column('price', sa.Integer(), nullable=False),
     sa.Column('ownerId', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['ownerId'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('address')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('business_amenities',
     sa.Column('businessId', sa.Integer(), nullable=False),
@@ -150,22 +146,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-
-    if environment == "production":
-        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE amenities SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE categories SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE days SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE businesses SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE business_amenities SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE business_categories SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE business_hours SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE business_images SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE questions SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE reviews SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE answers SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE review_comments SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE votes SET SCHEMA {SCHEMA};")
     # ### end Alembic commands ###
 
 
