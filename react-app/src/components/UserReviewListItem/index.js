@@ -1,13 +1,22 @@
 import { useState } from "react"
 import { useSelector } from "react-redux"
+import { useHistory } from "react-router-dom"
+import OpenModalButton from "../OpenModalButton"
+import DeleteReviewModal from '../DeleteReviewModal'
 
 const UserReviewListItem = ({ review }) => {
   const [rating] = useState(review.stars)
+  const history = useHistory()
   let business = useSelector((state) => state.business.allBusinesses[review.businessId])
 
   let newDate = new Date(review.date)
 
   let categories = business?.categories.map(category => category.category).join(", ")
+
+  const editButton = (e) => {
+    e.preventDefault()
+    history.push(`/review/${review.id}`)
+  }
 
   return (
     <div className="reviewListItem">
@@ -49,7 +58,13 @@ const UserReviewListItem = ({ review }) => {
       </div>
       <div className="reviewListItem-review">
         <p>{review.review}</p>
-        <a href={'/review/' + review.id}>Update Review</a>
+      </div>
+      <div className="reviewListItem-buttons">
+        <button onClick={editButton}>Edit Review</button>
+        <OpenModalButton
+          buttonText="Delete Review"
+          modalComponent={<DeleteReviewModal id={review.id}/>}
+        />
       </div>
     </div>
   )

@@ -13,7 +13,7 @@ class Business(db.Model):
   name = db.Column(db.String(100), nullable=False)
   url = db.Column(db.String(255))
   phone = db.Column(db.String(14), nullable=False)
-  address = db.Column(db.String(255), nullable=False, unique=True)
+  address = db.Column(db.String(255), nullable=False)
   city = db.Column(db.String(100), nullable=False)
   state = db.Column(db.Enum('AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY', name="business_state"), nullable=False)
   zip_code = db.Column(db.Integer, nullable=False)
