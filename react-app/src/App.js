@@ -15,6 +15,7 @@ import ReviewForm from "./components/ReviewForm";
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import BusinessSearchPage from './components/BusinessSearchPage'
 import BusinessNotFound from "./components/Businesses/BusinessNotFound";
+import BusinessList from './components/Businesses/BusinessList'
 
 function App() {
   const dispatch = useDispatch();
