@@ -109,3 +109,7 @@ button.input-red-button {
 .bold {
     font-weight: bold;
 }
+
+.no-margin {
+    margin: 0px;
+}
