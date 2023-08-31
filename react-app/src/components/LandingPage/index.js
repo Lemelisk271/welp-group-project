@@ -18,9 +18,9 @@ export default function LandingPage() {
   return (
     <>
       <div className="hero-bar"></div>
+      <div className="landing-page-card-section">
+                  <h2 className="no-margin">Recent Activity</h2>
       <div className="landing-page-card-container">
-          <h2 className="no-margin">Recent Activity</h2>
-        <div className="landing-page-activity-cards">
           {/* Map over query results for recent reviews */}
           {recentActivity.map(({ businessName, userName, stars, review, date }) => (
             // console.log("Mapped Activity ==>", activity)
@@ -29,20 +29,20 @@ export default function LandingPage() {
                 <h4>{userName}</h4>
                 <p>Wrote a review</p>
               </div>
+              <div className="card-image-container">
               <img
-                className="landing-page-card-image"
-                src="https://picsum.photos/200/300.jpg"
+                src="https://picsum.photos/400/300.jpg"
                 alt="Landing Page"
               />
+              </div>
               <div className="landing-page-card-details">
                 <h4>{businessName}</h4>
-                <p>{date}</p>
+                {/* <p>{date}</p> */}
                 <p>{stars}</p>
                 <p>{review.substring(0,80)}...</p>
               </div>
             </div>
           ))}
-        </div>
       </div>
       <hr></hr>
       <div className="landing-page-categories-container">
@@ -51,6 +51,7 @@ export default function LandingPage() {
         <div className="landing-page-categories-buttons">
           <div className="landing-page-category">Restaurants</div>
         </div>
+      </div>
       </div>
     </>
   );

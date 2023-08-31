@@ -11,21 +11,23 @@
     background-size: cover;
   }
 
-.landing-page-card-container {
+.landing-page-card-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 1224px;
-  padding: 56px 0px;
-  margin-top: 610px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.landing-page-activity-cards {
+.landing-page-card-container {
   display: flex;
-  margin-top: 32px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1224px;
+  margin-top: 652px;
+  padding: 56px 0px;
 }
 
 .landing-page-card {
@@ -33,15 +35,17 @@
   flex-direction: column;
   justify-content: flex-start;
   border: 1px solid grey;
-  height: 376px;
-  width: 20%;
+  min-width: 150px;
+  max-width: 368px;
   padding: 16px 24px;
-  margin: auto 8px;
+  margin: 8px;
 }
 
-.landing-page-card-image {
-  height: 89px;
-  width:100%;
+.card-image-container img{
+  flex: 1;
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
   object-fit: cover;
 }
 
