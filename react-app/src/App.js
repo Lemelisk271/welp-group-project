@@ -10,8 +10,10 @@ import LandingPage from "./components/LandingPage";
 import BusinessDetails from "./components/Businesses/BusinessDetails";
 import UserProfilePage from "./components/UserProfilePage";
 import BusinessForm from "./components/Businesses/BusinessForm";
+import UpdateBusiness from "./components/Businesses/UpdateBusiness"
 import ReviewForm from "./components/ReviewForm";
 import NewReviewForm from "./components/ReviewForm/NewReview";
+import BusinessList from "./components/Businesses/BusinessList";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,11 +36,14 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          {/* <Route path="/business">
-            <AllBusinessess />
-          </Route> */}
+          <Route exact path="/business">
+            <BusinessList />
+          </Route>
           <Route exact path="/business/new">
             <BusinessForm />
+          </Route>
+          <Route exact path="/business/:id/edit">
+            <UpdateBusiness />
           </Route>
           <Route exact path="/business/:id/review">
             <NewReviewForm />
