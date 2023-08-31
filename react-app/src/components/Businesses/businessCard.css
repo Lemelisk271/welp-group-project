@@ -1,0 +1,41 @@
+.businessList{
+  margin-top: 20px;
+}
+
+.businessCard{
+  align-items: flex-start;
+  display: flex;
+  flex-direction:row;
+  margin-bottom: 20px;
+}
+
+.businessCard>img{
+  height: 20%;
+  width: 40%;
+}
+
+.businessCardCategories{
+  column-gap: 5px;
+  display: flex;
+}
+
+.businessCardCategories>p{
+  margin: 0px;
+  background-color: lightgray;
+  font-size: 12px;
+}
+
+.cardRight{
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  height: 100%;
+}
+
+.businessCardReview{
+  font-size: 14px;
+}
+
+.cardRight>h2{
+  margin: 0px;
+}
