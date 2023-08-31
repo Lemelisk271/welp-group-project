@@ -64,7 +64,7 @@ const BusinessSearchListItem = ({ business }) => {
           <div className='business-search-item-details'>
             <ul>
               {businessCategories.map(category => (
-                <li>{ category }</li>
+                <li key={category}>{ category }</li>
               ))}
             </ul>
             <div className='business-search-item-price'>

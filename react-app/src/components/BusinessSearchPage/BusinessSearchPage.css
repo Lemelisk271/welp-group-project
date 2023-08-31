@@ -5,12 +5,9 @@
   width: 100%;
 }
 
-.business-search-filters {
-  width: 30%;
-}
-
 .business-search-items {
-  width: 100%;
+  width: 70%;
+  margin: 0 auto;
 }
 
 .business-search-items a {

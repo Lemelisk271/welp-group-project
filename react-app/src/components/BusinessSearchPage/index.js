@@ -17,7 +17,6 @@ const BusinessSearchPage = () => {
     dispatch(getAllBusiness())
   }, [dispatch])
 
-
   useEffect(() => {
     const regex = new RegExp(`${currentSearch}.*`, 'i')
     if (businessList) {
@@ -34,11 +33,8 @@ const BusinessSearchPage = () => {
       {isLoaded ? (
         <>
           <div className="business-search-content">
-            <div className="business-search-filters">
-              <p>Filters</p>
-            </div>
             <div className="business-search-items">
-              {searchList?.map(business => (
+              {searchList.map(business => (
                 <BusinessSearchListItem key={business.id} business={business}/>
               ))}
             </div>
