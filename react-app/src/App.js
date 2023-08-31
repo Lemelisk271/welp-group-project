@@ -61,6 +61,9 @@ function App() {
               <UserProfilePage />
             </ProtectedRoute>
           </Route>
+          <Route exact path="/review/new">
+            <ReviewForm />
+          </Route>
           <Route exact path="/review/:reviewId">
             <ReviewForm isUpdate={true} />
           </Route>

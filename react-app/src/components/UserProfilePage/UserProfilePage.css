@@ -162,3 +162,22 @@
 .userProfile-search {
   margin-bottom: 20px;
 }
+
+.reviewListItem-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.reviewListItem-buttons button {
+  height: 44px;
+  background: #E00807;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
