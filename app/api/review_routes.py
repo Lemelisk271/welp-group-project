@@ -1,6 +1,7 @@
 from flask import Blueprint, abort, request
 from flask_login import login_required, current_user
-from app.models import db, User, Review
+from sqlalchemy import desc
+from app.models import db, User, Review, Business
 from ..forms import ReviewForm
 from datetime import datetime
 
@@ -15,6 +16,24 @@ def reviews():
     reviews = Review.query.all()
     return {'reviews': [review.to_dict() for review in reviews]}
 
+@review_routes.route('/recent')
+def recent_reviews():
+    """
+    Query for recent review activity and returns them in a list of review dictionaries
+    """
+    reviews = Review.query.order_by(desc('date')).limit(12)
+    recent_activity = []
+    for review in reviews:
+        business = Business.query.get(review.businessId)
+        user = User.query.get(review.userId)
+        recent_activity.append({
+            "businessName": business.name,
+            "userName": user.first_name,
+            "stars": review.stars,
+            "review": review.review,
+            "date": review.date
+        })
+    return {'reviews': recent_activity}
 
 @review_routes.route('/<int:id>')
 def getReview(id):
