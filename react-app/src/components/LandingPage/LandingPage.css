@@ -18,6 +18,7 @@
   align-items: center;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 652px;
 }
 
 .landing-page-card-container {
@@ -26,8 +27,11 @@
   align-items: center;
   flex-wrap: wrap;
   max-width: 1224px;
-  margin-top: 652px;
   padding: 56px 0px;
+}
+
+.landing-page-stars {
+  display: flex;
 }
 
 .landing-page-card {
@@ -35,6 +39,7 @@
   flex-direction: column;
   justify-content: flex-start;
   border: 1px solid grey;
+  border-radius: 4px;
   min-width: 150px;
   max-width: 368px;
   padding: 16px 24px;
