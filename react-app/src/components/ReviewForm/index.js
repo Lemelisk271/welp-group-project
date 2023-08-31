@@ -3,11 +3,12 @@ import { useSelector } from "react-redux";
 import { Redirect, useParams, useHistory } from "react-router-dom";
 import "./ReviewForm.css";
 
-export default function ReviewForm({ isUpdate }) {
+export default function ReviewForm({ isUpdate, isNew }) {
     const sessionUser = useSelector((state) => state.session.user);
     const [currReview, setCurrReview] = useState(null);
     const [starRating, setStarRating] = useState(0);
     const [review, setReview] = useState("");
+    const [header, setHeader] = useState("WAT");
     const [frontEndErrors, setFrontEndErrors] = useState({});
     const [errors, setErrors] = useState([]);
     const { reviewId, id } = useParams(null);
@@ -18,15 +19,33 @@ export default function ReviewForm({ isUpdate }) {
             const getReview = async () => {
                 const getCurrReview = await fetch(`/api/review/${reviewId}`);
                 const data = await getCurrReview.json();
+                const getCurrBusiness = await fetch(
+                    `/api/business/${data.businessId}`
+                );
+                const businessData = await getCurrBusiness.json();
                 setCurrReview(data);
                 setStarRating(data.stars);
                 setReview(data.review);
+                setHeader(businessData.name);
             };
             getReview();
-        } else {
+        } 
+        
+        if (isNew) {
+            setHeader("Find a business to review");
         }
-        // eslint-disable-next-line
-    }, [isUpdate]);
+
+        if (!isUpdate && !isNew) {
+            const getBusiness = async () => {
+                const getCurrBusiness = await fetch(
+                    `/api/business/${id}`
+                );
+                const businessData = await getCurrBusiness.json();
+                setHeader(businessData.name);
+            };
+            getBusiness();
+        }
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -114,58 +133,66 @@ export default function ReviewForm({ isUpdate }) {
             <div className="review-form-container">
                 <div className="review-form">
                     <div className="review-form-header">
-                        <h2 className="header">NEW REVIEW</h2>
+                        <h2 className="header">{header}</h2>
                         <span className="blue-link">
                             Read our review guidelines
                         </span>
                     </div>
-                    <div className="review-form-input">
                     <form onSubmit={handleSubmit}>
-                        <ul>
-                            {errors.map((error, i) => (
-                                <li className="profileForm-errors" key={i}>
-                                    {error}
-                                </li>
-                            ))}
-                        </ul>
-                        <label>
-                            <h4>{frontEndErrors.stars}</h4>
-                        </label>
-                        <div className="star-rating">
-                            {[...Array(5)].map((star, idx) => {
-                                idx += 1;
-                                return (
-                                    <button
-                                        type="button"
-                                        key={idx}
-                                        className={
-                                            idx <= starRating
-                                                ? "red-button-small on"
-                                                : "off"
-                                        }
-                                        onClick={() => setStarRating(idx)}
-                                        onMouseEnter={() => setStarRating(idx)}
-                                        onMouseLeave={() => setStarRating(idx)}
-                                    >
-                                        <span className="star">&#9733;</span>
-                                    </button>
-                                );
-                            })}
+                        <div className="review-form-input">
+                            <ul>
+                                {errors.map((error, i) => (
+                                    <li className="profileForm-errors" key={i}>
+                                        {error}
+                                    </li>
+                                ))}
+                            </ul>
+                            <label>
+                                <h4>{frontEndErrors.stars}</h4>
+                            </label>
+                            <div className="star-rating">
+                                {[...Array(5)].map((star, idx) => {
+                                    idx += 1;
+                                    return (
+                                        <button
+                                            type="button"
+                                            key={idx}
+                                            className={
+                                                idx <= starRating
+                                                    ? "red-button-small on"
+                                                    : "off"
+                                            }
+                                            onClick={() => setStarRating(idx)}
+                                            onMouseEnter={() =>
+                                                setStarRating(idx)
+                                            }
+                                            onMouseLeave={() =>
+                                                setStarRating(idx)
+                                            }
+                                        >
+                                            <span className="star">
+                                                &#9733;
+                                            </span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            <label>
+                                <h4>{frontEndErrors.review}</h4>
+                            </label>
+                            <textarea
+                                placeholder="A few things to consider in your review&#10;Service Requested, Quality, Value"
+                                name="review"
+                                rows="8"
+                                cols="40"
+                                value={review}
+                                onChange={(e) => setReview(e.target.value)}
+                            />
                         </div>
-                        <label>
-                            <h4>{frontEndErrors.review}</h4>
-                        </label>
-                        <textarea
-                            placeholder="A few things to consider in your review&#10;Service Requested, Quality, Value"
-                            name="review"
-                            rows="8"
-                            cols="40"
-                            value={review}
-                            onChange={(e) => setReview(e.target.value)}
-                        />
                         <h2>Attach Photos</h2>
+                        <div>
                         <button
-                            className="big-red-button"
+                            className="form-button big-red-button"
                             type="submit"
                             disabled={
                                 !starRating ||
@@ -176,16 +203,17 @@ export default function ReviewForm({ isUpdate }) {
                         >
                             Post Review
                         </button>
+                        &nbsp;&nbsp;
                         {isUpdate && (
                             <button
-                                className="big-red-button"
+                                className="form-button big-red-button"
                                 onClick={deleteReview}
                             >
                                 Delete Review
                             </button>
                         )}
+                        </div>
                     </form>
-                    </div>
                 </div>
             </div>
         </>

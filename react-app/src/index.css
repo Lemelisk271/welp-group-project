@@ -87,14 +87,13 @@ button.big-red-button[type="submit"]:disabled {
     background: grey;
 }
 
-button.wide-red-button {
+button.form-button {
     height: 44px;
-    width: 320px;
     background: #E00807;
     color: #ffffff;
     border: none;
     border-radius: 4px;
-    padding: 10px 16px;
+    padding: 10px 64px;
     font-size: 16px;
     font-weight: 500;
 }
