@@ -29,3 +29,7 @@
     width: 100%;
     height: 265px;
 }
+
+.star-rating i.fa-star {
+    padding: 8px 2px;
+}

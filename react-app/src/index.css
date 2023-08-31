@@ -110,15 +110,6 @@ button.input-red-button {
     cursor: pointer;
 }
 
-.red-button-small {
-    background-color: #e00807;
-    border: none;
-    border-radius: 6px;
-    color: #fffffe;
-    font-size: 18px;
-    margin: 0px 2px;
-}
-
 button.star-button {
     background-color: #e00807;
     border: none;
@@ -137,8 +128,22 @@ button.star-button-off {
     margin: 0px 2px;
 }
 
-i.fa-star {
-    padding: 8px 2px;
+.filled > i {
+    background-color: #e00807;
+    color: white;
+    font-size: 12px;
+    margin: 0px 1px;
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.empty > i {
+    background-color: #dddde0;
+    color: white;
+    font-size: 12px;
+    margin: 0px 1px;
+    padding: 4px;
+    border-radius: 6px;
 }
 
 .bold {
