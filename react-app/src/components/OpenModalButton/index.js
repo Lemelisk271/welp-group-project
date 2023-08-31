@@ -27,7 +27,7 @@ function OpenModalButton({
     } else {
       return (
         <button
-            className="nav-login-button delete-business"
+            className=""
             onClick={onClick}
         >
             {buttonText}

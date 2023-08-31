@@ -91,10 +91,12 @@
 }
 
 .nav-right > button {
-  background-color: #E00807;
+  background: none;
+  font-weight: 500;
+  font-size: 16px;
   cursor: pointer;
-  border: 2px solid #c8c9ca;
-  color: #ffffff;
+  border: 1px solid #c8c9ca;
+  color: #2d2e2e;
   margin: auto 4px;
   padding: 10px 16px;
   height: 44px;
