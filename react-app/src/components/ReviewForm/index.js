@@ -156,7 +156,7 @@ export default function ReviewForm({ isUpdate }) {
                             <h4>{frontEndErrors.review}</h4>
                         </label>
                         <textarea
-                            placeholder="Leave your review here..."
+                            placeholder="A few things to consider in your review&#10;Service Requested, Quality, Value"
                             name="review"
                             rows="8"
                             cols="40"

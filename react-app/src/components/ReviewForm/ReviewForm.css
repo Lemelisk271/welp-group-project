@@ -22,3 +22,9 @@
     border-radius: 4px;
     padding: 24px;
 }
+
+.review-form-input textarea {
+    border: none !important;
+    box-shadow: none !important;
+    width: 100%;
+}
