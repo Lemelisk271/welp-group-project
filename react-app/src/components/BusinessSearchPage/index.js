@@ -22,7 +22,7 @@ const BusinessSearchPage = () => {
     if (businessList) {
       setRawBusinesses(businessList)
       const values = Object.values(rawBusinesses)
-      setSearchList(values.filter(business => regex.exec(business.name)))
+      setSearchList(values.filter(business => regex.exec(business.name) || regex.exec(business.about) || regex.exec(business.categories.map(business => business.category).join())))
       setIsLoaded(true)
     }
   }, [currentSearch, businessList])

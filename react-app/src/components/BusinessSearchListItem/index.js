@@ -48,11 +48,15 @@ const BusinessSearchListItem = ({ business }) => {
         </div>
         <p>Average Stars: {averageStars}</p>
       </div>
-      <p>{businessCategories.join(", ")}</p>
       <div className='business-search-item-address'>
-        <p>{business.address}</p>
-        <p>{business.city}, {business.state} {business.zip_code}</p>
+        <ul>
+          {businessCategories.map(category => (
+            <li>{ category }</li>
+          ))}
+        </ul>
+        <p>{business.city}, {business.state}</p>
       </div>
+      <p>{ business.about }</p>
     </div>
   )
 }
