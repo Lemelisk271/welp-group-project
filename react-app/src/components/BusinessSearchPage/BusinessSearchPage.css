@@ -1,0 +1,19 @@
+.business-search-content {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.business-search-filters {
+  width: 30%;
+}
+
+.business-search-items {
+  width: 100%;
+}
+
+.business-search-items a {
+  text-decoration: none;
+  color: black;
+}

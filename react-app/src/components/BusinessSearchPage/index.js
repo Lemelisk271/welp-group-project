@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { SearchContext } from '../../context/SearchContext'
 import { getAllBusiness } from '../../store/business'
 import BusinessSearchListItem from '../BusinessSearchListItem'
+import './BusinessSearchPage.css'
 
 const BusinessSearchPage = () => {
   const dispatch = useDispatch()
@@ -32,7 +33,6 @@ const BusinessSearchPage = () => {
     <div className="business-search">
       {isLoaded ? (
         <>
-          <h1>Business Search Page</h1>
           <div className="business-search-content">
             <div className="business-search-filters">
               <p>Filters</p>

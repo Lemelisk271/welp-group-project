@@ -1,0 +1,85 @@
+.business-search-item {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid grey;
+}
+
+.business-search-item > img {
+  aspect-ratio: 1/1;
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+  margin-right: 10px;
+}
+
+.business-search-item p {
+  margin: 10px 0;
+}
+
+.business-search-item-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.business-search-item-info h2 {
+  margin-bottom: 0;
+}
+
+.business-search-item-stars {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.searchItem-stars {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.searchItem-avgStars {
+  display: flex;
+  flex-direction: row;
+  margin-left: 10px;
+}
+
+.business-search-item-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.business-search-item-details ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+}
+
+.business-search-item-details li {
+  display: flex;
+  flex-direction: row;
+  background-color: lightgray;
+  padding: 5px;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.business-search-item-price {
+  display: flex;
+  flex-direction: row;
+  margin: 0 5px;
+  color: #D4AF37;
+  background-color: black;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.businessSearch-price-hidden {
+  display: none;
+}
