@@ -28,7 +28,7 @@ export default function LandingPage() {
                             // console.log("Mapped Activity ==>", activity)
                             <div className="landing-page-card" key={userName}>
                                 <div className="landing-page-card-header">
-                                    <h4>{userName}</h4>
+                                    <h4 className="no-margin">{userName}</h4>
                                     <p>Wrote a review</p>
                                 </div>
                                 <div className="card-image-container">
@@ -89,7 +89,7 @@ export default function LandingPage() {
                                         <i className="fa-solid fa-star"></i>
                                     </div>
                                     </div>
-                                    <p className="">{stars}</p>
+                                    {/* <p className="">{stars}</p> */}
                                     <p>{review.substring(0, 80)}...</p>
                                 </div>
                             </div>

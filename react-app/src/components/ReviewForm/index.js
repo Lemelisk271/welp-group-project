@@ -5,7 +5,6 @@ import "./ReviewForm.css";
 
 export default function ReviewForm({ isUpdate }) {
     const sessionUser = useSelector((state) => state.session.user);
-    const userId = sessionUser.id;
     const [currReview, setCurrReview] = useState(null);
     const [starRating, setStarRating] = useState(0);
     const [review, setReview] = useState("");
@@ -13,8 +12,9 @@ export default function ReviewForm({ isUpdate }) {
     const [errors, setErrors] = useState([]);
     const { reviewId, id } = useParams(null);
     const history = useHistory();
-
+    
     useEffect(() => {
+        if (!sessionUser.id) return <Redirect to="/" />;
         if (isUpdate) {
             console.log("REVIEW IS UPDATE!", reviewId);
             const getReview = async () => {
@@ -31,7 +31,6 @@ export default function ReviewForm({ isUpdate }) {
         // eslint-disable-next-line
     }, [isUpdate]);
 
-    if (!sessionUser) return <Redirect to="/" />;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -68,7 +67,7 @@ export default function ReviewForm({ isUpdate }) {
                 body: JSON.stringify({
                     stars: starRating,
                     review,
-                    userId,
+                    userId: sessionUser.id,
                     businessId: currReview.businessId,
                 }),
             });
@@ -89,7 +88,7 @@ export default function ReviewForm({ isUpdate }) {
                 body: JSON.stringify({
                     stars: starRating,
                     review,
-                    userId,
+                    userId: sessionUser.id,
                     businessId: id,
                 }),
             });
