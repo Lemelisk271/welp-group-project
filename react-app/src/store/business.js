@@ -104,7 +104,7 @@ export const updateBusiness = (businessData) => async (dispatch) => {
 
 export const deleteBusiness = (id) => async (dispatch) => {
   try {
-    const res = await fetch(`/api/business/${id}`, {
+    const res = await fetch(`/api/business/${id}/edit`, {
       method: "delete",
       headers: {
         "Content-Type": "application/json",

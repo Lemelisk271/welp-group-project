@@ -61,7 +61,7 @@ const BusinessForm = ({ businessData }) => {
             }
         }
     }, [businessData]);
-
+  
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newBusiness = {

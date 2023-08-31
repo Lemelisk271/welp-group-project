@@ -1,0 +1,106 @@
+div.price-rating {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.business-form.title {
+    text-align: center;
+}
+
+form.new-business-form {
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+div.new-business-form.container {
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 50%;
+}
+
+div.new-business-form.container input {
+    width: 100%;
+}
+
+select.business-form {
+    width: 15%;
+}
+
+p.business-form.label {
+    margin: 10px 0 5px 0;
+}
+
+div.business-form.delete {
+    justify-content: center;
+    display: flex;
+    width: 100%;
+}
+
+div.delete.button button.delete-business:hover,
+div.new-business-form.container button.signup:hover {
+    cursor: pointer;
+}
+
+div.new-business-form.container button.signup,
+div.delete.button button.business-form.delete,
+div.delete.button button.delete-business,
+div.delete.modal.button button.yes {
+    align-self: center;
+    background-color: #E00807;
+    border: 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: white;
+    font-size: 20px;
+    height: 40px;
+    margin-top: 5px;
+    width: 100px;
+}
+
+div.delete.modal button.no {
+    align-self: center;
+    background-color: gray;
+    border: 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: white;
+    font-size: 20px;
+    height: 40px;
+    margin-top: 5px;
+    width: 100px;
+}
+
+div.new-business-form.container button.signup.unavailable:hover,
+div.new-business-form.container button.signup.unavailable {
+    background-color: gray;
+    cursor: not-allowed;
+}
+
+div.delete.modal.container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+div.delete.modal.button button.delete-business.modal {
+    font-size: 15px;
+    width: 200px;
+}
+
+div.error-label.container {
+    display: flex;
+    flex-direction: row;
+}
+
+p.business-form-error {
+    color: red;
+    font-size: 12px;
+    margin-left: 15px;
+}

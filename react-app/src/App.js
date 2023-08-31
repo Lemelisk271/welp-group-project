@@ -13,6 +13,7 @@ import BusinessForm from "./components/Businesses/BusinessForm";
 import UpdateBusiness from "./components/Businesses/UpdateBusiness"
 import ReviewForm from "./components/ReviewForm";
 import ProtectedRoute from './components/auth/ProtectedRoute'
+import BusinessNotFound from "./components/Businesses/BusinessNotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -57,6 +58,9 @@ function App() {
           </Route>
           <Route exact path="/review/:reviewId">
             <ReviewForm isUpdate={true} />
+          </Route>
+          <Route exact path="/notfound">
+            <BusinessNotFound />
           </Route>
         </Switch>
       )}
