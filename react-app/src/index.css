@@ -70,6 +70,19 @@ button.big-red-button {
     font-weight: 500;
 }
 
+button.big-clear-button {
+    background: none;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    border: 2px solid #c8c9ca;
+    color: #ffffff;
+    margin: auto 4px;
+    padding: 10px 16px;
+    height: 44px;
+    border-radius: 4px;
+}
+
 button.big-red-button[type="submit"]:disabled {
     background: grey;
 }
