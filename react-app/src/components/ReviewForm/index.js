@@ -159,8 +159,8 @@ export default function ReviewForm({ isUpdate, isNew }) {
                                             key={idx}
                                             className={
                                                 idx <= starRating
-                                                    ? "red-button-small on"
-                                                    : "off"
+                                                    ? "star-button on"
+                                                    : "star-button-off"
                                             }
                                             onClick={() => setStarRating(idx)}
                                             onMouseEnter={() =>
@@ -171,7 +171,7 @@ export default function ReviewForm({ isUpdate, isNew }) {
                                             }
                                         >
                                             <span className="star">
-                                                &#9733;
+                                            <i className="fa-solid fa-star"></i>
                                             </span>
                                         </button>
                                     );
@@ -189,7 +189,7 @@ export default function ReviewForm({ isUpdate, isNew }) {
                                 onChange={(e) => setReview(e.target.value)}
                             />
                         </div>
-                        <h2>Attach Photos</h2>
+                        <br />
                         <div>
                         <button
                             className="form-button big-red-button"
@@ -215,6 +215,7 @@ export default function ReviewForm({ isUpdate, isNew }) {
                         </div>
                     </form>
                 </div>
+                <br />
             </div>
         </>
     );

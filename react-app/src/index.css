@@ -61,7 +61,7 @@ ul.no-bullets {
 
 button.big-red-button {
     height: 44px;
-    background: #E00807;
+    background: #e00807;
     color: #ffffff;
     border: none;
     border-radius: 4px;
@@ -89,7 +89,7 @@ button.big-red-button[type="submit"]:disabled {
 
 button.form-button {
     height: 44px;
-    background: #E00807;
+    background: #e00807;
     color: #ffffff;
     border: none;
     border-radius: 4px;
@@ -100,7 +100,7 @@ button.form-button {
 
 button.input-red-button {
     height: 48px;
-    background: #E00807;
+    background: #e00807;
     color: #ffffff;
     border: none;
     border-radius: 3px;
@@ -111,11 +111,34 @@ button.input-red-button {
 }
 
 .red-button-small {
-    background-color: #ff5b5f;
-    border: 2px solid #222222;
-    border-radius: 3px;
+    background-color: #e00807;
+    border: none;
+    border-radius: 6px;
     color: #fffffe;
-    font-size: small;
+    font-size: 18px;
+    margin: 0px 2px;
+}
+
+button.star-button {
+    background-color: #e00807;
+    border: none;
+    border-radius: 6px;
+    color: #fffffe;
+    font-size: 18px;
+    margin: 0px 2px;
+}
+
+button.star-button-off {
+    background-color: #dddde0;
+    border: none;
+    border-radius: 6px;
+    color: #fffffe;
+    font-size: 18px;
+    margin: 0px 2px;
+}
+
+i.fa-star {
+    padding: 8px 2px;
 }
 
 .bold {
