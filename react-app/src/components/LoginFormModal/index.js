@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { login } from "../../store/session";
 import { useDispatch } from "react-redux";
+import { useHistory } from 'react-router-dom'
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
+  const history = useHistory()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -14,9 +16,10 @@ function LoginFormModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = await dispatch(login(email, password));
-    if (data) {
-      setErrors(data);
+    if (data.errors) {
+      setErrors(data.errors);
     } else {
+      history.push(`/profile/${data.id}`)
       closeModal();
     }
   };
@@ -33,10 +36,10 @@ function LoginFormModal() {
         <div>
           <ul className="login-modal-signin-buttons no-bullets">
             <li>
-              <img src="https://placehold.co/340x44/FFFFFF/000000.png?text=Continue+with+Google" />
+              <img src="https://placehold.co/340x44/FFFFFF/000000.png?text=Continue+with+Google" alt="" />
             </li>
             <li>
-              <img src="https://placehold.co/340x44/000000/FFFFFF.png?text=Continue+with+Apple" />
+              <img src="https://placehold.co/340x44/000000/FFFFFF.png?text=Continue+with+Apple" alt="" />
             </li>
           </ul>
         </div>
