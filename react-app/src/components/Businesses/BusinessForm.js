@@ -156,8 +156,6 @@ const BusinessForm = ({ businessData }) => {
       }
     }
     setErrors({ ...errorObj });
-    console.log(errors)
-    console.log(Object.keys(errors).length)
   };
 
   return (
@@ -166,7 +164,7 @@ const BusinessForm = ({ businessData }) => {
         <h1 className="business-form title">Update {businessData.name}</h1>
       )}
       {!businessData && (
-        <h1 className="business-form title">NEW BUSINESS FORM</h1>
+        <h1 className="business-form title">New Business Form</h1>
       )}
 
       <form className="new-business-form" onSubmit={handleSubmit}>
