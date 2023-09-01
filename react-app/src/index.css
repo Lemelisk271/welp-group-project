@@ -59,6 +59,15 @@ ul.no-bullets {
     padding-left: 0;
 }
 
+li.errors {
+    list-style-type: none;
+    padding-left: 0;
+    color: #e00807;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0px auto;
+}
+
 button.big-red-button {
     height: 44px;
     background: #e00807;
