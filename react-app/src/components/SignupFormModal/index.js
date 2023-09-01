@@ -33,7 +33,7 @@ function SignupFormModal() {
     };
 
     return (
-        <>
+        <div className="signupModal">
             <h1>Sign up for Welp</h1>
             <p>
                 By proceeding, you agree to Yelp’s Terms of Service and
@@ -88,7 +88,7 @@ function SignupFormModal() {
                     Sign up
                 </button>
             </form>
-        </>
+        </div>
     );
 }
 

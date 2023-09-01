@@ -112,7 +112,7 @@ function LoginFormModal() {
                     </li>
                 </ul>
             </form>
-        </>
+        </div>
     );
 }
 
