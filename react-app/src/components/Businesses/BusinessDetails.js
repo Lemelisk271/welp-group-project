@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useHistory} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBusiness } from '../../store/business'
+import "./BusinessDetails.css"
 
 const BusinessDetails = () => {
   const dispatch = useDispatch()
@@ -31,19 +32,19 @@ const BusinessDetails = () => {
       totalStars += el.stars
     })
     if (business?.reviews.length !== 0) {
-      setAverageStars(Math.floor((totalStars / business.reviews.length) * 10) / 10)
+      setAverageStars(Math.floor((totalStars / business?.reviews.length) * 10) / 10)
     }
-    setBusinessCategories(business.categories.map(business => business.category))
+    setBusinessCategories(business?.categories.map(business => business.category))
   }, [business, user])
 
   let sessionLinks
 
   if (user) {
     sessionLinks = (
-      <div className='businessDetails-sessionButtons'>
+      <>
         <button>Write a Review</button>
         <button>Add Photo</button>
-      </div>
+      </>
     )
   }
 
@@ -51,10 +52,10 @@ const BusinessDetails = () => {
 
   if (isOwner) {
     ownerLinks = (
-      <div className='businessDetails-ownerButtons'>
+      <>
         <button>Edit {business.name}</button>
         <button>Delete {business.name}</button>
-      </div>
+      </>
     )
   }
 
@@ -94,10 +95,10 @@ const BusinessDetails = () => {
                 </div>
                 <p>{averageStars} ({business.reviews.length} reviews)</p>
               </div>
-              <div className='businessDetails-header-info'>
+              <div className='businessDetails-header-details'>
                 <ul>
                   {businessCategories.map((category, i) => (
-                    <li key={i}>{category}</li>
+                    <li key={i} className="businessDetails-header-list">{category}</li>
                   ))}
                 </ul>
                 <div className='businessDetails-header-price'>
@@ -115,8 +116,21 @@ const BusinessDetails = () => {
                   </div>
                 </div>
               </div>
-              <div className='businessDetails-header-hours'>
-                <h3>Hours:</h3>
+            </div>
+          </div>
+          <div className='businessDetails-contentButtons'>
+            {user && sessionLinks}
+            {isOwner && ownerLinks}
+          </div>
+          <div className='businessDetails-page'>
+            <div className='businessDetails-content'>
+              <h3>Location & Hours</h3>
+              <div className='businessDetails-location-hours'>
+                <div className='businessDetails-location'>
+                  <i className="fa-solid fa-location-dot"></i>
+                  <p>{business.address}</p>
+                  <p>{business.city}, {business.state}, {business.zip_code}</p>
+                </div>
                 <ul>
                   {business?.hours.map(el => (
                     <li key={el.id}>
@@ -125,16 +139,9 @@ const BusinessDetails = () => {
                   ))}
                 </ul>
               </div>
-            </div>
-          </div>
-          <div className='businessDetails-page'>
-            <div className='businessDetails-content'>
-              <div className='businessDetails-contentButtons'>
-                {user && sessionLinks}
-                {isOwner && ownerLinks}
-              </div>
+              <div className='businessDetails-line'></div>
               <div className='businessDetails-amenities'>
-                <h2>Amenities and More</h2>
+                <h3>Amenities and More</h3>
                 <ul>
                   {business?.amenities.map(amenity => (
                     <li key={amenity.id}>
@@ -144,8 +151,11 @@ const BusinessDetails = () => {
                   ))}
                 </ul>
               </div>
+            <div className='businessDetails-line'></div>
             </div>
-            <div className='businessDetails-info'></div>
+            <div className='businessDetails-info'>
+              <p>{business.name}</p>
+            </div>
           </div>
         </>
       ):(
