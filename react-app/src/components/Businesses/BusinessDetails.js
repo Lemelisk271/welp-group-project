@@ -3,6 +3,7 @@ import { useParams, useHistory, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBusiness } from '../../store/business'
 import QuestionListItem from '../QuestionListItem'
+import UserReviewListItem from '../UserReviewListItem'
 import "./BusinessDetails.css"
 
 const BusinessDetails = () => {
@@ -80,6 +81,24 @@ const BusinessDetails = () => {
           </li>
         ))}
       </ul>
+    )
+  }
+
+  let reviews
+
+  if (business?.reviews.length === 0) {
+    reviews = (
+      <p>Welp users haven't reviewed {business.name} yet.</p>
+    )
+  }
+
+  if (business?.reviews.length > 0) {
+    reviews = (
+      <>
+        {business?.reviews.map(review => (
+          <UserReviewListItem key={review.id} review={review} page={"businessDetail"}/>
+        ))}
+      </>
     )
   }
 
@@ -189,6 +208,9 @@ const BusinessDetails = () => {
                 {questions}
             </div>
             <div className='businessDetails-line'></div>
+            <div className='businessDetails-reviews'>
+              {reviews}
+            </div>
             </div>
             <div className='businessDetails-info'>
               <div className='businessDetails-info-link'>

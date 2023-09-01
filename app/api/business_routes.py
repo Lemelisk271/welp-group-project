@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, redirect, url_for, abort
 from flask_login import login_required, current_user
-from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User
+from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User, Vote
 from ..forms import BusinessForm, ReviewForm
 
 business_routes = Blueprint('businesses', __name__)
@@ -171,11 +171,19 @@ def createBusinessReview(id):
 @business_routes.route("/<int:id>/review/all")
 def getBusinessReviews(id):
     """
-    Get all reviews for a business based on business id
+    Get all reviews for a business based on business id including their votes.
     """
     reviews = Review.query.filter_by(businessId=id)
     if (reviews):
-        return {'reviews': [review.to_dict() for review in reviews]}
+        allBusinessReview = []
+
+        for review in reviews:
+            newReview = review.to_dict()
+            votes = Vote.query.filter(Vote.reviewId == newReview.id).all()
+            newReview['votes'] = [vote.to_dict() for vote in votes]
+            allBusinessReview.append(newReview)
+
+        return {'reviews': allBusinessReview}
     else:
         return {'errors': 'No reviews found for this business'}, 401
 

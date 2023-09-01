@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom"
 import OpenModalButton from "../OpenModalButton"
 import DeleteReviewModal from '../DeleteReviewModal'
 
-const UserReviewListItem = ({ review }) => {
+const UserReviewListItem = ({ review, page }) => {
   const [rating] = useState(review.stars)
   const history = useHistory()
   let business = useSelector((state) => state.business.allBusinesses[review.businessId])
@@ -16,6 +16,27 @@ const UserReviewListItem = ({ review }) => {
   const editButton = (e) => {
     e.preventDefault()
     history.push(`/review/${review.id}`)
+  }
+
+  let buttons
+
+  if (page === "userProfile") {
+    buttons = (
+      <>
+        <button onClick={editButton}>Edit Review</button>
+        <OpenModalButton
+          buttonText="Delete Review"
+          modalComponent={<DeleteReviewModal id={review.id}/>}
+        />
+      </>
+    )
+  }
+
+  if (page === "businessDetail") {
+    buttons = (
+      <>
+      </>
+    )
   }
 
   return (
@@ -60,11 +81,7 @@ const UserReviewListItem = ({ review }) => {
         <p>{review.review}</p>
       </div>
       <div className="reviewListItem-buttons">
-        <button onClick={editButton}>Edit Review</button>
-        <OpenModalButton
-          buttonText="Delete Review"
-          modalComponent={<DeleteReviewModal id={review.id}/>}
-        />
+        {buttons}
       </div>
     </div>
   )
