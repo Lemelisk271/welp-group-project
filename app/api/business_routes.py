@@ -75,6 +75,7 @@ def createNewBusiness():
     form = BusinessForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     data = form.data
+    print("DATAA", data)
     if form.validate_on_submit():
 
         newBusiness = Business(
@@ -91,21 +92,32 @@ def createNewBusiness():
         )
         db.session.add(newBusiness)
         db.session.commit()
-        # print(form.data)
-        # if data["imgUrl"] and data["preview"]:
-        #     businessImage = BusinessImages(
-        #         # url = request_data["imgUrl"],
-        #         # preview = request_data["preview"],
-        #         # businessId = newBusiness.id,
-        #         # ownerId = request_data["ownerId"]
-        #         url = data["imgUrl"],
-        #         preview = data["preview"],
-        #         businessId = newBusiness.id,
-        #         ownerId = data["ownerId"]
-        #     )
-        #     db.session.add(businessImage)
-        # db.session.commit()
         return newBusiness.to_dict()
+    print("ERRORS.PY", {"errors": form.errors})
+    return {"errors": form.errors}, 401
+
+@business_routes.route("/<int:id>/images", methods=["GET", "POST"])
+def addImage(id):
+    request_data = request.get_json()
+    business = Business.query.get(id)
+    form = BusinessImageForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    print("IMAGE ------------------------", form.data)
+    if form.validate_on_submit():
+        image = form.data["image"]
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
+        if "url" not in upload:
+            return {"errors": upload}
+        businessImage = BusinessImages(
+            url = upload["url"],
+            preview = True,
+            businessId = id,
+            ownerId = business.ownerId
+        )
+        db.session.add(businessImage)
+        db.session.commit()
+        return businessImage.to_dict()
     print("ERRORS.PY", {"errors": form.errors})
     return {"errors": form.errors}, 401
 

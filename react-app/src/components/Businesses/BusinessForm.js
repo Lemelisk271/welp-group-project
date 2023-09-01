@@ -131,8 +131,8 @@ const BusinessForm = ({ businessData }) => {
       about,
       price: priceRating,
       ownerId: userId,
-      imgUrl: image,
-      preview: true,
+      // imgUrl: image,
+      // preview: true,
     };
     let resBusiness;
     if (Object.keys(errorObj).length === 0) {
@@ -178,16 +178,13 @@ const BusinessForm = ({ businessData }) => {
           } catch (err) {
             console.log("ERR", err);
           }
-          if (resBusiness.id && !resBusiness.errors) {
-            history.push(`/business/${resBusiness.id}`);
-          }
         }
       } catch (err) {
         console.log("HELLO3", err);
         if (err) {
           console.log("HELLO4", err);
-          const { errors } = err;
-          setErrors(errors);
+          // const { errors } = err;
+          // setErrors(errors);
         }
       }
     }
@@ -229,7 +226,11 @@ const BusinessForm = ({ businessData }) => {
                 </li>
               ))}
           </ul>
-          <form className="new-business-form" onSubmit={handleSubmit}>
+          <form
+            className="new-business-form"
+            onSubmit={handleSubmit}
+            encType="multipart/form-data"
+          >
             <input
               className="full-width"
               type="text"
@@ -248,6 +249,7 @@ const BusinessForm = ({ businessData }) => {
             <input
               className="full-width"
               type="tel"
+              name='phone'
               placeholder="Business phone number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
@@ -256,7 +258,7 @@ const BusinessForm = ({ businessData }) => {
               <input
                 className="business-form-address-street"
                 type="text"
-                placeholder="Street address (optional)"
+                placeholder="Street address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
               />
@@ -293,15 +295,8 @@ const BusinessForm = ({ businessData }) => {
               <select
                 className="business-form-address-country"
                 placeholder="United States"
-                // value={state}
-                // onChange={(e) => setState(e.target.value)}
               >
                 <option value="United States">United States</option>
-                {/* {state_choices.map((state) => (
-                                    <option key={state} value={state}>
-                                        {state}
-                                    </option>
-                                ))} */}
               </select>
             </div>
             <textarea
@@ -311,13 +306,6 @@ const BusinessForm = ({ businessData }) => {
               onChange={(e) => setAbout(e.target.value)}
             />
             <div className="business-form-address">
-              {/* <input
-                className="business-form-address-city"
-                type="number"
-                placeholder="Price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-              /> */}
               <div className="price-rating">
                 {[1, 2, 3, 4, 5].map((rating) => (
                   <div
