@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SubmitField, IntegerField, FormField
+from wtforms import StringField, SelectField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Length, ValidationError
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 from app.models import Business
-from .business_image_form import BusinessImageForm
-from ..api.AWS_helpers import ALLOWED_EXTENSIONS
+# from ..api.AWS_helpers import ALLOWED_EXTENSIONS
 
 # def address_exists(form, field):
 #     address = field.data
@@ -32,9 +32,10 @@ class BusinessForm(FlaskForm):
         "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
         "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY",
     ]
-    # Business Table
+
     name = StringField("Name", validators=[DataRequired(), Length(min=0, max=100)])
-    url = StringField("Website", validators=[DataRequired(), Length(min=0, max=250)])
+    # url = FileField("Image File", validators=[FileRequired, FileAllowed(list(ALLOWED_EXTENSIONS))])
+    url = StringField("Image File", validators=[DataRequired(), Length(min=0, max=250)])
     phone = IntegerField("Phone", validators=[DataRequired()])
     address = StringField("Address", validators=[DataRequired(), Length(min=0, max=255)])
     city = StringField("City", validators=[DataRequired(), Length(min=0, max=100)])
@@ -45,27 +46,17 @@ class BusinessForm(FlaskForm):
     ownerId = IntegerField("OwnerId")
     submit = SubmitField("Submit")
 
-    # BusinessImage Table
-    # imgUrl = FormField(BusinessImageForm)
-
-    # Amenity Table
-
-
-    # Category Table
-
-
     def to_dict(self):
         return {
-            'name': self.name.data,
-            'url': self.url.data,
-            'phone': self.phone.data,
-            'address': self.address.data,
-            'city': self.city.data,
-            'state': self.state.data,
-            'zip_code': self.zip_code.data,
-            'about': self.about.data,
-            'price': self.price.data,
-            "imgUrl": self.imgUrl.data,
-            'owner_id': self.ownerId.data,
-            'submit': self.submit.data
+            'name': self.name,
+            'url': self.url,
+            'phone': self.phone,
+            'address': self.address,
+            'city': self.city,
+            'state': self.state,
+            'zip_code': self.zip_code,
+            'about': self.about,
+            'price': self.price,
+            'ownerId': self.ownerId,
+            'submit': self.submit
         }

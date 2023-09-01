@@ -76,9 +76,10 @@ def update_image(id):
         user_to_update = User.query.get(id)
 
         oldImage = user_to_update.profile_image
-        checkImage = oldImage.split("://")[1][0:4]
-        if checkImage == "welp":
-            deleted_file = remove_file_from_s3(oldImage)
+        if oldImage:
+            checkImage = oldImage.split("://")[1][0:4]
+            if checkImage == "welp":
+                deleted_file = remove_file_from_s3(oldImage)
 
         image = form.data["image"]
         image.filename = get_unique_filename(image.filename)

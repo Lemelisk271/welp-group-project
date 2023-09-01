@@ -2,7 +2,7 @@ from app.models import db, Business, environment, SCHEMA
 from sqlalchemy.sql import text
 import random
 from faker import Faker
-from faker.providers import company, internet, phone_number, address
+from faker.providers import company, internet, phone_number, address, phone_number
 
 fake = Faker()
 fake.add_provider(company)
@@ -29,7 +29,7 @@ def generate_businesses(amenities, categories):
         yield Business(
             name = fake.company(),
             url = fake.domain_name(),
-            phone = fake.msisdn(),
+            phone = fake.numerify(text='(###) ###-####'),
             address = fake.street_address(),
             city = fake.city(),
             state = random_state(),
