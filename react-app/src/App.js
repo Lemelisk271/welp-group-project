@@ -50,7 +50,7 @@ function App() {
             <UpdateBusiness />
           </Route>
           <Route exact path="/business/:id/review">
-            <ReviewForm />
+            <ReviewForm isBusinessReview={true} />
           </Route>
           <Route exact path="/business/:id">
             <BusinessDetails />

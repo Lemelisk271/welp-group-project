@@ -1,21 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Redirect, useParams, useHistory } from "react-router-dom";
+import { getAllBusiness } from "../../store/business";
 import "./ReviewForm.css";
 
-export default function ReviewForm({ isUpdate, isNew }) {
+export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
     const sessionUser = useSelector((state) => state.session.user);
+    const business = useSelector((state) => state.business.allBusinesses);
     const [currReview, setCurrReview] = useState(null);
+    const [currBusiness, setCurrBusiness] = useState("");
     const [starRating, setStarRating] = useState(0);
     const [review, setReview] = useState("");
-    const [header, setHeader] = useState("WAT");
+    const [header, setHeader] = useState("Find a business to review");
     const [frontEndErrors, setFrontEndErrors] = useState({});
     const [errors, setErrors] = useState([]);
     const { reviewId, id } = useParams(null);
     const history = useHistory();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getAllBusiness());
+    }, [dispatch]);
 
     useEffect(() => {
         if (isUpdate) {
+            console.log("isUpdate ==>", isUpdate);
             const getReview = async () => {
                 const getCurrReview = await fetch(`/api/review/${reviewId}`);
                 const data = await getCurrReview.json();
@@ -26,27 +35,24 @@ export default function ReviewForm({ isUpdate, isNew }) {
                 setCurrReview(data);
                 setStarRating(data.stars);
                 setReview(data.review);
-                setHeader(businessData.name)
+                setHeader(businessData.name);
             };
             getReview();
-        } else {
         }
 
-        if (isNew) {
-            setHeader("Find a business to review");
-        }
-
-        if (!isUpdate && !isNew) {
+        if (isBusinessReview) {
+            console.log("isBusinessReview ==>", isBusinessReview);
             const getBusiness = async () => {
-                const getCurrBusiness = await fetch(
-                    `/api/business/${id}`
-                );
+                const getCurrBusiness = await fetch(`/api/business/${id}`);
                 const businessData = await getCurrBusiness.json();
                 setHeader(businessData.name);
             };
             getBusiness();
         }
-        // eslint-disable-next-line
+
+        if (isNew) {
+            console.log("isNew ==>", isNew);
+        }
     }, []);
 
     const handleSubmit = async (e) => {
@@ -74,6 +80,8 @@ export default function ReviewForm({ isUpdate, isNew }) {
         }
 
         if (isUpdate && !Object.values(frontEndErrors).length) {
+            console.log("usUpdate Submit")
+            console.log(currReview.businessId)
             const updateReview = await fetch(`/api/review/${reviewId}`, {
                 method: "PUT",
                 headers: {
@@ -87,12 +95,16 @@ export default function ReviewForm({ isUpdate, isNew }) {
                 }),
             });
             const data = await updateReview.json();
-            if (data) {
+            if (data.errors) {
+                console.log(data)
                 setErrors(data.errors);
             } else {
+                console.log("businessId ==>", currReview.businessId);
                 return history.push(`/business/${currReview.businessId}`);
             }
-        } else {
+        }
+
+        if (isBusinessReview && !Object.values(frontEndErrors).length) {
             const createReview = await fetch(`/api/business/${id}/review`, {
                 method: "POST",
                 headers: {
@@ -109,6 +121,29 @@ export default function ReviewForm({ isUpdate, isNew }) {
                 setErrors(createReview.errors);
             } else {
                 return history.push(`/business/${id}`);
+            }
+        } 
+        
+        if (isNew && !Object.values(frontEndErrors).length) {
+            const createReview = await fetch(
+                `/api/business/${currBusiness}/review`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        stars: starRating,
+                        review,
+                        userId: sessionUser.id,
+                        businessId: currBusiness,
+                    }),
+                }
+            );
+            if (createReview.errors) {
+                setErrors(createReview.errors);
+            } else {
+                return history.push(`/business/${currBusiness}`);
             }
         }
     };
@@ -135,20 +170,52 @@ export default function ReviewForm({ isUpdate, isNew }) {
             <div className="review-form-container">
                 <div className="review-form">
                     <div className="review-form-header">
+                        {console.log("Header ==>", header)}
                         <h2 className="header">{header}</h2>
+                        {isNew && (
+                            <div>
+                                <select
+                                    className=""
+                                    value={currBusiness}
+                                    onChange={(e) =>
+                                        setCurrBusiness(e.target.value)
+                                    }
+                                >
+                                    <option value="" disabled>
+                                        Select a business
+                                    </option>
+                                    {Object.values(business).map((business) => (
+                                        <>
+                                            <option
+                                                key={business.name}
+                                                value={business.id}
+                                            >
+                                                {business.name}
+                                            </option>
+                                        </>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
                         <span className="blue-link">
                             Read our review guidelines
                         </span>
                     </div>
+
                     <form onSubmit={handleSubmit}>
-                    <div className="review-form-input">
-                            <ul>
-                                {errors.map((error, i) => (
-                                    <li className="profileForm-errors" key={i}>
-                                        {error}
-                                    </li>
-                                ))}
-                            </ul>
+                        <div className="review-form-input">
+                            {errors && (
+                                <ul>
+                                    {errors.map((error, i) => (
+                                        <li
+                                            className="profileForm-errors"
+                                            key={i}
+                                        >
+                                            {error}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                             <label>
                                 <h4>{frontEndErrors.stars}</h4>
                             </label>
@@ -173,7 +240,7 @@ export default function ReviewForm({ isUpdate, isNew }) {
                                             }
                                         >
                                             <span className="star">
-                                            <i className="fa-solid fa-star"></i>
+                                                <i className="fa-solid fa-star"></i>
                                             </span>
                                         </button>
                                     );
@@ -193,26 +260,26 @@ export default function ReviewForm({ isUpdate, isNew }) {
                         </div>
                         <br />
                         <div>
-                        <button
-                            className="form-button big-red-button"
-                            type="submit"
-                            disabled={
-                                !starRating ||
-                                !review.length ||
-                                errors.review ||
-                                errors.stars
-                            }
-                        >
-                            Post Review
-                        </button>
-                        {isUpdate && (
                             <button
                                 className="form-button big-red-button"
-                                onClick={deleteReview}
+                                type="submit"
+                                // disabled={
+                                //     !starRating ||
+                                //     !review.length ||
+                                //     errors.review ||
+                                //     errors.stars
+                                // }
                             >
-                                Delete Review
+                                Post Review
                             </button>
-                        )}
+                            {isUpdate && (
+                                <button
+                                    className="form-button big-red-button"
+                                    onClick={deleteReview}
+                                >
+                                    Delete Review
+                                </button>
+                            )}
                         </div>
                     </form>
                 </div>
