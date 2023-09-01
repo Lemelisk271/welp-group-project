@@ -72,18 +72,7 @@ def createNewBusiness():
     Creates new business based on ht
     """
     request_data = request.get_json()
-    form = BusinessForm(
-        # name = request_data["name"],
-        # url = request_data["url"],
-        # phone = request_data["phone"],
-        # address = request_data["address"],
-        # city = request_data["city"],
-        # state = request_data["state"],
-        # zip_code = request_data["zip_code"],
-        # about = request_data["about"],
-        # price = request_data["price"],
-        # ownerId = request_data["ownerId"]
-    )
+    form = BusinessForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     data = form.data
     print("DATAA", data)
