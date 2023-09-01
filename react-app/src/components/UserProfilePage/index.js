@@ -92,7 +92,7 @@ const UserProfile = () => {
               />
             </div>
             {reviews.map(review => (
-              <UserReviewListItem key={review.id} review={review} />
+              <UserReviewListItem key={review.id} review={review} page={"userProfile"}/>
             ))}
           </div>
         </>
