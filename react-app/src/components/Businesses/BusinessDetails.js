@@ -176,7 +176,7 @@ const BusinessDetails = () => {
             <div className='businessDetails-pictureButton'>
               <OpenModalButton
                 buttonText={`View all ${business.images.length} pictures`}
-                modalComponent={<PictureModal images={business.images}/>}
+                modalComponent={<PictureModal images={business.images} owner={isOwner}/>}
               />
             </div>
           </div>
