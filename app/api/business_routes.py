@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify, request, redirect, url_for, abort
 from flask_login import login_required, current_user
 from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User, Vote
-from ..forms import BusinessForm, ReviewForm
+from ..forms import BusinessForm, ReviewForm, BusinessImageForm
+from .AWS_helpers import remove_file_from_s3, get_unique_filename, upload_file_to_s3
 
 business_routes = Blueprint('businesses', __name__)
 
@@ -14,6 +15,7 @@ def validation_errors_to_error_messages(validation_errors):
         for error in validation_errors[field]:
             errorMessages.append(f'{field} : {error}')
     return errorMessages
+
 
 @business_routes.route("/")
 def all_businesses():
@@ -43,6 +45,18 @@ def all_businesses():
             business_categories.c.categoryId == Category.id
         ).filter(business_categories.c.businessId == newBusiness['id']).all()
 
+        business_days_join = db.session.query(Day).join(
+            business_hours,
+            business_hours.c.dayId == Day.id
+        ).filter(business_hours.c.businessId == business.id).all()
+        hours_dict = [{
+                "id": day.id,
+                "day": day.day,
+                "open_time": day.open_time.strftime("%H:%M:%S") if day.open_time else None,
+                "close_time": day.close_time.strftime("%H:%M:%S") if day.close_time else None
+            } for day in business_days_join]
+
+        newBusiness["hours"] = hours_dict;
         newBusiness["owner"] = owner.to_dict()
         newBusiness["images"] = [image.to_dict() for image in images]
         newBusiness["reviews"] = [review.to_dict() for review in reviews]
@@ -73,6 +87,7 @@ def createNewBusiness():
     )
     form['csrf_token'].data = request.cookies['csrf_token']
     data = form.data
+    print("DATAA", data)
     if form.validate_on_submit():
 
         newBusiness = Business(
@@ -86,26 +101,38 @@ def createNewBusiness():
             about = data["about"],
             price = data["price"],
             ownerId = data["ownerId"]
-        )
+            )
         db.session.add(newBusiness)
         db.session.commit()
-        # print(form.data)
-        # if data["imgUrl"] and data["preview"]:
-        #     businessImage = BusinessImages(
-        #         # url = request_data["imgUrl"],
-        #         # preview = request_data["preview"],
-        #         # businessId = newBusiness.id,
-        #         # ownerId = request_data["ownerId"]
-        #         url = data["imgUrl"],
-        #         preview = data["preview"],
-        #         businessId = newBusiness.id,
-        #         ownerId = data["ownerId"]
-        #     )
-        #     db.session.add(businessImage)
-        # db.session.commit()
         return newBusiness.to_dict()
     print("ERRORS.PY", {"errors": form.errors})
     return {"errors": form.errors}, 401
+
+@business_routes.route("/<int:id>/images", methods=["GET", "POST"])
+def addImage(id):
+    request_data = request.get_json()
+    business = Business.query.get(id)
+    form = BusinessImageForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    print("IMAGE ------------------------", form.data)
+    if form.validate_on_submit():
+        image = form.data["image"]
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
+        if "url" not in upload:
+            return {"errors": upload}
+        businessImage = BusinessImages(
+            url = upload["url"],
+            preview = True,
+            businessId = id,
+            ownerId = business.ownerId
+        )
+        db.session.add(businessImage)
+        db.session.commit()
+        return businessImage.to_dict()
+    print("ERRORS.PY", {"errors": form.errors})
+    return {"errors": form.errors}, 401
+
 
 @business_routes.route("/<int:id>/edit", methods=["PUT"])
 def updateBusiness(id):
