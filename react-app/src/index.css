@@ -69,7 +69,7 @@ li.errors {
 
 button.big-red-button {
     height: 44px;
-    background: #E00807;
+    background: #e00807;
     color: #ffffff;
     border: none;
     border-radius: 4px;
@@ -95,21 +95,20 @@ button.big-red-button[type="submit"]:disabled {
     background: grey;
 }
 
-button.wide-red-button {
+button.form-button {
     height: 44px;
-    width: 320px;
-    background: #E00807;
+    background: #e00807;
     color: #ffffff;
     border: none;
     border-radius: 4px;
-    padding: 10px 16px;
+    padding: 10px 64px;
     font-size: 16px;
     font-weight: 500;
 }
 
 button.input-red-button {
     height: 48px;
-    background: #E00807;
+    background: #e00807;
     color: #ffffff;
     border: none;
     border-radius: 3px;
@@ -119,12 +118,40 @@ button.input-red-button {
     cursor: pointer;
 }
 
-.red-button-small {
-    background-color: #ff5b5f;
-    border: 2px solid #222222;
-    border-radius: 3px;
+button.star-button {
+    background-color: #e00807;
+    border: none;
+    border-radius: 6px;
     color: #fffffe;
-    font-size: small;
+    font-size: 18px;
+    margin: 0px 2px;
+}
+
+button.star-button-off {
+    background-color: #dddde0;
+    border: none;
+    border-radius: 6px;
+    color: #fffffe;
+    font-size: 18px;
+    margin: 0px 2px;
+}
+
+.filled > i {
+    background-color: #e00807;
+    color: white;
+    font-size: 12px;
+    margin: 0px 1px;
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.empty > i {
+    background-color: #dddde0;
+    color: white;
+    font-size: 12px;
+    margin: 0px 1px;
+    padding: 4px;
+    border-radius: 6px;
 }
 
 .bold {
