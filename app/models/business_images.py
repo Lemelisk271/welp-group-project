@@ -19,5 +19,7 @@ class BusinessImages(db.Model):
     return {
       "id": self.id,
       "url": self.url,
-      "preview": self.preview
+      "preview": self.preview,
+      "businessId": self.businessId,
+      "ownerId": self.ownerId
     }

@@ -24,9 +24,31 @@
 
 .businessDetails-header-info {
   position: absolute;
-  top: 0;
+  top: 10px;
   left: 50px;
-  z-index: 1;
+  /* z-index: 1; */
+  background-color: rgba(0, 0, 0, .50);
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.businessDetails-pictureButton {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  /* z-index: 1; */
+}
+
+.businessDetails-pictureButton button {
+  background-color: rgba(0, 0, 0, .5);
+  border: 2px solid white;
+  color: white;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.businessDetails-pictureButton button:hover {
+  background-color: rgba(255, 255, 255, .5);
 }
 
 .businessDetails-header-reviews {
@@ -248,4 +270,23 @@
 .businessDetails-answerItem li {
   display: flex;
   width: 50%;
+}
+
+.businessDetail-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.businessDetail-buttons button {
+  height: 44px;
+  background: white;
+  color: grey;
+  border: 2px solid grey;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
 }
