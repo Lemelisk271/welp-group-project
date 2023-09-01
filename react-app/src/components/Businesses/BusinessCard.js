@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getBusiness } from "../../store/business";
 import { useHistory } from "react-router-dom";
 import "./businessCard.css";
 
-const BusinessCard = ({ id }) => {
+const BusinessCard = ({ loadedBusiness }) => {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   const [business, setBusiness] = useState(null);
@@ -17,23 +16,22 @@ const BusinessCard = ({ id }) => {
   useEffect(() => {
     const loadBusiness = async () => {
       try {
-        const loadedBusiness = await dispatch(getBusiness(id));
         setBusiness(loadedBusiness);
         setIsLoaded(true);
       } catch (error) {
         console.error("Error loading business:", error);
-        setIsLoaded(true);
+        setIsLoaded(false);
       }
     };
     loadBusiness();
-  }, [dispatch, id]);
+  }, [dispatch, business]);
 
   useEffect(()=>{
     if(business){
       const rating = business.reviews.reduce((acc, review) => acc + review.stars, 0)/business.reviews.length
       setRating(rating ? Math.round(rating * 10) / 10 : 1);
     }
-  }, [business, id, dispatch])
+  }, [business, dispatch])
 
   const redirectToBusiness = () => {
     if (business) {

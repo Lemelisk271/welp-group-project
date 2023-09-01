@@ -44,6 +44,18 @@ def all_businesses():
             business_categories.c.categoryId == Category.id
         ).filter(business_categories.c.businessId == newBusiness['id']).all()
 
+        business_days_join = db.session.query(Day).join(
+            business_hours,
+            business_hours.c.dayId == Day.id
+        ).filter(business_hours.c.businessId == business.id).all()
+        hours_dict = [{
+                "id": day.id,
+                "day": day.day,
+                "open_time": day.open_time.strftime("%H:%M:%S") if day.open_time else None,
+                "close_time": day.close_time.strftime("%H:%M:%S") if day.close_time else None
+            } for day in business_days_join]
+
+        newBusiness["hours"] = hours_dict
         newBusiness["owner"] = owner.to_dict()
         newBusiness["images"] = [image.to_dict() for image in images]
         newBusiness["reviews"] = [review.to_dict() for review in reviews]

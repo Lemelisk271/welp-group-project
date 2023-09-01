@@ -22,7 +22,7 @@ const BusinessList = () => {
     isLoaded && (
       <div className="businessList">
         {Object.values(business).map(business=>(
-          <BusinessCard key={business.id} id={business.id}/>
+          <BusinessCard key={business.id} loadedBusiness={business}/>
         ))}
       </div>
     )
