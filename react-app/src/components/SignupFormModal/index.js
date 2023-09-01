@@ -91,7 +91,7 @@ function SignupFormModal() {
                     onChange={(e) => setZipCode(e.target.value)}
                     required
                 />
-                <button className="form-button" type="submit">
+                <button className="big-red-button" type="submit">
                     Sign up
                 </button>
             </form>

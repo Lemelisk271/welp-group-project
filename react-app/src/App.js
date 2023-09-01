@@ -63,7 +63,7 @@ function App() {
             </ProtectedRoute>
           </Route>
           <Route exact path="/review/new">
-            <ReviewForm isNew={true} />
+            <ReviewForm />
           </Route>
           <Route exact path="/review/:reviewId">
             <ReviewForm isUpdate={true} />
