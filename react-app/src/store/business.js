@@ -122,7 +122,6 @@ export const deleteBusiness = (id) => async (dispatch) => {
   }
 };
 
-
 const businessReducer = (
   state = { allBusinesses: [], singleBusiness: null },
   action

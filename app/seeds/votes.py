@@ -3,19 +3,21 @@ from sqlalchemy.sql import text
 import random
 
 
-def generate_votes():
+def generate_votes(users, reviews):
     vote_options = ["Useful", "Funny", "Cool"]
-    unique_reviewIds = random.sample(range(1,50),40)
-    for voteId in unique_reviewIds:
-        yield Vote(
-            type = random.choice(vote_options),
-            reviewId = voteId,
-            userId = random.randint(1,33)
-        )
+    for review in reviews:
+        sample_users = random.sample(users, 10)
+        for user in sample_users:
+            yield Vote(
+                type = random.choice(vote_options),
+                reviewId = review.id,
+                userId = user.id
+            )
 
 
-def seed_votes():
-    votes = list(generate_votes())
+
+def seed_votes(users, reviews):
+    votes = list(generate_votes(users, reviews))
     add_items = [db.session.add(vote) for vote in votes]
     db.session.commit()
     return votes

@@ -32,9 +32,11 @@ class BusinessForm(FlaskForm):
         "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
         "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY",
     ]
-    # Business Table
+
+     # Business Table
     name = StringField("Name", validators=[DataRequired(), Length(min=0, max=100)])
-    url = StringField("Website", validators=[DataRequired(), Length(min=0, max=250)])
+    # url = FileField("Image File", validators=[FileRequired, FileAllowed(list(ALLOWED_EXTENSIONS))])
+    url = StringField("Image File", validators=[DataRequired(), Length(min=0, max=250)])
     phone = IntegerField("Phone", validators=[DataRequired()])
     address = StringField("Address", validators=[DataRequired(), Length(min=0, max=255)])
     city = StringField("City", validators=[DataRequired(), Length(min=0, max=100)])
@@ -52,7 +54,6 @@ class BusinessForm(FlaskForm):
 
 
     # Category Table
-
 
     def to_dict(self):
         return {

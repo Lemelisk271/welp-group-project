@@ -46,7 +46,7 @@ def seed():
     seed_business_images()
     seed_questions()
     seed_answers()
-    seed_votes()
+    seed_votes(users, reviews)
     seed_days(businesses)
     seed_review_comments(reviews)
 

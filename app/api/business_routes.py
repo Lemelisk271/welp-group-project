@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, redirect, url_for, abort
 from flask_login import login_required, current_user
-from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User
+from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User, Vote
 from ..forms import BusinessForm, ReviewForm, BusinessImageForm
 from .AWS_helpers import remove_file_from_s3, get_unique_filename, upload_file_to_s3
 
@@ -15,7 +15,6 @@ def validation_errors_to_error_messages(validation_errors):
         for error in validation_errors[field]:
             errorMessages.append(f'{field} : {error}')
     return errorMessages
-
 
 @business_routes.route("/")
 def all_businesses():
@@ -56,7 +55,7 @@ def all_businesses():
                 "close_time": day.close_time.strftime("%H:%M:%S") if day.close_time else None
             } for day in business_days_join]
 
-        newBusiness["hours"] = hours_dict;
+        newBusiness["hours"] = hours_dict
         newBusiness["owner"] = owner.to_dict()
         newBusiness["images"] = [image.to_dict() for image in images]
         newBusiness["reviews"] = [review.to_dict() for review in reviews]
@@ -73,18 +72,7 @@ def createNewBusiness():
     Creates new business based on ht
     """
     request_data = request.get_json()
-    form = BusinessForm(
-        # name = request_data["name"],
-        # url = request_data["url"],
-        # phone = request_data["phone"],
-        # address = request_data["address"],
-        # city = request_data["city"],
-        # state = request_data["state"],
-        # zip_code = request_data["zip_code"],
-        # about = request_data["about"],
-        # price = request_data["price"],
-        # ownerId = request_data["ownerId"]
-    )
+    form = BusinessForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     data = form.data
     print("DATAA", data)
@@ -101,7 +89,7 @@ def createNewBusiness():
             about = data["about"],
             price = data["price"],
             ownerId = data["ownerId"]
-            )
+        )
         db.session.add(newBusiness)
         db.session.commit()
         return newBusiness.to_dict()
@@ -132,7 +120,6 @@ def addImage(id):
         return businessImage.to_dict()
     print("ERRORS.PY", {"errors": form.errors})
     return {"errors": form.errors}, 401
-
 
 @business_routes.route("/<int:id>/edit", methods=["PUT"])
 def updateBusiness(id):
@@ -198,20 +185,28 @@ def createBusinessReview(id):
 @business_routes.route("/<int:id>/review/all")
 def getBusinessReviews(id):
     """
-    Get all reviews for a business based on business id
+    Get all reviews for a business based on business id including their votes.
     """
     reviews = Review.query.filter_by(businessId=id)
     if (reviews):
-        return {'reviews': [review.to_dict() for review in reviews]}
+        allBusinessReview = []
+
+        for review in reviews:
+            newReview = review.to_dict()
+            votes = Vote.query.filter(Vote.reviewId == newReview["id"]).all()
+            newReview['votes'] = [vote.to_dict() for vote in votes]
+            allBusinessReview.append(newReview)
+
+        return {'reviews': allBusinessReview}
     else:
         return {'errors': 'No reviews found for this business'}, 401
 
-@business_routes.route("/")
-def getAllBusinesses():
-  businesses = Business.query.all();
-  print(businesses)
-  [business.to_dict() for business in businesses]
-  return businesses
+# @business_routes.route("/")
+# def getAllBusinesses():
+#   businesses = Business.query.all();
+#   print(businesses)
+#   [business.to_dict() for business in businesses]
+#   return businesses
 
 
 @business_routes.route("/<int:id>")

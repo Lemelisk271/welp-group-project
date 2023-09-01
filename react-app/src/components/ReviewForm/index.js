@@ -26,11 +26,12 @@ export default function ReviewForm({ isUpdate, isNew }) {
                 setCurrReview(data);
                 setStarRating(data.stars);
                 setReview(data.review);
-                setHeader(businessData.name);
+                setHeader(businessData.name)
             };
             getReview();
-        } 
-        
+        } else {
+        }
+
         if (isNew) {
             setHeader("Find a business to review");
         }
@@ -45,6 +46,7 @@ export default function ReviewForm({ isUpdate, isNew }) {
             };
             getBusiness();
         }
+        // eslint-disable-next-line
     }, []);
 
     const handleSubmit = async (e) => {
@@ -139,7 +141,7 @@ export default function ReviewForm({ isUpdate, isNew }) {
                         </span>
                     </div>
                     <form onSubmit={handleSubmit}>
-                        <div className="review-form-input">
+                    <div className="review-form-input">
                             <ul>
                                 {errors.map((error, i) => (
                                     <li className="profileForm-errors" key={i}>
@@ -203,7 +205,6 @@ export default function ReviewForm({ isUpdate, isNew }) {
                         >
                             Post Review
                         </button>
-                        &nbsp;&nbsp;
                         {isUpdate && (
                             <button
                                 className="form-button big-red-button"

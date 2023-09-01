@@ -26,6 +26,7 @@ const BusinessForm = ({ businessData }) => {
   const [unavailable, setUnavailable] = useState("");
   const [disableLogin, setDisableLogin] = useState(true);
   const userId = useSelector((state) => state.session.user.id);
+  const dayList = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   useEffect(() => {
     if (
@@ -155,7 +156,7 @@ const BusinessForm = ({ businessData }) => {
               try {
                 const formData = new FormData();
                 formData.append("image", image);
-                formData.append("user", userId)
+                formData.append("user", userId);
                 const addImage = await fetch(
                   `/api/business/${resBusiness.id}/images`,
                   {
@@ -163,11 +164,12 @@ const BusinessForm = ({ businessData }) => {
                     body: formData,
                   }
                 );
-                console.log(addImage)
+                console.log(addImage);
               } catch (err) {
                 if (err) {
-                  console.log("IMGERR", err)
-                  errorObj.image = "Something went wrong with your image upload";
+                  console.log("IMGERR", err);
+                  errorObj.image =
+                    "Something went wrong with your image upload";
                 } else {
                   history.push(`/business/${resBusiness.id}`);
                 }
@@ -247,7 +249,7 @@ const BusinessForm = ({ businessData }) => {
             <input
               className="full-width"
               type="tel"
-              name="phone"
+              name='phone'
               placeholder="Business phone number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
@@ -324,13 +326,33 @@ const BusinessForm = ({ businessData }) => {
                   </div>
                 ))}
               </div>
-              <input
-                className="business-form-address-street"
-                id="image"
-                type="file"
-                accept="image/*"
-                onChange={(e) => setImage(e.target.files[0])}
-              />
+              {!businessData && (
+                <input
+                  className="business-form-address-street"
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setImage(e.target.files[0])}
+                />
+              )}
+            </div>
+            <div className="business-form-days master container">
+              {dayList.map((day) => (
+                <div className="business-form-days day container">
+                  <p className="business-form-days day label">{day}</p>
+                  <input
+                    className="business-form-days closed"
+                    type="checkbox"
+                    name="closed"
+                  />
+                  <label for="closed">Closed?</label>{" "}
+                  <input className="business-form-days open-time" type="time" />
+                  <input
+                    className="business-form-days close-time"
+                    type="time"
+                  />
+                </div>
+              ))}
             </div>
             <button
               className="big-red-button"
@@ -350,170 +372,5 @@ const BusinessForm = ({ businessData }) => {
     </>
   );
 };
-export default BusinessForm;
-//   return (
-//     <>
-//       {businessData && (
-//         <h1 className="business-form title">Update {businessData.name}</h1>
-//       )}
-//       {!businessData && (
-//         <h1 className="business-form title">New Business Form</h1>
-//       )}
 
-//       <form className="new-business-form" onSubmit={handleSubmit}>
-//         <div className="new-business-form container">
-//           <div className="business-form error-label container">
-//             <p className="business-form label">Business Name</p>
-//             {errors.name && (
-//               <p className="business-form-error">{errors.name}</p>
-//             )}
-//           </div>
-//           <input
-//             type="text"
-//             placeholder="Name"
-//             value={name}
-//             onChange={(e) => setName(e.target.value)}
-//           />
-//           <div className="business-form error-label container">
-//             <p className="business-form label">Website Url (Optional)</p>
-//             {errors.url && <p className="business-form-error">{errors.url}</p>}
-//           </div>
-//           <input
-//             type="url"
-//             placeholder="Example: https://www.example.com"
-//             value={url}
-//             onChange={handleUrlOnChange}
-//           />
-//           <div className="business-form error-label container">
-//             <p className="business-form label">Phone</p>
-//             {errors.phone && (
-//               <p className="business-form-error">{errors.phone}</p>
-//             )}
-//           </div>
-//           <input
-//             type="text"
-//             placeholder="Phone"
-//             value={phone}
-//             onChange={(e) => setPhone(e.target.value)}
-//           />
-//           <div className="business-form error-label container">
-//             <p className="business-form label">Address</p>
-//             {errors.address && (
-//               <p className="business-form-error">{errors.address}</p>
-//             )}
-//           </div>
-//           <input
-//             type="text"
-//             placeholder="Address"
-//             value={address}
-//             onChange={(e) => setAddress(e.target.value)}
-//           />
-//           <div className="business-form error-label container">
-//             <p className="business-form label">City</p>
-//             {errors.city && (
-//               <p className="business-form-error">{errors.city}</p>
-//             )}
-//           </div>
-//           <input
-//             type="text"
-//             placeholder="City"
-//             value={city}
-//             onChange={(e) => setCity(e.target.value)}
-//           />
-//           <div className="business-form error-label container">
-//             <p className="business-form label">State</p>
-//             {errors.state && (
-//               <p className="business-form-error">{errors.state}</p>
-//             )}
-//           </div>
-//           <select
-//             className="business-form"
-//             value={state}
-//             onChange={(e) => setState(e.target.value)}
-//           >
-//             <option value="" disabled>
-//               Select
-//             </option>
-//             {state_choices.map((state) => (
-//               <option key={state} value={state}>
-//                 {state}
-//               </option>
-//             ))}
-//           </select>
-//           <div className="business-form error-label container">
-//             <p className="business-form label">Zipcode</p>
-//             {errors.zipCode && (
-//               <p className="business-form-error">{errors.zipCode}</p>
-//             )}
-//           </div>
-//           <input
-//             type="number"
-//             placeholder="Zipcode"
-//             value={zipCode}
-//             onChange={(e) => setZipCode(e.target.value)}
-//           />
-//           <div className="business-form error-label container">
-//             <p className="business-form label">About</p>
-//             {errors.about && (
-//               <p className="business-form-error">{errors.about}</p>
-//             )}
-//           </div>
-//           <input
-//             type="text"
-//             placeholder="About"
-//             value={about}
-//             onChange={(e) => setAbout(e.target.value)}
-//           />
-//           <div className="business-form error-label container">
-//             <p className="business-form label">Price Rating</p>
-//             {errors.price && (
-//               <p className="business-form-error">{errors.price}</p>
-//             )}
-//           </div>
-//           <div className="price-rating">
-//             {[1, 2, 3, 4, 5].map((rating) => (
-//               <div
-//                 key={rating}
-//                 className={`${
-//                   priceRating >= rating || tempRating >= rating
-//                     ? "filled"
-//                     : "empty"
-//                 }`}
-//                 onClick={() => {
-//                   setPriceRating(rating);
-//                   setTempRating(rating);
-//                 }}
-//                 onMouseEnter={() => setTempRating(rating)}
-//                 onMouseLeave={() => setTempRating(0)}
-//               >
-//                 <i className="fa-solid fa-dollar"></i>
-//               </div>
-//             ))}
-//           </div>
-//           <div className="business-form error-label container">
-//             <p className="business-form label">Images</p>
-//             {errors.images && (
-//               <p className="business-form-error">{errors.images}</p>
-//             )}
-//           </div>
-//           <input
-//             id="image"
-//             type="url"
-//             // accept="image/*"
-//             placeholder="Image Url"
-//             value={image}
-//             onChange={(e) => setImage(e.target.value)}
-//           />
-//           <button
-//             type="submit"
-//             disabled={disableLogin}
-//             className={`signup button ${unavailable}`}
-//           >
-//             {!businessData && "Create"}
-//             {businessData && "Update"}
-//           </button>
-//         </div>
-//       </form>
-//     </>
-//   );
-// };
+export default BusinessForm;
