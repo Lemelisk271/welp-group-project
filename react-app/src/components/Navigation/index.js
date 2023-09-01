@@ -63,6 +63,10 @@ function Navigation({ isLoaded }) {
     setSearch('')
   }
 
+  const handleClick = () => {
+    history.push("/business/new")
+  }
+
   return (
       <div className={navClass}>
         <div className="nav-left">
@@ -84,8 +88,8 @@ function Navigation({ isLoaded }) {
           <button className="input-red-button" type='submit'><i className="fa-solid fa-magnifying-glass"></i></button>
         </form>
         <div className={navRightClass}>
-          <span className={linkClass}>Welp for Business</span>
-          <span className={linkClass}>Write a Review</span>
+          <a className={linkClass} href="/business/new">Add a Business</a>
+          <a className={linkClass} href="/review/new">Write a review</a>
           {isLoaded && sessionLinks}
         </div>
       </div>

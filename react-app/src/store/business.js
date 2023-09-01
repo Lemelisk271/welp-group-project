@@ -1,5 +1,5 @@
 // import { normalizeObj } from "./normalizeHelper";
-const cloneDeep = require('clone-deep');
+const cloneDeep = require("clone-deep");
 
 /** Action Type Constants: */
 const GET_ALL_BUSINESS = "business/GET_ALL_BUSINESS";
@@ -31,10 +31,8 @@ const editBusiness = (business) => ({
 
 const removeBusiness = (business) => ({
   type: DELETE_BUSINESS,
-  business
-})
-
-
+  business,
+});
 
 /** Thunk Action Creators: */
 export const getAllBusiness = () => async (dispatch) => {
@@ -53,7 +51,7 @@ export const getBusiness = (id) => async (dispatch) => {
   if (res.ok) {
     const business = await res.json();
     dispatch(getSingleBusiness(business));
-    return business
+    return business;
   } else {
     const { errors } = await res.json();
     return errors;
@@ -73,12 +71,12 @@ export const createBusiness = (businessData) => async (dispatch) => {
       const business = await res.json();
       dispatch(createNewBusiness(business));
       return business;
-    }
-  } catch (err) {
-    if (err) {
-      const { errors } = await err.json();
+    } else {
+      const errors = await res.json();
       return errors;
     }
+  } catch (err) {
+    return err;
   }
 };
 
@@ -96,10 +94,12 @@ export const updateBusiness = (businessData) => async (dispatch) => {
       dispatch(editBusiness(business));
       return business;
     }
+    const errors = await res.json();
+    console.log("ERRORS.JS", errors);
+    return errors;
   } catch (err) {
     if (err) {
-      const { errors } = await err.json();
-      return errors;
+      return err;
     }
   }
 };
@@ -113,14 +113,15 @@ export const deleteBusiness = (id) => async (dispatch) => {
       },
     });
     if (res.ok) {
-      await dispatch(removeBusiness(id))
+      dispatch(removeBusiness(id));
       return;
     }
   } catch (err) {
-    const {errors} = err.json()
-    return errors
+    const { errors } = err.json();
+    return errors;
   }
-}
+};
+
 
 const businessReducer = (
   state = { allBusinesses: [], singleBusiness: null },
@@ -138,7 +139,7 @@ const businessReducer = (
       newState.singleBusiness = action.business;
       return newState;
     case CREATE_BUSINESS:
-      newState.allBusinesses[action.business.id] = action.business;
+      newState.singleBusiness = action.business;
       return newState;
     case UPDATE_BUSINESS:
       newState.singleBusiness = action.business;

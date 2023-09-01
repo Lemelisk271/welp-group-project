@@ -1,9 +1,21 @@
 from flask import Blueprint, jsonify, request, redirect, url_for, abort
 from flask_login import login_required, current_user
 from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User
-from ..forms import BusinessForm, ReviewForm
+from ..forms import BusinessForm, ReviewForm, BusinessImageForm
+from .AWS_helpers import remove_file_from_s3, get_unique_filename, upload_file_to_s3
 
 business_routes = Blueprint('businesses', __name__)
+
+def validation_errors_to_error_messages(validation_errors):
+    """
+    Simple function that turns the WTForms validation errors into a simple list
+    """
+    errorMessages = []
+    for field in validation_errors:
+        for error in validation_errors[field]:
+            errorMessages.append(f'{field} : {error}')
+    return errorMessages
+
 
 @business_routes.route("/")
 def all_businesses():
@@ -50,19 +62,20 @@ def createNewBusiness():
     """
     request_data = request.get_json()
     form = BusinessForm(
-        name = request_data["name"],
-        url = request_data["url"],
-        phone = request_data["phone"],
-        address = request_data["address"],
-        city = request_data["city"],
-        state = request_data["state"],
-        zip_code = request_data["zip_code"],
-        about = request_data["about"],
-        price = request_data["price"],
-        ownerId = request_data["ownerId"]
+        # name = request_data["name"],
+        # url = request_data["url"],
+        # phone = request_data["phone"],
+        # address = request_data["address"],
+        # city = request_data["city"],
+        # state = request_data["state"],
+        # zip_code = request_data["zip_code"],
+        # about = request_data["about"],
+        # price = request_data["price"],
+        # ownerId = request_data["ownerId"]
     )
     form['csrf_token'].data = request.cookies['csrf_token']
     data = form.data
+    print("DATAA", data)
     if form.validate_on_submit():
 
         newBusiness = Business(
@@ -76,20 +89,38 @@ def createNewBusiness():
             about = data["about"],
             price = data["price"],
             ownerId = data["ownerId"]
-        )
+            )
         db.session.add(newBusiness)
         db.session.commit()
+        return newBusiness.to_dict()
+    print("ERRORS.PY", {"errors": form.errors})
+    return {"errors": form.errors}, 401
+
+@business_routes.route("/<int:id>/images", methods=["GET", "POST"])
+def addImage(id):
+    request_data = request.get_json()
+    business = Business.query.get(id)
+    form = BusinessImageForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    print("IMAGE ------------------------", form.data)
+    if form.validate_on_submit():
+        image = form.data["image"]
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
+        if "url" not in upload:
+            return {"errors": upload}
         businessImage = BusinessImages(
-            url = request_data["imgUrl"],
-            preview = request_data["preview"],
-            businessId = newBusiness.id,
-            ownerId = request_data["ownerId"]
+            url = upload["url"],
+            preview = True,
+            businessId = id,
+            ownerId = business.ownerId
         )
         db.session.add(businessImage)
         db.session.commit()
-        return newBusiness.to_dict()
-    else:
-        return form.errors, 400
+        return businessImage.to_dict()
+    print("ERRORS.PY", {"errors": form.errors})
+    return {"errors": form.errors}, 401
+
 
 @business_routes.route("/<int:id>/edit", methods=["PUT"])
 def updateBusiness(id):
@@ -123,9 +154,7 @@ def updateBusiness(id):
         updatedBusiness.ownerId = data["ownerId"]
         db.session.commit()
         return updatedBusiness.to_dict()
-    if form.errors:
-        return {"errors": form.errors}
-    return {"errors": "invalid entry"}
+    return {"errors": form.errors}, 401
 
 @business_routes.route("/<int:id>/review", methods=["POST"])
 @login_required

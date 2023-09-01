@@ -16,6 +16,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute'
 import BusinessSearchPage from './components/BusinessSearchPage'
 import BusinessNotFound from "./components/Businesses/BusinessNotFound";
 import BusinessList from './components/Businesses/BusinessList'
+import NotLoggedIn from "./components/NotLoggedIn";
 
 function App() {
   const dispatch = useDispatch();
@@ -61,11 +62,17 @@ function App() {
               <UserProfilePage />
             </ProtectedRoute>
           </Route>
+          <Route exact path="/review/new">
+            <ReviewForm isNew={true} />
+          </Route>
           <Route exact path="/review/:reviewId">
             <ReviewForm isUpdate={true} />
           </Route>
           <Route exact path="/notfound">
             <BusinessNotFound />
+          </Route>
+          <Route exact path="/not-logged-in">
+            <NotLoggedIn />
           </Route>
         </Switch>
       )}

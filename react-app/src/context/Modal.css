@@ -43,6 +43,10 @@
   margin: 6px auto;
 }
 
+#modal-content button {
+  width: 100%
+}
+
 input.half-width {
   width: 48% !important;
   margin: 6px 0px !important;
