@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBusiness, getAllBusiness } from '../../store/business'
+import { ReviewContext } from '../../context/ReviewContext'
 import QuestionListItem from '../QuestionListItem'
 import UserReviewListItem from '../UserReviewListItem'
 import OpenModalButton from '../OpenModalButton'
@@ -12,6 +13,7 @@ const BusinessDetails = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const { id } = useParams()
+  const { currentReview } = useContext(ReviewContext)
   const [isLoaded, setIsLoaded] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
   const [previewImage, setPreviewImage] = useState([])
@@ -32,7 +34,7 @@ const BusinessDetails = () => {
       setReviews(data.reviews)
     }
     getReviews(id)
-  }, [dispatch])
+  }, [dispatch, currentReview])
 
   useEffect(() => {
     if (user?.id === business?.ownerId) {
@@ -53,7 +55,7 @@ const BusinessDetails = () => {
 
     setBusinessCategories(business?.categories.map(business => business.category))
 
-  }, [business, user])
+  }, [business, user, currentReview])
 
   let sessionLinks
 
@@ -176,7 +178,7 @@ const BusinessDetails = () => {
             <div className='businessDetails-pictureButton'>
               <OpenModalButton
                 buttonText={`View all ${business.images.length} pictures`}
-                modalComponent={<PictureModal images={business.images} owner={isOwner}/>}
+                modalComponent={<PictureModal images={business.images} owner={isOwner} user={user}/>}
               />
             </div>
           </div>

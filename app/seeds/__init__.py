@@ -43,7 +43,7 @@ def seed():
     users = seed_users()
     businesses = seed_businesses(amenities, categories)
     reviews = seed_reviews(users, businesses)
-    seed_business_images()
+    seed_business_images(users)
     seed_questions()
     seed_answers()
     seed_votes(users, reviews)
