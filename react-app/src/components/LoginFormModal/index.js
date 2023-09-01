@@ -25,7 +25,7 @@ function LoginFormModal() {
   };
 
   return (
-    <>
+    <div className="loginModal">
         <h1 className="login-modal-header">Sign in to Welp</h1>
 
         <p>Connect with great local businesses</p>
@@ -80,7 +80,7 @@ function LoginFormModal() {
             </li>
           </ul>
         </form>
-    </>
+    </div>
   );
 }
 

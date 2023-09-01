@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getBusiness, getAllBusiness } from '../../store/business'
 import QuestionListItem from '../QuestionListItem'
 import UserReviewListItem from '../UserReviewListItem'
-import OpenPictureModalButton from '../OpenModalButton'
+import OpenModalButton from '../OpenModalButton'
 import PictureModal from "../PictureModal"
 import "./BusinessDetails.css"
 
@@ -174,7 +174,7 @@ const BusinessDetails = () => {
               </div>
             </div>
             <div className='businessDetails-pictureButton'>
-              <OpenPictureModalButton
+              <OpenModalButton
                 buttonText={`View all ${business.images.length} pictures`}
                 modalComponent={<PictureModal images={business.images}/>}
               />

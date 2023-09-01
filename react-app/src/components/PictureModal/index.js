@@ -1,4 +1,5 @@
 import BusinessImageCard from '../BusinessImageCard'
+import './PictureModal.css'
 
 const PictureModal = ({ images }) => {
   console.log("images", images)

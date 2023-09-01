@@ -1,6 +1,10 @@
-const BusinessImageCard = () => {
+import './BusinessImageCard.css'
+
+const BusinessImageCard = ({image}) => {
   return (
-    <h1>Business Image Card</h1>
+    <div className="businessImageCard">
+      <img src={image.url} alt=""/>
+    </div>
   )
 }
 
