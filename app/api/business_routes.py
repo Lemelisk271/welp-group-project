@@ -259,6 +259,16 @@ def getSingleBusiness(id):
     else:
         abort(404, "Business not found")
 
+@business_routes.route("/categories")
+def get_business_categories():
+    categories = Category.query.order_by('id').limit(8)
+    random_categories = []
+    for category in categories:
+        random_categories.append({
+            "id": category.id,
+            "category": category.category,
+        })
+    return {'categories': random_categories}
 
 @business_routes.route("/<int:id>/edit", methods=["DELETE"])
 def deleteBusiness(id):

@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom"
 import "./LandingPage.css";
 
 export default function LandingPage() {
+    const [isLoaded, setIsLoaded] = useState(false);
     const [recentActivity, setRecentActivity] = useState([]);
+    const [randomCategories, setRandomCategories] = useState([]);
+    const history = useHistory();
 
     useEffect(() => {
         const getRecentActivity = async () => {
@@ -11,6 +15,13 @@ export default function LandingPage() {
             setRecentActivity(reviewData.reviews);
         };
         getRecentActivity();
+
+        const getRandomCategories = async () => {
+            const categories = await fetch(`/api/business/categories`);
+            const categoriesData = await categories.json();
+            setRandomCategories(categoriesData.categories);
+        };
+        getRandomCategories();
         // eslint-disable-next-line
     }, []);
 
@@ -21,7 +32,14 @@ export default function LandingPage() {
                 <h2 className="no-margin">Recent Activity</h2>
                 <div className="landing-page-card-container">
                     {recentActivity.map(
-                        ({ reviewId, businessName, userName, stars, review, date }) => (
+                        ({
+                            reviewId,
+                            businessName,
+                            userName,
+                            stars,
+                            review,
+                            date,
+                        }) => (
                             <div className="landing-page-card" key={reviewId}>
                                 <div className="landing-page-card-header">
                                     <h4 className="no-margin">{userName}</h4>
@@ -38,52 +56,42 @@ export default function LandingPage() {
                                         {businessName}
                                     </h4>
                                     {/* <p>{date}</p> */}
-                                    <div className='landing-page-stars'>
-                                    <div
-                                        className={
-                                            stars >= 1
-                                                ? "filled"
-                                                : "empty"
-                                        }
-                                    >
-                                        <i className="fa-solid fa-star"></i>
-                                    </div>
-                                    <div
-                                        className={
-                                            stars >= 2
-                                                ? "filled"
-                                                : "empty"
-                                        }
-                                    >
-                                        <i className="fa-solid fa-star"></i>
-                                    </div>
-                                    <div
-                                        className={
-                                            stars >= 3
-                                                ? "filled"
-                                                : "empty"
-                                        }
-                                    >
-                                        <i className="fa-solid fa-star"></i>
-                                    </div>
-                                    <div
-                                        className={
-                                            stars >= 4
-                                                ? "filled"
-                                                : "empty"
-                                        }
-                                    >
-                                        <i className="fa-solid fa-star"></i>
-                                    </div>
-                                    <div
-                                        className={
-                                            stars >= 5
-                                                ? "filled"
-                                                : "empty"
-                                        }
-                                    >
-                                        <i className="fa-solid fa-star"></i>
-                                    </div>
+                                    <div className="landing-page-stars">
+                                        <div
+                                            className={
+                                                stars >= 1 ? "filled" : "empty"
+                                            }
+                                        >
+                                            <i className="fa-solid fa-star"></i>
+                                        </div>
+                                        <div
+                                            className={
+                                                stars >= 2 ? "filled" : "empty"
+                                            }
+                                        >
+                                            <i className="fa-solid fa-star"></i>
+                                        </div>
+                                        <div
+                                            className={
+                                                stars >= 3 ? "filled" : "empty"
+                                            }
+                                        >
+                                            <i className="fa-solid fa-star"></i>
+                                        </div>
+                                        <div
+                                            className={
+                                                stars >= 4 ? "filled" : "empty"
+                                            }
+                                        >
+                                            <i className="fa-solid fa-star"></i>
+                                        </div>
+                                        <div
+                                            className={
+                                                stars >= 5 ? "filled" : "empty"
+                                            }
+                                        >
+                                            <i className="fa-solid fa-star"></i>
+                                        </div>
                                     </div>
                                     {/* <p className="">{stars}</p> */}
                                     <p>{review.substring(0, 80)}...</p>
@@ -93,14 +101,16 @@ export default function LandingPage() {
                     )}
                 </div>
                 <hr></hr>
-                <div className="landing-page-categories-container">
-                    {/* Map over query results for categories */}
-                    <h2 className="landing-page-categories-header">
-                        Categories
-                    </h2>
-                    <div className="landing-page-categories-buttons">
-                        <div className="landing-page-category">Restaurants</div>
-                    </div>
+                <h2 className="landing-page-categories-header">Categories</h2>
+                <div className="landing-page-card-container">
+                    {randomCategories.map(({ id, category }) => (
+                        <div key={id} className="landing-page-category-card" onClick={() => history.push('/business')}>
+                            <h4>{category}</h4>
+                            <div className="category-image">
+                                <i className="fa-solid fa-utensils"></i>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </>
