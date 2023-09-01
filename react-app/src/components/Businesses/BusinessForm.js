@@ -155,7 +155,7 @@ const BusinessForm = ({ businessData }) => {
               try {
                 const formData = new FormData();
                 formData.append("image", image);
-                formData.append("user", userId)
+                formData.append("user", userId);
                 const addImage = await fetch(
                   `/api/business/${resBusiness.id}/images`,
                   {
@@ -163,11 +163,12 @@ const BusinessForm = ({ businessData }) => {
                     body: formData,
                   }
                 );
-                console.log(addImage)
+                console.log(addImage);
               } catch (err) {
                 if (err) {
-                  console.log("IMGERR", err)
-                  errorObj.image = "Something went wrong with your image upload";
+                  console.log("IMGERR", err);
+                  errorObj.image =
+                    "Something went wrong with your image upload";
                 } else {
                   history.push(`/business/${resBusiness.id}`);
                 }
@@ -324,13 +325,15 @@ const BusinessForm = ({ businessData }) => {
                   </div>
                 ))}
               </div>
-              <input
-                className="business-form-address-street"
-                id="image"
-                type="file"
-                accept="image/*"
-                onChange={(e) => setImage(e.target.files[0])}
-              />
+              {!businessData && (
+                <input
+                  className="business-form-address-street"
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setImage(e.target.files[0])}
+                />
+              )}
             </div>
             <button
               className="big-red-button"
