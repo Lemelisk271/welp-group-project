@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useParams, useHistory} from 'react-router-dom'
+import { useParams, useHistory, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBusiness } from '../../store/business'
+import QuestionListItem from '../QuestionListItem'
 import "./BusinessDetails.css"
 
 const BusinessDetails = () => {
@@ -27,6 +28,7 @@ const BusinessDetails = () => {
       setIsOwner(true)
     }
     setPreviewImage(business?.images.filter(image => image.preview === true))
+
     let totalStars = 0
     business?.reviews.forEach(el => {
       totalStars += el.stars
@@ -34,7 +36,9 @@ const BusinessDetails = () => {
     if (business?.reviews.length !== 0) {
       setAverageStars(Math.floor((totalStars / business?.reviews.length) * 10) / 10)
     }
+
     setBusinessCategories(business?.categories.map(business => business.category))
+
   }, [business, user])
 
   let sessionLinks
@@ -56,6 +60,26 @@ const BusinessDetails = () => {
         <button>Edit {business.name}</button>
         <button>Delete {business.name}</button>
       </>
+    )
+  }
+
+  let questions
+
+  if (business?.questions.length <= 0) {
+    questions = (
+      <p>Welp users haven't asked any questions yet about {business.name}</p>
+    )
+  }
+
+  if (business?.questions.length > 0) {
+    questions = (
+      <ul>
+        {business?.questions.map(question => (
+          <li key={question.id}>
+            <QuestionListItem question={question}/>
+          </li>
+        ))}
+      </ul>
     )
   }
 
@@ -152,9 +176,30 @@ const BusinessDetails = () => {
                 </ul>
               </div>
             <div className='businessDetails-line'></div>
+            <div className='businessDetails-about'>
+              <h3>About the Business</h3>
+              <p>{business.about}</p>
+            </div>
+            <div className='businessDetails-line'></div>
+            <div className='businessDetails-questions'>
+              <div className='businessDetails-ask'>
+                <h3>Ask the Community</h3>
+                <button>Ask a question <i className="fa-solid fa-plus"></i></button>
+              </div>
+                {questions}
+            </div>
+            <div className='businessDetails-line'></div>
             </div>
             <div className='businessDetails-info'>
-              <p>{business.name}</p>
+              <div className='businessDetails-info-link'>
+                <Link to={business.url} target="_blank">{business.name}</Link>
+                <Link to={business.url} target="_blank"><i className="fa-solid fa-arrow-up-right-from-square"></i></Link>
+              </div>
+              <div className='businessDetails-line'></div>
+              <div className='businessDetails-phone'>
+                <p>{business.phone}</p>
+                <i class="fa-solid fa-phone"></i>
+              </div>
             </div>
           </div>
         </>

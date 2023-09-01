@@ -106,7 +106,8 @@
 }
 
 .businessDetails-content {
-  width: 70%;
+  width: 65%;
+  margin: 0 auto;
 }
 
 .businessDetails-location-hours {
@@ -169,5 +170,82 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  width: 50%;
+}
+
+.businessDetails-info {
+  border: 2px solid grey;
+  width: 30%;
+  height: fit-content;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.businessDetails-info-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.businessDetails-info-link a {
+  color: #16849F;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.businessDetails-info-link a:hover {
+  text-decoration: underline;
+}
+
+.businessDetails-phone {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.businessDetails-ask {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.businessDetails-ask > button {
+  height: 30px;
+  background: #E00807;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.businessDetails-questionItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.businessDetails-questionItem > button {
+  height: 30px;
+  background: #E00807;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 169px;
+}
+
+.businessDetails-answerItem li {
+  display: flex;
   width: 50%;
 }
