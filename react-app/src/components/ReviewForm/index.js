@@ -263,12 +263,12 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
                             <button
                                 className="form-button big-red-button"
                                 type="submit"
-                                // disabled={
-                                //     !starRating ||
-                                //     !review.length ||
-                                //     errors.review ||
-                                //     errors.stars
-                                // }
+                                disabled={
+                                    !starRating ||
+                                    !review.length ||
+                                    errors.review ||
+                                    errors.stars
+                                }
                             >
                                 Post Review
                             </button>
