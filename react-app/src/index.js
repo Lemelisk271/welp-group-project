@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
 import { ModalProvider, Modal } from "./context/Modal";
+import { PictureModalProvider, PictureModal } from "./context/PictureModal"
 import configureStore from "./store";
 import * as sessionActions from "./store/session";
 import App from "./App";
@@ -26,14 +27,17 @@ function Root() {
 	return (
 		<ReviewProvider>
 			<SearchProvider>
-				<ModalProvider>
-					<Provider store={store}>
-						<BrowserRouter>
-							<App />
-							<Modal />
-						</BrowserRouter>
-					</Provider>
-				</ModalProvider>
+				<PictureModalProvider>
+					<ModalProvider>
+						<Provider store={store}>
+							<BrowserRouter>
+								<App />
+								<Modal />
+								<PictureModal />
+							</BrowserRouter>
+						</Provider>
+					</ModalProvider>
+				</PictureModalProvider>
 			</SearchProvider>
 		</ReviewProvider>
 	);

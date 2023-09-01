@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getBusiness, getAllBusiness } from '../../store/business'
 import QuestionListItem from '../QuestionListItem'
 import UserReviewListItem from '../UserReviewListItem'
+import OpenPictureModalButton from '../OpenModalButton'
+import PictureModal from "../PictureModal"
 import "./BusinessDetails.css"
 
 const BusinessDetails = () => {
@@ -36,7 +38,7 @@ const BusinessDetails = () => {
     if (user?.id === business?.ownerId) {
       setIsOwner(true)
     }
-    if (user?.id !== business?.ownderId) {
+    if (user?.id !== business?.ownerId) {
       setIsOwner(false)
     }
     setPreviewImage(business?.images.filter(image => image.preview === true))
@@ -172,7 +174,10 @@ const BusinessDetails = () => {
               </div>
             </div>
             <div className='businessDetails-pictureButton'>
-              <button>View all {business.images.length} pictures</button>
+              <OpenPictureModalButton
+                buttonText={`View all ${business.images.length} pictures`}
+                modalComponent={<PictureModal images={business.images}/>}
+              />
             </div>
           </div>
           <div className='businessDetails-contentButtons'>
