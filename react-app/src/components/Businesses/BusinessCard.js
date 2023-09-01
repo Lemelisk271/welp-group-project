@@ -88,8 +88,8 @@ const BusinessCard = ({ loadedBusiness }) => {
               {[...Array(business?.price)].map((e, i) => <i key={i} className="fa-solid fa-dollar"></i>)}
             </div>
             <div className="businessCardHours">
-                {business.hours[dayNumber].close_time && <p>Open until {business.hours[dayNumber].close_time}</p>}
-                {!business.hours[dayNumber].close_time && <p>CLOSED</p>}
+                {business.hours[dayNumber]?.close_time && <p>Open until {business.hours[dayNumber].close_time}</p>}
+                {!business.hours[dayNumber]?.close_time && <p>CLOSED</p>}
             </div>
             <div className="businessCardReview">
                 <p>"{business?.reviews[0]?.review}"</p>
