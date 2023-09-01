@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "./LandingPage.css";
 
 export default function LandingPage() {
-    const [stars, setStars] = useState(0)
     const [recentActivity, setRecentActivity] = useState([]);
 
     useEffect(() => {
@@ -10,7 +9,6 @@ export default function LandingPage() {
             const reviews = await fetch(`/api/review/recent`);
             const reviewData = await reviews.json();
             setRecentActivity(reviewData.reviews);
-            // console.log("Recent Activity ==>", recentActivity);
         };
         getRecentActivity();
         // eslint-disable-next-line
@@ -22,11 +20,9 @@ export default function LandingPage() {
             <div className="landing-page-card-section">
                 <h2 className="no-margin">Recent Activity</h2>
                 <div className="landing-page-card-container">
-                    {/* Map over query results for recent reviews */}
                     {recentActivity.map(
-                        ({ businessName, userName, stars, review, date }) => (
-                            // console.log("Mapped Activity ==>", activity)
-                            <div className="landing-page-card" key={userName}>
+                        ({ reviewId, businessName, userName, stars, review, date }) => (
+                            <div className="landing-page-card" key={reviewId}>
                                 <div className="landing-page-card-header">
                                     <h4 className="no-margin">{userName}</h4>
                                     <p>Wrote a review</p>
