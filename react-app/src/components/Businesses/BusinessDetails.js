@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useHistory, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { getBusiness } from '../../store/business'
+import { getBusiness, getAllBusiness } from '../../store/business'
 import QuestionListItem from '../QuestionListItem'
 import UserReviewListItem from '../UserReviewListItem'
 import "./BusinessDetails.css"
@@ -15,6 +15,7 @@ const BusinessDetails = () => {
   const [previewImage, setPreviewImage] = useState([])
   const [averageStars, setAverageStars] = useState(0)
   const [businessCategories, setBusinessCategories] = useState([])
+  const [reviews, setReviews] = useState([])
   const business = useSelector(state => state.business.singleBusiness)
   const user = useSelector(state => state.session.user)
 
@@ -22,10 +23,11 @@ const BusinessDetails = () => {
     dispatch(getBusiness(id))
       .then(() => setIsLoaded(true))
       .catch(() => history.push("/notfound"))
+    dispatch(getAllBusiness())
     const getReviews = async (id) => {
       const reviewData = await fetch(`/api/business/${id}/review/all`)
       const data = await reviewData.json()
-      console.log("data", data)
+      setReviews(data.reviews)
     }
     getReviews(id)
   }, [dispatch])
@@ -33,6 +35,9 @@ const BusinessDetails = () => {
   useEffect(() => {
     if (user?.id === business?.ownerId) {
       setIsOwner(true)
+    }
+    if (user?.id !== business?.ownderId) {
+      setIsOwner(false)
     }
     setPreviewImage(business?.images.filter(image => image.preview === true))
 
@@ -92,16 +97,16 @@ const BusinessDetails = () => {
 
   let reviewElement
 
-  if (business?.reviews.length === 0) {
+  if (reviews.length === 0) {
     reviewElement = (
-      <p>Welp users haven't reviewed {business.name} yet.</p>
+      <p>Welp users haven't reviewed {business?.name} yet.</p>
     )
   }
 
-  if (business?.reviews.length > 0) {
+  if (reviews.length > 0) {
     reviewElement = (
       <>
-        {business?.reviews.map(review => (
+        {reviews.map(review => (
           <UserReviewListItem key={review.id} review={review} page={"businessDetail"}/>
         ))}
       </>
@@ -165,6 +170,9 @@ const BusinessDetails = () => {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className='businessDetails-pictureButton'>
+              <button>View all {business.images.length} pictures</button>
             </div>
           </div>
           <div className='businessDetails-contentButtons'>

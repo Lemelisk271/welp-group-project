@@ -4,14 +4,30 @@ import { useHistory } from "react-router-dom"
 import OpenModalButton from "../OpenModalButton"
 import DeleteReviewModal from '../DeleteReviewModal'
 
-const UserReviewListItem = ({ review, page, id }) => {
+const UserReviewListItem = ({ review, page }) => {
   const [rating] = useState(review.stars)
+  const [votes, setVotes] = useState({})
   const history = useHistory()
   let business = useSelector((state) => state.business.allBusinesses[review.businessId])
+
+  useEffect(() => {
+    if (page === 'businessDetail') {
+      const voteObj = {}
+      for (let vote of review.votes) {
+        if (voteObj[vote.type] === undefined) {
+          voteObj[vote.type] = 1
+        } else {
+          voteObj[vote.type] += 1
+        }
+      }
+      setVotes(voteObj)
+    }
+  }, [])
 
   let newDate = new Date(review.date)
 
   let categories = business?.categories.map(category => category.category).join(", ")
+
 
   const editButton = (e) => {
     e.preventDefault()
@@ -23,11 +39,13 @@ const UserReviewListItem = ({ review, page, id }) => {
   if (page === "userProfile") {
     buttons = (
       <>
-        <button onClick={editButton}>Edit Review</button>
-        <OpenModalButton
-          buttonText="Delete Review"
-          modalComponent={<DeleteReviewModal id={review.id}/>}
-        />
+        <div className="reviewListItem-buttons">
+          <button onClick={editButton}>Edit Review</button>
+          <OpenModalButton
+            buttonText="Delete Review"
+            modalComponent={<DeleteReviewModal id={review.id}/>}
+          />
+        </div>
       </>
     )
   }
@@ -35,6 +53,11 @@ const UserReviewListItem = ({ review, page, id }) => {
   if (page === "businessDetail") {
     buttons = (
       <>
+        <div className="businessDetail-buttons">
+          <button><i className="fa-regular fa-lightbulb"></i> Useful {votes.Useful}</button>
+          <button><i className="fa-regular fa-face-laugh"></i> Funny {votes.Funny}</button>
+          <button><i className="fa-regular fa-face-grin-stars"></i> Cool {votes.Cool}</button>
+        </div>
       </>
     )
   }
@@ -80,7 +103,7 @@ const UserReviewListItem = ({ review, page, id }) => {
       <div className="reviewListItem-review">
         <p>{review.review}</p>
       </div>
-      <div className="reviewListItem-buttons">
+      <div>
         {buttons}
       </div>
     </div>
