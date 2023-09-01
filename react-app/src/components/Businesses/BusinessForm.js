@@ -249,8 +249,8 @@ const BusinessForm = ({ businessData }) => {
             <input
               className="full-width"
               type="tel"
-              name='phone'
-              placeholder="Business phone number"
+              name="phone"
+              placeholder="Business Phone Number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
@@ -337,18 +337,14 @@ const BusinessForm = ({ businessData }) => {
               )}
             </div>
             <div className="business-form-days master container">
+              <h3>Hours</h3>
               {dayList.map((day) => (
-                <div className="business-form-days day container">
+                <div key={day} className="business-form-days day container">
+                  <input type="checkbox" className="checkbox" />
                   <p className="business-form-days day label">{day}</p>
+                  <input className="business-form-days open time" type="time" />
                   <input
-                    className="business-form-days closed"
-                    type="checkbox"
-                    name="closed"
-                  />
-                  <label for="closed">Closed?</label>{" "}
-                  <input className="business-form-days open-time" type="time" />
-                  <input
-                    className="business-form-days close-time"
+                    className="business-form-days close time"
                     type="time"
                   />
                 </div>
