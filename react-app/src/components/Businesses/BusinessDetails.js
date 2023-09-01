@@ -22,6 +22,12 @@ const BusinessDetails = () => {
     dispatch(getBusiness(id))
       .then(() => setIsLoaded(true))
       .catch(() => history.push("/notfound"))
+    const getReviews = async (id) => {
+      const reviewData = await fetch(`/api/business/${id}/review/all`)
+      const data = await reviewData.json()
+      console.log("data", data)
+    }
+    getReviews(id)
   }, [dispatch])
 
   useEffect(() => {
@@ -58,8 +64,8 @@ const BusinessDetails = () => {
   if (isOwner) {
     ownerLinks = (
       <>
-        <button>Edit {business.name}</button>
-        <button>Delete {business.name}</button>
+        <button>Edit {business?.name}</button>
+        <button>Delete {business?.name}</button>
       </>
     )
   }
@@ -84,16 +90,16 @@ const BusinessDetails = () => {
     )
   }
 
-  let reviews
+  let reviewElement
 
   if (business?.reviews.length === 0) {
-    reviews = (
+    reviewElement = (
       <p>Welp users haven't reviewed {business.name} yet.</p>
     )
   }
 
   if (business?.reviews.length > 0) {
-    reviews = (
+    reviewElement = (
       <>
         {business?.reviews.map(review => (
           <UserReviewListItem key={review.id} review={review} page={"businessDetail"}/>
@@ -209,7 +215,7 @@ const BusinessDetails = () => {
             </div>
             <div className='businessDetails-line'></div>
             <div className='businessDetails-reviews'>
-              {reviews}
+              {reviewElement}
             </div>
             </div>
             <div className='businessDetails-info'>
@@ -220,7 +226,7 @@ const BusinessDetails = () => {
               <div className='businessDetails-line'></div>
               <div className='businessDetails-phone'>
                 <p>{business.phone}</p>
-                <i class="fa-solid fa-phone"></i>
+                <i className="fa-solid fa-phone"></i>
               </div>
             </div>
           </div>

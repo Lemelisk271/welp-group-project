@@ -1,10 +1,10 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import OpenModalButton from "../OpenModalButton"
 import DeleteReviewModal from '../DeleteReviewModal'
 
-const UserReviewListItem = ({ review, page }) => {
+const UserReviewListItem = ({ review, page, id }) => {
   const [rating] = useState(review.stars)
   const history = useHistory()
   let business = useSelector((state) => state.business.allBusinesses[review.businessId])

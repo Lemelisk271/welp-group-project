@@ -179,7 +179,7 @@ def getBusinessReviews(id):
 
         for review in reviews:
             newReview = review.to_dict()
-            votes = Vote.query.filter(Vote.reviewId == newReview.id).all()
+            votes = Vote.query.filter(Vote.reviewId == newReview["id"]).all()
             newReview['votes'] = [vote.to_dict() for vote in votes]
             allBusinessReview.append(newReview)
 
@@ -187,12 +187,12 @@ def getBusinessReviews(id):
     else:
         return {'errors': 'No reviews found for this business'}, 401
 
-@business_routes.route("/")
-def getAllBusinesses():
-  businesses = Business.query.all();
-  print(businesses)
-  [business.to_dict() for business in businesses]
-  return businesses
+# @business_routes.route("/")
+# def getAllBusinesses():
+#   businesses = Business.query.all();
+#   print(businesses)
+#   [business.to_dict() for business in businesses]
+#   return businesses
 
 
 @business_routes.route("/<int:id>")
