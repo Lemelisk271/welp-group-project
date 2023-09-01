@@ -54,6 +54,10 @@ hr {
     margin: 8px;
 }
 
+button {
+    cursor: pointer;
+}
+
 ul.no-bullets {
     list-style-type: none;
     padding-left: 0;
