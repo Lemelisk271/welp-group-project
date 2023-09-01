@@ -270,3 +270,23 @@ def deleteBusiness(id):
         return business.to_dict()
     else:
         abort(404, "Business not found")
+
+@business_routes.route("/image/<int:id>", methods=["DELETE"])
+def deleteBusinessImage(id):
+    image_to_delete = BusinessImages.query.get(id)
+    url = image_to_delete.url
+
+    if url:
+        checkImage = url.split("://")[1][0:4]
+        if checkImage == "welp":
+            deleted_file = remove_file_from_s3(url)
+
+    if image_to_delete:
+        if image_to_delete.preview:
+            new_preview = BusinessImages.query.filter(BusinessImages.businessId == image_to_delete.to_dict()["businessId"], BusinessImages.id != image_to_delete.to_dict()["id"]).first()
+            new_preview.preview = True
+        db.session.delete(image_to_delete)
+        db.session.commit()
+        return image_to_delete.to_dict()
+    else:
+        abort(404, "business not found")

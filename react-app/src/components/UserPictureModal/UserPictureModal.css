@@ -1,3 +1,7 @@
+.userPictureModal {
+  width: 400px;
+}
+
 .userPictureModal > img {
   width: 100%;
 }
