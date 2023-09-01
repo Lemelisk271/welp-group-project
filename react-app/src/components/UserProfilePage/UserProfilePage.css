@@ -113,7 +113,7 @@
 .reviewListItem {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid black;
+  border-bottom: 2px solid grey;
   padding-top: 15px;
 }
 
