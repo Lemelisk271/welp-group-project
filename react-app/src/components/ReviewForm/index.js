@@ -272,6 +272,7 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
                             >
                                 Post Review
                             </button>
+                            &nbsp;
                             {isUpdate && (
                                 <button
                                     className="form-button big-red-button"
