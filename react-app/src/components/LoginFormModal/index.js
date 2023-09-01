@@ -76,7 +76,7 @@ function LoginFormModal() {
               <span>Forgot password?</span>
             </li>
             <li>
-              <button className="form-button" type="submit">Log In</button>
+              <button className="big-red-button" type="submit">Log In</button>
             </li>
           </ul>
         </form>
