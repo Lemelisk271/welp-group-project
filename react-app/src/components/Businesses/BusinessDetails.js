@@ -31,7 +31,9 @@ const BusinessDetails = () => {
     const getReviews = async (id) => {
       const reviewData = await fetch(`/api/business/${id}/review/all`)
       const data = await reviewData.json()
-      setReviews(data.reviews)
+      setReviews(data.reviews.sort(function(a, b) {
+        return new Date(b.date) - new Date(a.date)
+      }))
     }
     getReviews(id)
   }, [dispatch, currentReview])
@@ -62,7 +64,7 @@ const BusinessDetails = () => {
   if (user) {
     sessionLinks = (
       <>
-        <button>Write a Review</button>
+        <button onClick={newReview}>Write a Review</button>
         <button>Add Photo</button>
       </>
     )
@@ -115,6 +117,10 @@ const BusinessDetails = () => {
         ))}
       </>
     )
+  }
+
+  function newReview () {
+    history.push(`/business/${business.id}/review`)
   }
 
   return (
