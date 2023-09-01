@@ -42,7 +42,7 @@ function SignupFormModal() {
             <form onSubmit={handleSubmit}>
                 <ul>
                     {errors.map((error, idx) => (
-                        <li key={idx}>{error}</li>
+                        <li className="errors" key={idx}>{error}</li>
                     ))}
                 </ul>
                 <div className="signup-form-names">
@@ -70,13 +70,6 @@ function SignupFormModal() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                 />
-                {/* <input
-          type="text"
-          value={username}
-          placeholder="Username"
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        /> */}
                 <input
                     type="password"
                     value={password}
