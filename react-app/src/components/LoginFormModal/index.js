@@ -36,16 +36,20 @@ function LoginFormModal() {
             <div>
                 <ul className="login-modal-signin-buttons no-bullets">
                     <li>
-                        <img
-                            src="https://placehold.co/340x44/FFFFFF/000000.png?text=Continue+with+Google"
-                            alt=""
-                        />
+                        <a href="/error">
+                            <img
+                                src="https://placehold.co/340x44/FFFFFF/000000.png?text=Continue+with+Google"
+                                alt=""
+                            />
+                        </a>
                     </li>
                     <li>
-                        <img
-                            src="https://placehold.co/340x44/000000/FFFFFF.png?text=Continue+with+Apple"
-                            alt=""
-                        />
+                        <a href="/error">
+                            <img
+                                src="https://placehold.co/340x44/000000/FFFFFF.png?text=Continue+with+Apple"
+                                alt=""
+                            />
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -56,7 +60,7 @@ function LoginFormModal() {
             <form onSubmit={handleSubmit}>
                 <ul>
                     {errors.map((error, idx) => (
-                        <li key={idx}>{error}</li>
+                        <li className="errors" key={idx}>{error}</li>
                     ))}
                 </ul>
                 <ul className="login-modal-signin-form no-bullets">
@@ -80,11 +84,16 @@ function LoginFormModal() {
                     </li>
                     <br />
                     <li>
-                        <span>Forgot password?</span>
+                        <span>
+                            <a href="/error">Forgot password?</a>
+                        </span>
                     </li>
                     <br />
                     <li>
-                        <button className="big-red-button full-width" type="submit">
+                        <button
+                            className="big-red-button full-width"
+                            type="submit"
+                        >
                             Log In
                         </button>
                     </li>

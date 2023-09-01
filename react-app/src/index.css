@@ -65,6 +65,7 @@ li.errors {
     color: #e00807;
     font-size: 16px;
     font-weight: 500;
+    margin: 0px auto;
 }
 
 button.big-red-button {
