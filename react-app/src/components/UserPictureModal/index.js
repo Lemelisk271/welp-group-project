@@ -23,8 +23,6 @@ const UserPictureModal = ({ user }) => {
     formData.append("image", image)
     formData.append("id", user.id)
 
-    console.log(formData)
-
     const data = await dispatch(changeImage(user.id, formData))
     if (data) {
       setValidationErrors(data)
