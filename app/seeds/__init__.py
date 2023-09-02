@@ -6,7 +6,7 @@ from .amenities import seed_amenities, undo_amenities
 from .questions import seed_questions, undo_questions
 from .answers import seed_answers, undo_answers
 from .reviews import seed_reviews, undo_reviews
-from .categories import seed_categories, undo_categories
+from .categories import seed_categories, undo_categories, restaurant_food_categories
 from .votes import seed_votes, undo_votes
 from .days import seed_days, undo_days
 from .review_comments import seed_review_comments, undo_review_comments
