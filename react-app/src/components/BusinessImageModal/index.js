@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
-// import { useModal } from '../../context/Modal'
+import { useState, useEffect, useContext } from 'react'
+import { ReviewContext } from "../../context/ReviewContext";
+import { useModal } from '../../context/Modal'
 import './BusinessImageModal.css'
 
 const BusinessImageModal = ({ businessId, userId }) => {
@@ -7,6 +8,8 @@ const BusinessImageModal = ({ businessId, userId }) => {
   const [preview, setPreview] = useState(false)
   const [errors, setErrors] = useState([])
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const { currentReview, setCurrentReview } = useContext(ReviewContext);
+  const { closeModal } = useModal()
 
   useEffect(() => {
     const newErrors = []
@@ -16,7 +19,7 @@ const BusinessImageModal = ({ businessId, userId }) => {
     setErrors(newErrors)
   }, [image])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     setIsSubmitted(true)
@@ -31,7 +34,19 @@ const BusinessImageModal = ({ businessId, userId }) => {
     formData.append("businessId", businessId)
     formData.append("userId", userId)
 
-    console.log(formData.values())
+    const res = await fetch('/api/business/image/new', {
+      method: "POST",
+      body: formData
+    })
+    const data = await res.json()
+    if (data.errors) {
+      setErrors(data.errors)
+      console.log(data.errors)
+      return
+    } else {
+      setCurrentReview(!currentReview)
+      closeModal()
+    }
   }
 
   const handlePreviewChange = () => {

@@ -28,7 +28,7 @@ const BusinessDetails = () => {
     dispatch(getBusiness(id))
       .then(() => setIsLoaded(true))
       .catch(() => history.push("/notfound"));
-    // dispatch(getAllBusiness());
+    dispatch(getAllBusiness());
     const getReviews = async (id) => {
       const reviewData = await fetch(`/api/business/${id}/review/all`)
       const data = await reviewData.json()
