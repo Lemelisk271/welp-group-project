@@ -1,69 +1,67 @@
 import { useState, useEffect } from 'react'
-import { useModal } from '../../context/Modal'
+// import { useModal } from '../../context/Modal'
 import './BusinessImageModal.css'
 
 const BusinessImageModal = ({ businessId, userId }) => {
-  // eslint-disable-next-line
-  const { closeModal } = useModal()
   const [image, setImage] = useState('')
-  const [validationErrors, setValidationErrors] = useState([])
-  const [isSubmitted, setIsSubmitted] = useState(false)
   const [preview, setPreview] = useState(false)
+  const [errors, setErrors] = useState([])
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
   useEffect(() => {
-    const errors = []
+    const newErrors = []
     if (!image) {
-      errors.push("Please select an image")
+      newErrors.push("Please select an image")
     }
-    setValidationErrors(errors)
+    setErrors(newErrors)
   }, [image])
 
-  const handleSubmit = async (e) => {
-    e.preventdefault()
+  const handleSubmit = (e) => {
+    e.preventDefault()
 
     setIsSubmitted(true)
-    if(validationErrors.length) {
+
+    if (errors.length) {
       return
     }
 
     const formData = new FormData()
     formData.append("image", image)
+    formData.append("preview", preview)
     formData.append("businessId", businessId)
     formData.append("userId", userId)
-    formData.append("preview", preview)
 
-    console.log(formData)
+    console.log(formData.values())
   }
 
-  const checkChange = (e) => {
+  const handlePreviewChange = () => {
     setPreview(!preview)
   }
 
   return (
-    <div className="addBusinessImage">
+    <div className='addBusinessImage'>
+      <h3>Please Select an Image to add.</h3>
       {isSubmitted && <ul>
-          {validationErrors.map((error, i) => (
-            <li className='addBusinessImage-errors' key={i}>{ error }</li>
+          {errors.map((error, i) => (
+            <li key={i} className='addBusinessImage-error'>{ error }</li>
           ))}
         </ul>}
       <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <div>
-          <input
-            id="image"
-            type="file"
-            accept="image/*"
-            onChange={(e) => setImage(e.target.files[0])}
-          />
-          <div className='addBusinessImage-checkbox'>
-          <label htmlFor='image'>Set as Preview?</label>
+        <input
+          id='image'
+          type="file"
+          accept='image/*'
+          onChange={(e) => setImage(e.target.files[0])}
+        />
+        <div className='addBusinessImage-preview'>
+          <label htmlFor='preview'>Set image as preview?</label>
           <input
             type="checkbox"
-            value={preview}
-            onChange={checkChange}
+            checked={preview}
+            onChange={handlePreviewChange}
           />
-          </div>
         </div>
-        <button onClick={handleSubmit}>Save</button>
+        <button type='submit'>Save</button>
       </form>
     </div>
   )
