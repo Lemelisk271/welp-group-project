@@ -13,6 +13,7 @@ const BusinessImageCard = ({image, owner, user}) => {
     if (image.ownerId === user.id) {
       setIsUser(true)
     }
+    // eslint-disable-next-line
   }, [])
 
   const deleteImage = async () => {

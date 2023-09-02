@@ -10,6 +10,7 @@ function SignupFormModal() {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    // eslint-disable-next-line
     const [confirmPassword, setConfirmPassword] = useState("");
     const [zipCode, setZipCode] = useState("");
     const [errors, setErrors] = useState([]);
