@@ -84,11 +84,13 @@ input.checkbox {
 }
 
 input.time.open {
+    font-size: 16px;
     height: 35px;
-    margin: 0px 10px 0px 10px;
+    margin: 0px 5px 0px 5px;
 }
 
 input.time.close {
+    font-size: 16px;
     height: 35px;
-    margin: 0px 10px 0px 10px;
+    margin: 0px 5px 0px 5px;
 }
