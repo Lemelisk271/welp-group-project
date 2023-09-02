@@ -26,7 +26,7 @@ def random_price():
 
 # Create random business information
 def generate_businesses(amenities, categories):
-    for _ in range(50):
+    for _ in range(40):
         state = random_state()
         yield Business(
             name = fake.company(),
