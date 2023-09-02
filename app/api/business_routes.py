@@ -150,6 +150,24 @@ def addHours(id):
         return hours.to_dict()
     return {"errors": form.errors}, 401
 
+@business_routes.route("/<int:id>/categories", methods=["POST"])
+def addCategories(id):
+    request_data = request.get_json()
+    business = Business.query.get(id)
+    if not business:
+        return {"errors": "Business not found"}, 404
+    form = CategoryForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        category = Category.query.filter_by(category=form.data["category"]).first()
+        business_category = business_categories.insert().values(
+            businessId = id,
+            categoryId = category.id
+        )
+        db.session.execute(business_category)
+        db.session.commit()
+        return business_category.to_dict()
+    return {"errors": form.errors}, 401
 
 @business_routes.route("/<int:id>/edit", methods=["PUT"])
 def updateBusiness(id):
