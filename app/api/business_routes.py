@@ -61,7 +61,9 @@ def all_businesses():
         newBusiness["images"] = [image.to_dict() for image in images]
         newBusiness["reviews"] = [review.to_dict() for review in reviews]
         newBusiness["amenities"] = [amenity.to_dict() for amenity in business_amenities_join]
-        newBusiness['preview_image'] = preview_image[0].to_dict()
+        if preview_image:
+            print("PREVIEW IMAGE ==>", preview_image[0])
+            newBusiness['preview_image'] = preview_image[0].to_dict()
         newBusiness['categories'] = [category.to_dict() for category in business_categories_join]
         allBusinesses.append(newBusiness)
     return {"businesses": allBusinesses}

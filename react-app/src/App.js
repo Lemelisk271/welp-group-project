@@ -71,9 +71,6 @@ function App() {
           <Route exact path="/notfound">
             <BusinessNotFound />
           </Route>
-          {/* <Route exact path="/not-logged-in">
-            <NotLoggedIn />
-          </Route> */}
           <Route path="/error/:error">
             <ErrorPage />
           </Route>
