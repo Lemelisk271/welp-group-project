@@ -9,18 +9,18 @@ fake.add_provider(date_time)
 fake.add_provider(lorem)
 
 
-def generate_answers():
-    unique_questionIds = random.sample(range(1,60),40)
-    for questionId in unique_questionIds:
+def generate_answers(questions, users):
+    for question in questions:
+        user = random.choice(users)
         yield Answer(
             answer = fake.paragraph(nb_sentences=5),
             date = fake.date_this_month(before_today=True, after_today=False),
-            questionId = questionId,
-            userId = random.randint(1,33)
+            questionId = question.id,
+            userId = user.id
         )
 
-def seed_answers():
-    answers = list(generate_answers())
+def seed_answers(questions, users):
+    answers = list(generate_answers(questions, users))
     add_items = [db.session.add(answer) for answer in answers]
     db.session.commit()
     return answers
