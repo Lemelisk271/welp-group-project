@@ -29,6 +29,8 @@ const BusinessForm = ({ businessData }) => {
     const [disableLogin, setDisableLogin] = useState(true);
     // eslint-disable-next-line
     const [disableTime, setDisableTime] = useState("");
+  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
     const [Mon, setMon] = useState({
         day: "Mon",
         closed: false,
@@ -87,25 +89,53 @@ const BusinessForm = ({ businessData }) => {
         const updateClosed = { ...day, ...updatedValues };
         switch (day.day) {
             case "Mon":
-                setMon(updateClosed);
+        if (day.open_time > day.close_time) {
+          errorObj.hours = "Closing time cannot be before open time.";
+        } else {
+                  setMon(updateClosed);
+        }
                 break;
             case "Tue":
-                setTue(updateClosed);
+        if (day.open_time > day.close_time) {
+          errorObj.hours = "Closing time cannot be before open time.";
+        } else {
+                  setTue(updateClosed);
+        }
                 break;
             case "Wed":
-                setWed(updateClosed);
+        if (day.open_time > day.close_time) {
+          errorObj.hours = "Closing time cannot be before open time.";
+        } else {
+                  setWed(updateClosed);
+        }
                 break;
             case "Thu":
-                setThu(updateClosed);
+        if (day.open_time > day.close_time) {
+          errorObj.hours = "Closing time cannot be before open time.";
+        } else {
+                  setThu(updateClosed);
+        }
                 break;
             case "Fri":
-                setFri(updateClosed);
+        if (day.open_time > day.close_time) {
+          errorObj.hours = "Closing time cannot be before open time.";
+        } else {
+                  setFri(updateClosed);
+        }
                 break;
             case "Sat":
-                setSat(updateClosed);
+        if (day.open_time > day.close_time) {
+          errorObj.hours = "Closing time cannot be before open time.";
+        } else {
+                  setSat(updateClosed);
+        }
                 break;
             case "Sun":
-                setSun(updateClosed);
+        if (day.open_time > day.close_time) {
+          errorObj.hours = "Closing time cannot be before open time.";
+        } else {
+                  setSun(updateClosed);
+        }
                 break;
             default:
                 break;
@@ -113,22 +143,55 @@ const BusinessForm = ({ businessData }) => {
     };
 
     useEffect(() => {
-        if (
-            !name ||
-            !phone ||
-            !address ||
-            !city ||
-            !state ||
-            !zipCode ||
-            !priceRating
-        ) {
-            setDisableLogin(true);
-            setUnavailable("unavailable");
-        } else {
-            setDisableLogin(false);
-            setUnavailable("");
+        const fetchData = async () => {
+            if (
+                !name ||
+                !phone ||
+                !address ||
+                !city ||
+                !state ||
+                !zipCode ||
+                !priceRating
+            ) {
+                setDisableLogin(true);
+                setUnavailable("unavailable");
+            } else {
+                setDisableLogin(false);
+                setUnavailable("");
+            }
+            const categoryObj = await fetch(`/api/business/categories/all`, {
+            method: "GET",
+            });
+            const categoryRes = await categoryObj.json();
+            setCategoryOptions(categoryRes.categories);
+            console.log(categoryList);
         }
-    }, [name, phone, address, city, state, zipCode, priceRating]);
+        fetchData()
+    }, [name, phone, address, city, state, zipCode, priceRating, categoryList])
+
+    // useEffect(async () => {
+    //     if (
+    //         !name ||
+    //         !phone ||
+    //         !address ||
+    //         !city ||
+    //         !state ||
+    //         !zipCode ||
+    //         !priceRating
+    //     ) {
+    //         setDisableLogin(true);
+    //         setUnavailable("unavailable");
+    //     } else {
+    //         setDisableLogin(false);
+    //         setUnavailable("");
+    //     }
+    // const categoryObj = await fetch(`/api/business/categories/all`, {
+    //   method: "GET",
+    // });
+    // const categoryRes = await categoryObj.json();
+    // setCategoryOptions(categoryRes.categories);
+    // console.log(categoryList);
+    // }, [name, phone, address, city, state, zipCode, priceRating, categoryList]);
 
     useEffect(() => {
         const dateObj = {};
@@ -277,11 +340,11 @@ const BusinessForm = ({ businessData }) => {
                 if (businessData) {
                     newBusiness.id = businessData.id;
                     resBusiness = await dispatch(updateBusiness(newBusiness));
-                    console.log("PONT1", resBusiness.errors);
-                    if (resBusiness.errors) {
+                    const resBusinessData = resBusiness.json();
+                    if (resBusinessData.errors) {
                         setErrors(resBusiness.errors);
                     } else {
-                        history.push(`/business/${resBusiness.id}`);
+                        history.push(`/business/${resBusinessData.id}`);
                     }
                 } else {
                     try {
@@ -340,7 +403,7 @@ const BusinessForm = ({ businessData }) => {
                                         );
                                     })
                                 );
-                                history.push(`/business/${resBusiness.id}`);
+                                // history.push(`/business/${resBusiness.id}`);
                             } catch (err) {
                                 if (err) {
                                     console.log(err);
@@ -457,8 +520,8 @@ const BusinessForm = ({ businessData }) => {
                                 <option value="" disabled>
                                     Select a state
                                 </option>
-                                {state_choices.map((state) => (
-                                    <option key={state} value={state}>
+                                {state_choices.map((state, idx) => (
+                                    <option key={idx} value={state}>
                                         {state}
                                     </option>
                                 ))}
@@ -577,6 +640,49 @@ const BusinessForm = ({ businessData }) => {
                                 </div>
                             ))}
                         </div>
+            <div className="business-form-cat mastercontainer">
+              {categoryOptions && (
+                <>
+                  <div className="business-form-cat">
+                    <h3 className="cat-title">Categories</h3>
+                    <div className="business-form category container">
+                      {categoryOptions.map((category, idx) => (
+                        <div key={idx} className="business-form category listing">
+                          <label>
+                            <input
+                              key={idx * 2.01}
+                              className="business-form-categories"
+                              type="checkbox"
+                              onChange={(e) => {
+                                if (e.target.checked === true) {
+                                  setCategoryList([...categoryList, category]);
+                                } else {
+                                  const updatedCategoryList =
+                                    categoryList.filter(
+                                      (selectedCategory) =>
+                                        selectedCategory !== category
+                                    );
+                                  setCategoryList(updatedCategoryList);
+                                }
+                              }}
+                            />
+                            {category}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="test">
+                    <h3 className="cat-title">Selected</h3>
+                    <ul>
+                      {categoryList?.map((category, idx) => (
+                          <li key={idx * 1.12}>{category}</li>
+                        ))}
+                    </ul>
+                  </div>
+                </>
+              )}
+            </div>
                         <button
                             className="big-red-button"
                             type="submit"

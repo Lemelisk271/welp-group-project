@@ -10,7 +10,9 @@ fake.add_provider(address)
 fake.add_provider(date_time)
 
 def generate_users():
+    random_num = 1
     for _ in range(30):
+        random_num = random_num + 1
         yield User(
             first_name = fake.first_name(),
             last_name = fake.last_name(),
@@ -18,7 +20,7 @@ def generate_users():
             password = 'password',
             zip_code = fake.postcode(),
             birthday = fake.date_of_birth(),
-            profile_image = 'https://picsum.photos/800/600.jpg'
+            profile_image = f'https://picsum.photos/1280/720.jpg?random={random_num}'
         )
 
 # Adds a demo user, you can add other users here if you want

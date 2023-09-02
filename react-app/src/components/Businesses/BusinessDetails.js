@@ -139,7 +139,7 @@ const BusinessDetails = () => {
       {isLoaded ? (
         <>
           <div className="businessDetails-header">
-            <img src={previewImage[0].url} alt={business.name} />
+            <img src={previewImage[0]?.url} alt={business.name} />
             <div className="businessDetails-header-info">
               <h2>{business.name}</h2>
               <div className="businessDetails-header-reviews">

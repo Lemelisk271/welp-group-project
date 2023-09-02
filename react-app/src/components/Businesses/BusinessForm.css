@@ -1,8 +1,8 @@
 .business-form-container {
     display: flex;
     justify-content: space-around;
-    height: 1224px;
-    margin: 0px auto;
+    width: 1224px;
+    margin: 22px auto;
 }
 
 .business-form-left {
@@ -93,4 +93,41 @@ input.time.close {
     font-size: 16px;
     height: 35px;
     margin: 0px 5px 0px 5px;
+}
+
+select.business-form-categories {
+    height: unset;
+}
+
+div.business-form.category.container {
+    max-height: 300px;
+    overflow: scroll;
+    width: 200px;
+}
+
+div.business-form.category.listing {
+    align-content: center;
+    display: flex;
+}
+
+input.business-form-categories {
+    height: 16px;
+    margin-right: 10px;
+    width: 16px;
+}
+
+div.business-form-cat.mastercontainer {
+    display: flex;
+    flex-direction: row;
+}
+
+div.business-form-cat {
+    display: flex;
+    flex-direction: column;
+}
+
+.test {
+    border: 5px solid red;
+    margin-left: 2px;
+    width: 200px;
 }
