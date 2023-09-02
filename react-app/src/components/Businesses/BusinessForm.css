@@ -1,8 +1,8 @@
 .business-form-container {
     display: flex;
     justify-content: space-around;
-    height: 1224px;
-    margin: 0px auto;
+    width: 1224px;
+    margin: 22px auto;
 }
 
 .business-form-left {
