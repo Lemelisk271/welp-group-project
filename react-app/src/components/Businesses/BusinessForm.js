@@ -313,11 +313,11 @@ const BusinessForm = ({ businessData }) => {
                 if (businessData) {
                     newBusiness.id = businessData.id;
                     resBusiness = await dispatch(updateBusiness(newBusiness));
-                    console.log("PONT1", resBusiness.errors);
-                    if (resBusiness.errors) {
+                    const resBusinessData = resBusiness.json();
+                    if (resBusinessData.errors) {
                         setErrors(resBusiness.errors);
                     } else {
-                        // history.push(`/business/${resBusiness.id}`);
+                        history.push(`/business/${resBusinessData.id}`);
                     }
                 } else {
                     try {
