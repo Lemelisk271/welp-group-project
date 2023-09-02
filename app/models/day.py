@@ -23,7 +23,7 @@ class Day(db.Model):
     return {
       "id": self.id,
       "day": self.day,
-      "open_time": self.open_time,
-      "close_time": self.close_time,
+      "open_time": self.open_time.strftime('%H:%:M') if self.open_time else None,
+      "close_time": self.close_time.strftime('%H:%:M') if self.open_time else None,
       "closed": self.closed
     }

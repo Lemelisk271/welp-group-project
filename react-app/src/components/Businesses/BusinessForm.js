@@ -17,7 +17,6 @@ const BusinessForm = ({ businessData }) => {
   const [state, setState] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [about, setAbout] = useState("");
-  // const [price, setPrice] = useState("");
   const [errors, setErrors] = useState(null);
   const [frontEndErrors, setFrontEndErrors] = useState({});
   const [image, setImage] = useState("");
@@ -25,8 +24,81 @@ const BusinessForm = ({ businessData }) => {
   const [tempRating, setTempRating] = useState(0);
   const [unavailable, setUnavailable] = useState("");
   const [disableLogin, setDisableLogin] = useState(true);
+  const [disableTime, setDisableTime] = useState("");
+  const [Mon, setMon] = useState({
+    day: "Mon",
+    closed: false,
+    open_time: "09:00",
+    close_time: "17:00",
+  });
+  const [Tue, setTue] = useState({
+    day: "Tue",
+    closed: false,
+    open_time: "09:00",
+    close_time: "17:00",
+  });
+  const [Wed, setWed] = useState({
+    day: "Wed",
+    closed: false,
+    open_time: "09:00",
+    close_time: "17:00",
+  });
+  const [Thu, setThu] = useState({
+    day: "Thu",
+    closed: false,
+    open_time: "09:00",
+    close_time: "17:00",
+  });
+  const [Fri, setFri] = useState({
+    day: "Fri",
+    closed: false,
+    open_time: "09:00",
+    close_time: "17:00",
+  });
+  const [Sat, setSat] = useState({
+    day: "Sat",
+    closed: true,
+    open_time: null,
+    close_time: null,
+  });
+  const [Sun, setSun] = useState({
+    day: "Sun",
+    closed: true,
+    open_time: null,
+    close_time: null,
+  });
   const userId = useSelector((state) => state.session.user.id);
-  const dayList = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const dayList = [Mon, Tue, Wed, Thu, Fri, Sat, Sun];
+
+  const handleDateUpdate = (day, updatedValues) => {
+    const set = `set${day.day}`;
+    const updateClosed = { ...day, ...updatedValues };
+    switch (day.day) {
+      case "Mon":
+        setMon(updateClosed);
+        break;
+      case "Tue":
+        setTue(updateClosed);
+        break;
+      case "Wed":
+        setWed(updateClosed);
+        break;
+      case "Thu":
+        setThu(updateClosed);
+        break;
+      case "Fri":
+        setFri(updateClosed);
+        break;
+      case "Sat":
+        setSat(updateClosed);
+        break;
+      case "Sun":
+        setSun(updateClosed);
+        break;
+      default:
+        break;
+    }
+  };
 
   useEffect(() => {
     if (
@@ -47,6 +119,10 @@ const BusinessForm = ({ businessData }) => {
   }, [name, phone, address, city, state, zipCode, priceRating]);
 
   useEffect(() => {
+    const dateObj = {};
+    businessData?.hours?.forEach((day) => {
+      dateObj[day.day] = day;
+    });
     if (businessData) {
       setName(businessData?.name);
       setUrl(businessData?.url);
@@ -61,6 +137,69 @@ const BusinessForm = ({ businessData }) => {
         for (let image of businessData?.images) {
           if (image.preview === true) {
             setImage(image.url);
+          }
+        }
+      }
+      for (const day in dateObj) {
+        if (
+          !dateObj[day]?.open_time ||
+          !dateObj[day]?.close_time ||
+          dateObj[day]?.closed
+        ) {
+          delete dateObj[day].open_time;
+          delete dateObj[day].close_time;
+          dateObj[day].closed = true;
+          switch (day) {
+            case "Mon":
+              setMon(dateObj[day]);
+              break;
+            case "Tue":
+              setTue(dateObj[day]);
+              break;
+            case "Wed":
+              setWed(dateObj[day]);
+              break;
+            case "Thu":
+              setThu(dateObj[day]);
+              break;
+            case "Fri":
+              setFri(dateObj[day]);
+              break;
+            case "Sat":
+              setSat(dateObj[day]);
+              break;
+            case "Sun":
+              setSun(dateObj[day]);
+              break;
+            default:
+              break;
+          }
+        } else {
+          dateObj[day].closed = false;
+          switch (day) {
+            case "Mon":
+              setMon(dateObj[day]);
+              break;
+            case "Tue":
+              setTue(dateObj[day]);
+              break;
+            case "Wed":
+              setWed(dateObj[day]);
+              break;
+            case "Thu":
+              setThu(dateObj[day]);
+              break;
+            case "Fri":
+              setFri(dateObj[day]);
+              break;
+            case "Sat":
+              setSat(dateObj[day]);
+              break;
+            case "Sun":
+              setSun(dateObj[day]);
+              break;
+            default:
+              break;
           }
         }
       }
@@ -84,40 +223,28 @@ const BusinessForm = ({ businessData }) => {
     errorObj = {};
     setFrontEndErrors({});
     if (name.length > 100 || !name) {
-      // errorObj.name = "Please enter a name with 100 characters or less";
       errorObj.name = "Please enter a name with 100 characters or less";
-      // setErrors({
-      //   ...errors,
-      //   name: "Please enter a name with 100 characters or less",
-      // });
     }
     if (phone.length > 14 || !phone) {
       errorObj.phone = "Enter a valid Phone Number";
-      // setErrors({ ...errors, phone: "Enter a valid Phone Number" });
     }
     if (address.length > 255 || !address) {
       errorObj.address = "Enter a valid Address";
-      // setErrors({ ...errors, address: "Enter a valid Address" });
     }
     if (city.length > 100 || !city) {
       errorObj.city = "Enter a valid City";
-      // setErrors({ ...errors, city: "Enter a valid City" });
     }
     if (!state) {
       errorObj.state = "Please select a State";
-      // setErrors({ ...errors, state: "Please select a State" });
     }
     if (zipCode.toString().length !== 5 || !zipCode) {
       errorObj.zipCode = "Enter a valid Five-Digit Zipcode";
-      // setErrors({ ...errors, zipCode: "Enter a valid Five-Digit Zipcode" });
     }
     if (!about) {
       errorObj.about = "Enter a description of your business";
-      // setErrors({ ...errors, about: "Enter a description of your business" });
     }
     if (!priceRating) {
       errorObj.price = "Please select an average cost";
-      // setErrors({ ...errors, price: "Please select an average cost" });
     }
 
     const newBusiness = {
@@ -131,8 +258,6 @@ const BusinessForm = ({ businessData }) => {
       about,
       price: priceRating,
       ownerId: userId,
-      // imgUrl: image,
-      // preview: true,
     };
     let resBusiness;
     if (Object.keys(errorObj).length === 0) {
@@ -151,38 +276,62 @@ const BusinessForm = ({ businessData }) => {
             resBusiness = await dispatch(createBusiness(newBusiness));
             if (resBusiness.errors) {
               setErrors(resBusiness);
-              console.log("HELLO", resBusiness);
             } else if (resBusiness.id && !resBusiness.errors) {
               try {
-                const formData = new FormData();
-                formData.append("image", image);
-                formData.append("user", userId);
+                const imgFormData = new FormData();
+                imgFormData.append("image", image);
+                imgFormData.append("user", userId);
                 const addImage = await fetch(
                   `/api/business/${resBusiness.id}/images`,
                   {
                     method: "POST",
-                    body: formData,
+                    body: imgFormData,
                   }
                 );
-                console.log(addImage);
               } catch (err) {
                 if (err) {
-                  console.log("IMGERR", err);
                   errorObj.image =
                     "Something went wrong with your image upload";
-                } else {
-                  history.push(`/business/${resBusiness.id}`);
+                }
+              }
+              try {
+                await Promise.all(
+                  dayList.map(async (day) => {
+                    const hoursFormData = new FormData();
+                    hoursFormData.append("day", day.day);
+                    if (day.closed) {
+                      day.open_time = "00:00";
+                      day.close_time = "00:00";
+                    }
+                    hoursFormData.append("open_time", day.open_time);
+                    hoursFormData.append("close_time", day.close_time);
+                    hoursFormData.append("closed", day.closed);
+                    const addBusinessHours = await fetch(
+                      `/api/business/${resBusiness.id}/hours`,
+                      {
+                        method: "POST",
+                        body: hoursFormData,
+                      }
+                    );
+                  })
+                );
+                history.push(`/business/${resBusiness.id}`);
+              } catch (err) {
+                if (err) {
+                  console.log(err);
+                  errorObj.hours =
+                    "Something went wrong with your business hours";
                 }
               }
             }
           } catch (err) {
-            console.log("ERR", err);
+            console.log("ERR1", err);
           }
         }
       } catch (err) {
-        console.log("HELLO3", err);
+        console.log("ERR2", err);
         if (err) {
-          console.log("HELLO4", err);
+          console.log("ERR3", err);
           // const { errors } = err;
           // setErrors(errors);
         }
@@ -249,8 +398,8 @@ const BusinessForm = ({ businessData }) => {
             <input
               className="full-width"
               type="tel"
-              name='phone'
-              placeholder="Business phone number"
+              name="phone"
+              placeholder="Business Phone Number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
@@ -337,19 +486,48 @@ const BusinessForm = ({ businessData }) => {
               )}
             </div>
             <div className="business-form-days master container">
+              <h3>Hours</h3>
               {dayList.map((day) => (
-                <div className="business-form-days day container">
-                  <p className="business-form-days day label">{day}</p>
+                <div key={day.day} className="business-form-days day container">
                   <input
-                    className="business-form-days closed"
                     type="checkbox"
-                    name="closed"
+                    className="business-form-days day checkbox"
+                    checked={!day.closed}
+                    value={!day.closed}
+                    onChange={(e) => {
+                      if (e.target.checked === false) {
+                        handleDateUpdate(day, {
+                          closed: !e.target.checked,
+                          open_time: null,
+                          close_time: null,
+                        });
+                      } else {
+                        handleDateUpdate(day, { closed: !e.target.checked });
+                      }
+                    }}
                   />
-                  <label for="closed">Closed?</label>{" "}
-                  <input className="business-form-days open-time" type="time" />
+                  <p className="business-form-days day label">{day.day}</p>
                   <input
-                    className="business-form-days close-time"
+                    className="business-form-days open time"
                     type="time"
+                    value={day.open_time || ""}
+                    onChange={(e) => {
+                      handleDateUpdate(day, {
+                        open_time: e.target.value || null,
+                      });
+                    }}
+                    disabled={day.closed}
+                  />
+                  <input
+                    className="business-form-days close time"
+                    type="time"
+                    value={day.close_time || ""}
+                    onChange={(e) => {
+                      handleDateUpdate(day, {
+                        close_time: e.target.value || null,
+                      });
+                    }}
+                    disabled={day.closed}
                   />
                 </div>
               ))}
@@ -358,7 +536,6 @@ const BusinessForm = ({ businessData }) => {
               className="big-red-button"
               type="submit"
               disabled={disableLogin}
-              // className={`signup button ${unavailable}`}
             >
               {!businessData && "Create"}
               {businessData && "Update"}
