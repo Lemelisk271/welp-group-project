@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify, request, redirect, url_for, abort
 from flask_login import login_required, current_user
 from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User, Vote
-from ..forms import BusinessForm, ReviewForm, BusinessImageForm
+from ..forms import BusinessForm, ReviewForm, BusinessImageForm, DayForm
+from datetime import time
 from .AWS_helpers import remove_file_from_s3, get_unique_filename, upload_file_to_s3
 
 business_routes = Blueprint('businesses', __name__)
@@ -77,7 +78,6 @@ def createNewBusiness():
     data = form.data
     print("DATAA", data)
     if form.validate_on_submit():
-
         newBusiness = Business(
             name = data["name"],
             url = data["url"],
@@ -99,10 +99,11 @@ def createNewBusiness():
 @business_routes.route("/<int:id>/images", methods=["GET", "POST"])
 def addImage(id):
     request_data = request.get_json()
+
     business = Business.query.get(id)
     form = BusinessImageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    print("IMAGE ------------------------", form.data)
+    print("IMAGE -------------------------", form.data)
     if form.validate_on_submit():
         image = form.data["image"]
         image.filename = get_unique_filename(image.filename)
@@ -118,8 +119,36 @@ def addImage(id):
         db.session.add(businessImage)
         db.session.commit()
         return businessImage.to_dict()
-    print("ERRORS.PY", {"errors": form.errors})
     return {"errors": form.errors}, 401
+
+@business_routes.route("/<int:id>/hours", methods=["GET", "POST"])
+def addHours(id):
+    request_data = request.get_json()
+    business = Business.query.get(id)
+    if not business:
+        return {"errors": "Business not found"}, 404
+    form = DayForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        hours = Day(
+            day = form.data["day"],
+            closed = form.data["closed"],
+            open_time=time(0, 0) if form.data["open_time"] is None else form.data["open_time"],
+            close_time=time(0, 0) if form.data["close_time"] is None else form.data["close_time"]
+        )
+        db.session.add(hours)
+        db.session.commit()
+
+        business_hour = business_hours.insert().values(
+            businessId = id,
+            dayId = hours.id
+        )
+
+        db.session.execute(business_hour)
+        db.session.commit()
+        return hours.to_dict()
+    return {"errors": form.errors}, 401
+
 
 @business_routes.route("/<int:id>/edit", methods=["PUT"])
 def updateBusiness(id):
@@ -245,7 +274,8 @@ def getSingleBusiness(id):
                 "id": day.id,
                 "day": day.day,
                 "open_time": day.open_time.strftime("%H:%M:%S") if day.open_time else None,
-                "close_time": day.close_time.strftime("%H:%M:%S") if day.close_time else None
+                "close_time": day.close_time.strftime("%H:%M:%S") if day.close_time else None,
+                "closed": day.closed
             } for day in business_days_join]
         categories_dict = [category.to_dict() for category in business_categories_join]
         questions_dict = [question.to_dict() for question in business_questions]
