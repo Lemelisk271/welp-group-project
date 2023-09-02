@@ -29,6 +29,8 @@ const BusinessForm = ({ businessData }) => {
     const [disableLogin, setDisableLogin] = useState(true);
     // eslint-disable-next-line
     const [disableTime, setDisableTime] = useState("");
+  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
     const [Mon, setMon] = useState({
         day: "Mon",
         closed: false,
@@ -87,32 +89,60 @@ const BusinessForm = ({ businessData }) => {
         const updateClosed = { ...day, ...updatedValues };
         switch (day.day) {
             case "Mon":
-                setMon(updateClosed);
+        if (day.open_time > day.close_time) {
+          errorObj.hours = "Closing time cannot be before open time.";
+        } else {
+                  setMon(updateClosed);
+        }
                 break;
             case "Tue":
-                setTue(updateClosed);
+        if (day.open_time > day.close_time) {
+          errorObj.hours = "Closing time cannot be before open time.";
+        } else {
+                  setTue(updateClosed);
+        }
                 break;
             case "Wed":
-                setWed(updateClosed);
+        if (day.open_time > day.close_time) {
+          errorObj.hours = "Closing time cannot be before open time.";
+        } else {
+                  setWed(updateClosed);
+        }
                 break;
             case "Thu":
-                setThu(updateClosed);
+        if (day.open_time > day.close_time) {
+          errorObj.hours = "Closing time cannot be before open time.";
+        } else {
+                  setThu(updateClosed);
+        }
                 break;
             case "Fri":
-                setFri(updateClosed);
+        if (day.open_time > day.close_time) {
+          errorObj.hours = "Closing time cannot be before open time.";
+        } else {
+                  setFri(updateClosed);
+        }
                 break;
             case "Sat":
-                setSat(updateClosed);
+        if (day.open_time > day.close_time) {
+          errorObj.hours = "Closing time cannot be before open time.";
+        } else {
+                  setSat(updateClosed);
+        }
                 break;
             case "Sun":
-                setSun(updateClosed);
+        if (day.open_time > day.close_time) {
+          errorObj.hours = "Closing time cannot be before open time.";
+        } else {
+                  setSun(updateClosed);
+        }
                 break;
             default:
                 break;
         }
     };
 
-    useEffect(() => {
+    useEffect(async () => {
         if (
             !name ||
             !phone ||
@@ -128,7 +158,13 @@ const BusinessForm = ({ businessData }) => {
             setDisableLogin(false);
             setUnavailable("");
         }
-    }, [name, phone, address, city, state, zipCode, priceRating]);
+    const categoryObj = await fetch(`/api/business/categories/all`, {
+      method: "GET",
+    });
+    const categoryRes = await categoryObj.json();
+    setCategoryOptions(categoryRes.categories);
+    console.log(categoryList);
+    }, [name, phone, address, city, state, zipCode, priceRating, categoryList]);
 
     useEffect(() => {
         const dateObj = {};
@@ -340,7 +376,7 @@ const BusinessForm = ({ businessData }) => {
                                         );
                                     })
                                 );
-                                history.push(`/business/${resBusiness.id}`);
+                                // history.push(`/business/${resBusiness.id}`);
                             } catch (err) {
                                 if (err) {
                                     console.log(err);
@@ -577,6 +613,49 @@ const BusinessForm = ({ businessData }) => {
                                 </div>
                             ))}
                         </div>
+            <div className="business-form-cat mastercontainer">
+              {categoryOptions && (
+                <>
+                  <div className="business-form-cat">
+                    <h3 className="cat-title">Categories</h3>
+                    <div className="business-form category container">
+                      {categoryOptions.map((category, idx) => (
+                        <div className="business-form category listing">
+                          <label key={idx}>
+                            <input
+                              key={idx * 2.01}
+                              className="business-form-categories"
+                              type="checkbox"
+                              onChange={(e) => {
+                                if (e.target.checked === true) {
+                                  setCategoryList([...categoryList, category]);
+                                } else {
+                                  const updatedCategoryList =
+                                    categoryList.filter(
+                                      (selectedCategory) =>
+                                        selectedCategory !== category
+                                    );
+                                  setCategoryList(updatedCategoryList);
+                                }
+                              }}
+                            />
+                            {category}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="test">
+                    <h3 className="cat-title">Selected</h3>
+                    <ul>
+                      {categoryList?.map((category, idx) => (
+                          <li key={idx * 1.12}>{category}</li>
+                        ))}
+                    </ul>
+                  </div>
+                </>
+              )}
+            </div>
                         <button
                             className="big-red-button"
                             type="submit"
