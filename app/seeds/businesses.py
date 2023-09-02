@@ -2,13 +2,14 @@ from app.models import db, Business, environment, SCHEMA
 from sqlalchemy.sql import text
 import random
 from faker import Faker
-from faker.providers import company, internet, phone_number, address, phone_number
+from faker.providers import company, internet, phone_number, address, phone_number, lorem
 
 fake = Faker()
 fake.add_provider(company)
 fake.add_provider(internet)
 fake.add_provider(phone_number)
 fake.add_provider(address)
+fake.add_provider(lorem)
 
 def random_state():
     states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
@@ -25,16 +26,17 @@ def random_price():
 
 # Create random business information
 def generate_businesses(amenities, categories):
-    for _ in range(100):
+    for _ in range(50):
+        state = random_state()
         yield Business(
             name = fake.company(),
             url = fake.domain_name(),
             phone = fake.numerify(text='(###) ###-####'),
             address = fake.street_address(),
             city = fake.city(),
-            state = random_state(),
-            zip_code = fake.postcode(),
-            about = fake.bs(),
+            state = state,
+            zip_code = fake.postcode_in_state(state),
+            about = fake.paragraph(),
             price = random_price(),
             ownerId = random_owner(),
             categories_business = random.sample(categories, k=random_price()),
