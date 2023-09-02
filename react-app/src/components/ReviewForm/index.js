@@ -19,7 +19,9 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getAllBusiness());
+        if (isNew){
+            dispatch(getAllBusiness());
+        }
     }, [dispatch]);
 
     useEffect(() => {
@@ -178,14 +180,12 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
                                         Select a business
                                     </option>
                                     {Object.values(business).map((business) => (
-                                        <>
                                             <option
-                                                key={business.name}
+                                                key={business.id}
                                                 value={business.id}
                                             >
                                                 {business.name}
                                             </option>
-                                        </>
                                     ))}
                                 </select>
                             </div>

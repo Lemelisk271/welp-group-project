@@ -520,8 +520,8 @@ const BusinessForm = ({ businessData }) => {
                                 <option value="" disabled>
                                     Select a state
                                 </option>
-                                {state_choices.map((state) => (
-                                    <option key={state} value={state}>
+                                {state_choices.map((state, idx) => (
+                                    <option key={idx} value={state}>
                                         {state}
                                     </option>
                                 ))}
@@ -647,8 +647,8 @@ const BusinessForm = ({ businessData }) => {
                     <h3 className="cat-title">Categories</h3>
                     <div className="business-form category container">
                       {categoryOptions.map((category, idx) => (
-                        <div className="business-form category listing">
-                          <label key={idx}>
+                        <div key={idx} className="business-form category listing">
+                          <label>
                             <input
                               key={idx * 2.01}
                               className="business-form-categories"
