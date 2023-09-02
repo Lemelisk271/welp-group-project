@@ -7,6 +7,7 @@ import QuestionListItem from '../QuestionListItem'
 import UserReviewListItem from '../UserReviewListItem'
 import OpenModalButton from '../OpenModalButton'
 import PictureModal from "../PictureModal"
+import BusinessImageModal from '../BusinessImageModal'
 import "./BusinessDetails.css"
 
 const BusinessDetails = () => {
@@ -65,7 +66,10 @@ const BusinessDetails = () => {
     sessionLinks = (
       <>
         <button onClick={newReview}>Write a Review</button>
-        <button>Add Photo</button>
+        <OpenModalButton
+          buttonText={"Add Photo"}
+          modalComponent={<BusinessImageModal businessId={business?.id} userId={user?.id}/>}
+        />
       </>
     )
   }
