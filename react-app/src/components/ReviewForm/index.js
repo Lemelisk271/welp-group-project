@@ -19,7 +19,9 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getAllBusiness());
+        if (isNew){
+            dispatch(getAllBusiness());
+        }
     }, [dispatch]);
 
     useEffect(() => {
