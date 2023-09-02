@@ -22,6 +22,7 @@ const UserReviewListItem = ({ review, page }) => {
       }
       setVotes(voteObj)
     }
+    // eslint-disable-next-line
   }, [])
 
   let newDate = new Date(review.date)

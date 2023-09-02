@@ -2,7 +2,7 @@ import { useParams, useHistory } from "react-router-dom";
 import BusinessForm from "./BusinessForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getBusiness, deleteBusiness } from "../../store/business";
+import { getBusiness } from "../../store/business";
 import OpenModalButton from "../OpenModalButton";
 import DeleteBusinessModal from "./DeleteBusinessModal";
 
@@ -17,12 +17,14 @@ const UpdateBusiness = () => {
   useEffect(() => {
     dispatch(getBusiness(id));
     setIsLoaded(true);
+    // eslint-disable-next-line
   }, [dispatch]);
 
   useEffect(() => {
     if (userId && curr_business && isLoaded) {
       if (curr_business?.ownerId !== userId) history.push("/");
     }
+    // eslint-disable-next-line
   }, [isLoaded, userId, curr_business]);
 
   return (
