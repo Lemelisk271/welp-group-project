@@ -8,6 +8,7 @@ import UserReviewListItem from "../UserReviewListItem";
 import OpenModalButton from "../OpenModalButton";
 import PictureModal from "../PictureModal";
 import BusinessImageModal from '../BusinessImageModal'
+import DeleteBusinessModal from './DeleteBusinessModal'
 import "./BusinessDetails.css";
 
 const BusinessDetails = () => {
@@ -28,7 +29,7 @@ const BusinessDetails = () => {
     dispatch(getBusiness(id))
       .then(() => setIsLoaded(true))
       .catch(() => history.push("/notfound"));
-    // dispatch(getAllBusiness());
+    dispatch(getAllBusiness());
     const getReviews = async (id) => {
       const reviewData = await fetch(`/api/business/${id}/review/all`)
       const data = await reviewData.json()
@@ -84,8 +85,11 @@ const BusinessDetails = () => {
   if (isOwner) {
     ownerLinks = (
       <>
-        <button>Edit {business?.name}</button>
-        <button>Delete {business?.name}</button>
+        <button onClick={editBusinessButton}>Edit {business?.name}</button>
+        <OpenModalButton
+          buttonText={`Delete ${business?.name}`}
+          modalComponent={<DeleteBusinessModal business={business} />}
+        />
       </>
     );
   }
@@ -132,6 +136,10 @@ const BusinessDetails = () => {
 
   function newReview () {
     history.push(`/business/${business.id}/review`)
+  }
+
+  function editBusinessButton () {
+    history.push(`/business/${business.id}/edit`)
   }
 
   return (

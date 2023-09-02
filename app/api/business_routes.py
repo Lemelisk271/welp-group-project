@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request, redirect, url_for, abort
 from flask_login import login_required, current_user
 from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User, Vote
 from app.seeds import restaurant_food_categories
-from ..forms import BusinessForm, ReviewForm, BusinessImageForm, DayForm
+from ..forms import BusinessForm, ReviewForm, BusinessImageForm, DayForm, NewBusinessImageForm
 from datetime import time
 from .AWS_helpers import remove_file_from_s3, get_unique_filename, upload_file_to_s3
 
@@ -62,7 +62,8 @@ def all_businesses():
         newBusiness["images"] = [image.to_dict() for image in images]
         newBusiness["reviews"] = [review.to_dict() for review in reviews]
         newBusiness["amenities"] = [amenity.to_dict() for amenity in business_amenities_join]
-        newBusiness['preview_image'] = preview_image[0].to_dict()
+        if preview_image:
+            newBusiness['preview_image'] = preview_image[0].to_dict()
         newBusiness['categories'] = [category.to_dict() for category in business_categories_join]
         allBusinesses.append(newBusiness)
     return {"businesses": allBusinesses}
@@ -355,3 +356,28 @@ def deleteBusinessImage(id):
         return image_to_delete.to_dict()
     else:
         abort(404, "business not found")
+
+@business_routes.route("/image/new", methods=["POST"])
+def addNewImage():
+    form = NewBusinessImageForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        businessId = form.data["businessId"]
+        if form.data["preview"] == True:
+            oldPreview = BusinessImages.query.filter(BusinessImages.businessId == businessId, BusinessImages.preview == True).first()
+            oldPreview.preview = False
+        image = form.data["image"]
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
+        if "url" not in upload:
+            return {"errors": upload}
+        newImage = BusinessImages(
+            url = upload["url"],
+            preview = form.data["preview"],
+            businessId = form.data["businessId"],
+            ownerId = form.data["userId"]
+        )
+        db.session.add(newImage)
+        db.session.commit()
+        return newImage.to_dict()
+    return {"errors": validation_errors_to_error_messages(form.errors)}, 401

@@ -7,18 +7,21 @@ import random
 def generate_business_images(users):
     businesses = Business.query.all()
     # Create a preview image for each business
+    random_num = 1
     for business in businesses:
+        random_num = random_num + 1
         yield BusinessImages(
-            url = 'https://picsum.photos/1280/720.jpg',
+            url = f'https://picsum.photos/1280/720.jpg?random={random_num}',
             preview = True,
             businessId = business.id,
             ownerId = business.ownerId
         )
         # Create non-preview images for each business
         for _ in range(5):
+            random_num = random_num + 1
             randomUser = random.choice(users)
             yield BusinessImages(
-                url = 'https://picsum.photos/1280/720.jpg',
+                url = f'https://picsum.photos/1280/720.jpg?random={random_num}',
                 preview = False,
                 businessId = business.id,
                 ownerId = randomUser.id

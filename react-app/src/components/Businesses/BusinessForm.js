@@ -142,29 +142,56 @@ const BusinessForm = ({ businessData }) => {
     }
   };
 
-  useEffect(async () => {
-    if (
-      !name ||
-      !phone ||
-      !address ||
-      !city ||
-      !state ||
-      !zipCode ||
-      !priceRating
-    ) {
-      setDisableLogin(true);
-      setUnavailable("unavailable");
-    } else {
-      setDisableLogin(false);
-      setUnavailable("");
-    }
-    const categoryObj = await fetch(`/api/business/categories/all`, {
-      method: "GET",
-    });
-    const categoryRes = await categoryObj.json();
-    setCategoryOptions(categoryRes.categories);
-    console.log(categoryList);
-  }, [name, phone, address, city, state, zipCode, priceRating, categoryList]);
+    useEffect(() => {
+        const fetchData = async () => {
+            if (
+                !name ||
+                !phone ||
+                !address ||
+                !city ||
+                !state ||
+                !zipCode ||
+                !priceRating
+            ) {
+                setDisableLogin(true);
+                setUnavailable("unavailable");
+            } else {
+                setDisableLogin(false);
+                setUnavailable("");
+            }
+            const categoryObj = await fetch(`/api/business/categories/all`, {
+            method: "GET",
+            });
+            const categoryRes = await categoryObj.json();
+            setCategoryOptions(categoryRes.categories);
+            console.log(categoryList);
+        }
+        fetchData()
+    }, [name, phone, address, city, state, zipCode, priceRating, categoryList])
+
+    // useEffect(async () => {
+    //     if (
+    //         !name ||
+    //         !phone ||
+    //         !address ||
+    //         !city ||
+    //         !state ||
+    //         !zipCode ||
+    //         !priceRating
+    //     ) {
+    //         setDisableLogin(true);
+    //         setUnavailable("unavailable");
+    //     } else {
+    //         setDisableLogin(false);
+    //         setUnavailable("");
+    //     }
+    // const categoryObj = await fetch(`/api/business/categories/all`, {
+    //   method: "GET",
+    // });
+    // const categoryRes = await categoryObj.json();
+    // setCategoryOptions(categoryRes.categories);
+    // console.log(categoryList);
+    // }, [name, phone, address, city, state, zipCode, priceRating, categoryList]);
 
   useEffect(() => {
     const dateObj = {};
@@ -611,8 +638,8 @@ const BusinessForm = ({ businessData }) => {
                     <h3 className="cat-title">Categories</h3>
                     <div className="business-form category container">
                       {categoryOptions.map((category, idx) => (
-                        <div className="business-form category listing">
-                          <label key={idx}>
+                        <div key={idx} className="business-form category listing">
+                          <label>
                             <input
                               key={idx * 2.01}
                               className="business-form-categories"
