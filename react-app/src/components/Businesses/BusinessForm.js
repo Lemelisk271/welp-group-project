@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createBusiness, updateBusiness } from "../../store/business";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { state_choices } from "./StateList";
 import "./BusinessForm.css";
 import "./Businesses.css";
@@ -24,8 +24,10 @@ const BusinessForm = ({ businessData }) => {
     const [image, setImage] = useState("");
     const [priceRating, setPriceRating] = useState("");
     const [tempRating, setTempRating] = useState(0);
+    // eslint-disable-next-line
     const [unavailable, setUnavailable] = useState("");
     const [disableLogin, setDisableLogin] = useState(true);
+    // eslint-disable-next-line
     const [disableTime, setDisableTime] = useState("");
     const [Mon, setMon] = useState({
         day: "Mon",
@@ -70,17 +72,18 @@ const BusinessForm = ({ businessData }) => {
         close_time: null,
     });
     const dayList = [Mon, Tue, Wed, Thu, Fri, Sat, Sun];
-    
+
     useEffect(() => {
       if (!sessionUser || sessionUser === null) {
         history.push("/error/not-logged-in")
       } else {
         setUserId(sessionUser.id);
       }
+      // eslint-disable-next-line
     }, []);
-    
+
     const handleDateUpdate = (day, updatedValues) => {
-        const set = `set${day.day}`;
+        // const set = `set${day.day}`;
         const updateClosed = { ...day, ...updatedValues };
         switch (day.day) {
             case "Mon":
@@ -215,16 +218,16 @@ const BusinessForm = ({ businessData }) => {
         }
     }, [businessData]);
 
-    const handleUrlOnChange = (e) => {
-        const inputValue = e.target.value;
-        if (inputValue === "https://" || inputValue === "") {
-            setUrl("https://");
-        } else if (!inputValue.startsWith("https://")) {
-            setUrl("https://" + inputValue);
-        } else {
-            setUrl(inputValue);
-        }
-    };
+    // const handleUrlOnChange = (e) => {
+    //     const inputValue = e.target.value;
+    //     if (inputValue === "https://" || inputValue === "") {
+    //         setUrl("https://");
+    //     } else if (!inputValue.startsWith("https://")) {
+    //         setUrl("https://" + inputValue);
+    //     } else {
+    //         setUrl(inputValue);
+    //     }
+    // };
 
     let errorObj = {};
     const handleSubmit = async (e) => {
@@ -292,6 +295,7 @@ const BusinessForm = ({ businessData }) => {
                                 const imgFormData = new FormData();
                                 imgFormData.append("image", image);
                                 imgFormData.append("user", userId);
+                                // eslint-disable-next-line
                                 const addImage = await fetch(
                                     `/api/business/${resBusiness.id}/images`,
                                     {
@@ -326,6 +330,7 @@ const BusinessForm = ({ businessData }) => {
                                             "closed",
                                             day.closed
                                         );
+                                        // eslint-disable-next-line
                                         const addBusinessHours = await fetch(
                                             `/api/business/${resBusiness.id}/hours`,
                                             {
@@ -361,6 +366,7 @@ const BusinessForm = ({ businessData }) => {
         setFrontEndErrors({ ...errorObj });
         console.log("FINALO FE", frontEndErrors);
         console.log("FINALO BE", errors);
+        // eslint-disable-next-line
         Object.values(frontEndErrors).map((error) => {
             console.log(error);
         });
@@ -382,7 +388,7 @@ const BusinessForm = ({ businessData }) => {
                         </div>
                     )}
                     <ul>
-                        {Object.values(frontEndErrors).length != 0 &&
+                        {Object.values(frontEndErrors).length !== 0 &&
                             Object.values(frontEndErrors).map((error, idx) => (
                                 <li
                                     key={idx + 20}
@@ -582,7 +588,7 @@ const BusinessForm = ({ businessData }) => {
                     </form>
                 </div>
                 <div className="business-form-right">
-                    <img src="https://picsum.photos/644/631.jpg" />
+                    <img src="https://picsum.photos/644/631.jpg" alt="" />
                 </div>
             </div>
         </>

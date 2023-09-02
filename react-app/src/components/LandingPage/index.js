@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom"
 import "./LandingPage.css";
 
 export default function LandingPage() {
-    const [isLoaded, setIsLoaded] = useState(false);
+    // const [isLoaded, setIsLoaded] = useState(false);
     const [recentActivity, setRecentActivity] = useState([]);
     const [randomCategories, setRandomCategories] = useState([]);
     const history = useHistory();
