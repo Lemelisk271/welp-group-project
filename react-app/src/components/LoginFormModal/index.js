@@ -24,9 +24,9 @@ function LoginFormModal() {
         }
     };
 
-    return (
-        <>
-            <h1 className="login-modal-header">Sign in to Welp</h1>
+  return (
+    <div className="loginModal">
+        <h1 className="login-modal-header">Sign in to Welp</h1>
 
             <p>Connect with great local businesses</p>
             <p>
@@ -112,7 +112,7 @@ function LoginFormModal() {
                     </li>
                 </ul>
             </form>
-        </>
+        </div>
     );
 }
 
