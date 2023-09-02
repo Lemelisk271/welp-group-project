@@ -16,7 +16,6 @@ import ProtectedRoute from './components/auth/ProtectedRoute'
 import BusinessSearchPage from './components/BusinessSearchPage'
 import BusinessNotFound from "./components/Businesses/BusinessNotFound";
 import BusinessList from './components/Businesses/BusinessList'
-import NotLoggedIn from "./components/NotLoggedIn";
 import ErrorPage from "./components/ErrorPage";
 
 function App() {
