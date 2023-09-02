@@ -10,6 +10,7 @@ export default function ErrorPage() {
         if (error === "not-logged-in") {
             setHeader("You must be logged in to do this!")
         }
+        // eslint-disable-next-line
     }, []);
 
     return (

@@ -37,6 +37,7 @@ const BusinessDetails = () => {
       }))
     }
     getReviews(id)
+    // eslint-disable-next-line
   }, [dispatch, currentReview])
 
   useEffect(() => {
@@ -127,10 +128,6 @@ const BusinessDetails = () => {
         ))}
       </>
     )
-  }
-
-  function newReview () {
-    history.push(`/business/${business.id}/review`)
   }
 
   function newReview () {
@@ -252,11 +249,13 @@ const BusinessDetails = () => {
                             {el.day} -{" "}
                             {(el.open_time &&
                               new Date(
+                                // eslint-disable-next-line
                                 "August 19, 1975" + " " + el.open_time
                               ).toLocaleTimeString() + " -") ||
                               "Closed"}{" "}
                             {el.close_time &&
                               new Date(
+                                // eslint-disable-next-line
                                 "August 19, 1975" + " " + el.close_time
                               ).toLocaleTimeString()}
                           </>

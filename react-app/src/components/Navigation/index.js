@@ -63,9 +63,9 @@ function Navigation({ isLoaded }) {
     setSearch('')
   }
 
-  const handleClick = () => {
-    history.push("/business/new")
-  }
+  // const handleClick = () => {
+  //   history.push("/business/new")
+  // }
 
   return (
       <div className={navClass}>

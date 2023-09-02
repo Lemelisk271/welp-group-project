@@ -3,6 +3,7 @@ import { useModal } from '../../context/Modal'
 import './BusinessImageModal.css'
 
 const BusinessImageModal = ({ businessId, userId }) => {
+  // eslint-disable-next-line
   const { closeModal } = useModal()
   const [image, setImage] = useState('')
   const [validationErrors, setValidationErrors] = useState([])

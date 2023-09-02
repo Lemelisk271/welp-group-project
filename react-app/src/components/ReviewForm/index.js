@@ -50,6 +50,7 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
 
         if (isNew) {
         }
+        // eslint-disable-next-line
     }, []);
 
     const handleSubmit = async (e) => {
@@ -115,8 +116,8 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
             } else {
                 return history.push(`/business/${id}`);
             }
-        } 
-        
+        }
+
         if (isNew && !Object.values(frontEndErrors).length) {
             const createReview = await fetch(
                 `/api/business/${currBusiness}/review`,
