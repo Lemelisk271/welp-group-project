@@ -49,7 +49,6 @@ const BusinessDetails = () => {
     setPreviewImage(
       business?.images?.filter((image) => image.preview === true)
     );
-    console.log(business);
     let totalStars = 0;
     business?.reviews?.forEach((el) => {
       totalStars += el.stars;
