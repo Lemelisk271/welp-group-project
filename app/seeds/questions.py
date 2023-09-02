@@ -9,18 +9,18 @@ fake.add_provider(date_time)
 fake.add_provider(lorem)
 
 
-def generate_questions():
-    unique_businessIds = random.sample(range(1,100),60)
-    for businessId in unique_businessIds:
+def generate_questions(businesses, users):
+    for business in businesses:
+        user = random.choice(users)
         yield Question(
             question = fake.sentence(nb_words=15)[:-1] + "?",
             date = fake.date_this_month(before_today=True, after_today=False),
-            businessId = businessId,
-            userId = random.randint(1,33)
+            businessId = business.id,
+            userId = user.id
         )
 
-def seed_questions():
-    questions = list(generate_questions())
+def seed_questions(businesses, users):
+    questions = list(generate_questions(businesses, users))
     add_items = [db.session.add(question) for question in questions]
     db.session.commit()
     return questions
