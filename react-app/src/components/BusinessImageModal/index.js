@@ -69,12 +69,13 @@ const BusinessImageModal = ({ businessId, userId }) => {
           onChange={(e) => setImage(e.target.files[0])}
         />
         <div className='addBusinessImage-preview'>
-          <label htmlFor='preview'>Set image as preview?</label>
           <input
             type="checkbox"
             checked={preview}
             onChange={handlePreviewChange}
+            className='addBusinessImage-checkbox'
           />
+          <label htmlFor='preview'>Set image as preview</label>
         </div>
         <button type='submit'>Save</button>
       </form>
