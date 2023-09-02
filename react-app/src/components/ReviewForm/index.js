@@ -180,14 +180,12 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
                                         Select a business
                                     </option>
                                     {Object.values(business).map((business) => (
-                                        <>
                                             <option
-                                                key={business.name}
+                                                key={business.id}
                                                 value={business.id}
                                             >
                                                 {business.name}
                                             </option>
-                                        </>
                                     ))}
                                 </select>
                             </div>
