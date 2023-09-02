@@ -24,7 +24,6 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
 
     useEffect(() => {
         if (isUpdate) {
-            console.log("isUpdate ==>", isUpdate);
             const getReview = async () => {
                 const getCurrReview = await fetch(`/api/review/${reviewId}`);
                 const data = await getCurrReview.json();
@@ -41,7 +40,6 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
         }
 
         if (isBusinessReview) {
-            console.log("isBusinessReview ==>", isBusinessReview);
             const getBusiness = async () => {
                 const getCurrBusiness = await fetch(`/api/business/${id}`);
                 const businessData = await getCurrBusiness.json();
@@ -51,7 +49,6 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
         }
 
         if (isNew) {
-            console.log("isNew ==>", isNew);
         }
     }, []);
 
@@ -80,8 +77,6 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
         }
 
         if (isUpdate && !Object.values(frontEndErrors).length) {
-            console.log("usUpdate Submit")
-            console.log(currReview.businessId)
             const updateReview = await fetch(`/api/review/${reviewId}`, {
                 method: "PUT",
                 headers: {
@@ -96,10 +91,8 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
             });
             const data = await updateReview.json();
             if (data.errors) {
-                console.log(data)
                 setErrors(data.errors);
             } else {
-                console.log("businessId ==>", currReview.businessId);
                 return history.push(`/business/${currReview.businessId}`);
             }
         }
@@ -162,7 +155,7 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
     };
 
     if (!sessionUser || sessionUser === null) {
-        return <Redirect to="/not-logged-in" />;
+        return <Redirect to="/error/not-logged-in" />;
     }
 
     return (
@@ -170,7 +163,6 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
             <div className="review-form-container">
                 <div className="review-form">
                     <div className="review-form-header">
-                        {console.log("Header ==>", header)}
                         <h2 className="header">{header}</h2>
                         {isNew && (
                             <div>
