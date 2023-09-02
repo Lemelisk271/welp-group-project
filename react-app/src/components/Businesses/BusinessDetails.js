@@ -7,6 +7,7 @@ import QuestionListItem from "../QuestionListItem";
 import UserReviewListItem from "../UserReviewListItem";
 import OpenModalButton from "../OpenModalButton";
 import PictureModal from "../PictureModal";
+import BusinessImageModal from '../BusinessImageModal'
 import "./BusinessDetails.css";
 
 const BusinessDetails = () => {
@@ -29,13 +30,14 @@ const BusinessDetails = () => {
       .catch(() => history.push("/notfound"));
     dispatch(getAllBusiness());
     const getReviews = async (id) => {
-      const reviewData = await fetch(`/api/business/${id}/review/all`);
-      const data = await reviewData.json();
-      setReviews(data.reviews);
-    };
-
-    getReviews(id);
-  }, [dispatch, currentReview]);
+      const reviewData = await fetch(`/api/business/${id}/review/all`)
+      const data = await reviewData.json()
+      setReviews(data.reviews.sort(function(a, b) {
+        return new Date(b.date) - new Date(a.date)
+      }))
+    }
+    getReviews(id)
+  }, [dispatch, currentReview])
 
   useEffect(() => {
     if (user?.id === business?.ownerId) {
@@ -68,8 +70,11 @@ const BusinessDetails = () => {
   if (user) {
     sessionLinks = (
       <>
-        <button>Write a Review</button>
-        <button>Add Photo</button>
+        <button onClick={newReview}>Write a Review</button>
+        <OpenModalButton
+          buttonText={"Add Photo"}
+          modalComponent={<BusinessImageModal businessId={business?.id} userId={user?.id}/>}
+        />
       </>
     );
   }
@@ -122,7 +127,15 @@ const BusinessDetails = () => {
           />
         ))}
       </>
-    );
+    )
+  }
+
+  function newReview () {
+    history.push(`/business/${business.id}/review`)
+  }
+
+  function newReview () {
+    history.push(`/business/${business.id}/review`)
   }
 
   return (
