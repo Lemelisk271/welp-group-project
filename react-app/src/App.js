@@ -72,10 +72,10 @@ function App() {
           <Route exact path="/notfound">
             <BusinessNotFound />
           </Route>
-          <Route exact path="/not-logged-in">
+          {/* <Route exact path="/not-logged-in">
             <NotLoggedIn />
-          </Route>
-          <Route exact path="/error">
+          </Route> */}
+          <Route path="/error/:error">
             <ErrorPage />
           </Route>
         </Switch>
