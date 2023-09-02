@@ -1,0 +1,14 @@
+.error-container {
+    max-width: 1024px;
+    margin: 22px auto;
+    padding: 20px;
+}
+
+.error-message {
+    display: flex;
+}
+
+.error-image {
+    width: 60px;
+    height: 60px;
+}
