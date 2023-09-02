@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, redirect, url_for, abort
 from flask_login import login_required, current_user
 from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User, Vote
+from app.seeds import restaurant_food_categories
 from ..forms import BusinessForm, ReviewForm, BusinessImageForm, DayForm
 from datetime import time
 from .AWS_helpers import remove_file_from_s3, get_unique_filename, upload_file_to_s3
@@ -236,6 +237,12 @@ def getBusinessReviews(id):
 #   print(businesses)
 #   [business.to_dict() for business in businesses]
 #   return businesses
+
+@business_routes.route("/categories/all", methods=["GET"])
+def getAllCategories():
+    categories = Category.query.order_by(Category.category).all()
+    allCategories = [category.category for category in categories]
+    return {'categories': allCategories}
 
 
 @business_routes.route("/<int:id>")
