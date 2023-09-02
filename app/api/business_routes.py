@@ -274,7 +274,8 @@ def getSingleBusiness(id):
                 "id": day.id,
                 "day": day.day,
                 "open_time": day.open_time.strftime("%H:%M:%S") if day.open_time else None,
-                "close_time": day.close_time.strftime("%H:%M:%S") if day.close_time else None
+                "close_time": day.close_time.strftime("%H:%M:%S") if day.close_time else None,
+                "closed": day.closed
             } for day in business_days_join]
         categories_dict = [category.to_dict() for category in business_categories_join]
         questions_dict = [question.to_dict() for question in business_questions]
