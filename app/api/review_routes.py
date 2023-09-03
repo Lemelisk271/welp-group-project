@@ -29,6 +29,7 @@ def recent_reviews():
         recent_activity.append({
             "businessName": business.name,
             "userName": user.first_name,
+            "userId": user.id,
             "reviewId": review.id,
             "stars": review.stars,
             "review": review.review,
