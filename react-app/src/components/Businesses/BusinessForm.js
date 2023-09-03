@@ -284,6 +284,7 @@ const BusinessForm = ({ businessData }) => {
     if (name.length > 100 || !name) {
       errorObj.name = "Please enter a name with 100 characters or less";
     }
+    console.log("phone ==> ", typeof(phone))
     if (phone.length > 14 || !phone) {
       errorObj.phone = "Enter a valid Phone Number";
     }
@@ -495,9 +496,13 @@ const BusinessForm = ({ businessData }) => {
               className="full-width"
               type="tel"
               name="phone"
-              placeholder="Business Phone Number"
+              minLength="10"
+              maxLength="14"
+              pattern="[0-9]{10}"
+              placeholder="Business Phone Number ex:9018675309"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
+              required
             />
             <div className="business-form-address">
               <input
