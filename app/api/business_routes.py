@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request, redirect, url_for, abort
 from flask_login import login_required, current_user
 from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User, Vote
 from app.seeds import restaurant_food_categories
-from ..forms import BusinessForm, ReviewForm, BusinessImageForm, DayForm, NewBusinessImageForm, CategoryForm
+from ..forms import BusinessForm, ReviewForm, BusinessImageForm, DayForm, NewBusinessImageForm, CategoryForm, AmenityForm
 from datetime import time
 from .AWS_helpers import remove_file_from_s3, get_unique_filename, upload_file_to_s3
 
@@ -78,7 +78,6 @@ def createNewBusiness():
     form = BusinessForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     data = form.data
-    print("DATAA", data)
     if form.validate_on_submit():
         newBusiness = Business(
             name = data["name"],
@@ -95,7 +94,6 @@ def createNewBusiness():
         db.session.add(newBusiness)
         db.session.commit()
         return newBusiness.to_dict()
-    print("ERRORS.PY", {"errors": form.errors})
     return {"errors": form.errors}, 401
 
 @business_routes.route("/<int:id>/images", methods=["GET", "POST"])
@@ -105,7 +103,6 @@ def addImage(id):
     business = Business.query.get(id)
     form = BusinessImageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    print("IMAGE -------------------------", form.data)
     if form.validate_on_submit():
         image = form.data["image"]
         image.filename = get_unique_filename(image.filename)
@@ -168,6 +165,26 @@ def addCategories(id):
         db.session.execute(business_category)
         db.session.commit()
         return category.to_dict()
+    return {"errors": form.errors}, 401
+
+@business_routes.route("/<int:id>/amenities", methods=["POST"])
+def addAmenities(id):
+    request_data = request.get_json()
+    business = Business.query.get(id)
+    if not business:
+        return {"errors": "Business not found"}, 404
+    form = AmenityForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        amenity = Amenity.query.filter_by(amenity=form.data["amenity"]).first()
+        print("AMENITY-----------------------------", amenity.icon_url)
+        business_amenity = business_amenities.insert().values(
+            businessId = id,
+            amenityId = amenity.id
+        )
+        db.session.execute(business_amenity)
+        db.session.commit()
+        return amenity.to_dict()
     return {"errors": form.errors}, 401
 
 @business_routes.route("/<int:id>/edit", methods=["PUT"])
@@ -262,6 +279,12 @@ def getAllCategories():
     categories = Category.query.order_by(Category.category).all()
     allCategories = [category.category for category in categories]
     return {'categories': allCategories}
+
+@business_routes.route("/amenities/all", methods=["GET"])
+def getAllAmenities():
+    amenities = Amenity.query.order_by(Amenity.amenity).all()
+    allAmenities = [amenity.amenity for amenity in amenities]
+    return {'amenities': allAmenities}
 
 
 @business_routes.route("/<int:id>")
