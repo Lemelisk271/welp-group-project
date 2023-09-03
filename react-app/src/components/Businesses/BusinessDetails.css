@@ -278,15 +278,3 @@
   justify-content: space-around;
   margin-bottom: 20px;
 }
-
-.businessDetail-buttons button {
-  height: 44px;
-  background: white;
-  color: grey;
-  border: 2px solid grey;
-  border-radius: 4px;
-  padding: 10px 16px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-}

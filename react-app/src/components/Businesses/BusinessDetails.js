@@ -65,7 +65,7 @@ const BusinessDetails = () => {
     setBusinessCategories(
       business?.categories?.map((business) => business.category)
     );
-  }, [business, user, currentReview]);
+  }, [business, user, currentReview, reviews]);
 
   let sessionLinks;
 
