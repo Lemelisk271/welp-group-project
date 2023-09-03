@@ -372,7 +372,6 @@ const BusinessForm = ({ businessData }) => {
                 const imgFormData = new FormData();
                 imgFormData.append("image", image);
                 imgFormData.append("user", userId);
-                // eslint-disable-next-line
                 const addImage = await fetch(
                   `/api/business/${resBusiness.id}/images`,
                   {
@@ -380,6 +379,8 @@ const BusinessForm = ({ businessData }) => {
                     body: imgFormData,
                   }
                 );
+                const resImage = await addImage.json();
+                console.log(resImage)
               } catch (err) {
                 if (err) {
                   errorObj.image =
@@ -435,7 +436,7 @@ const BusinessForm = ({ businessData }) => {
                         );
                       })
                     );
-                    history.push(`/business/${resBusiness.id}`);
+                    // history.push(`/business/${resBusiness.id}`);
                   } catch (err) {
                     if (err) {
                       errorObj.amenities =
@@ -464,8 +465,6 @@ const BusinessForm = ({ businessData }) => {
         console.log("ERR2", err);
         if (err) {
           console.log("ERR3", err);
-          // const { errors } = err;
-          // setErrors(errors);
         }
       }
     }

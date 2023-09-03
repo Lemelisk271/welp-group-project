@@ -99,7 +99,6 @@ def createNewBusiness():
 @business_routes.route("/<int:id>/images", methods=["GET", "POST"])
 def addImage(id):
     request_data = request.get_json()
-
     business = Business.query.get(id)
     form = BusinessImageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
@@ -177,7 +176,6 @@ def addAmenities(id):
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         amenity = Amenity.query.filter_by(amenity=form.data["amenity"]).first()
-        print("AMENITY-----------------------------", amenity.icon_url)
         business_amenity = business_amenities.insert().values(
             businessId = id,
             amenityId = amenity.id
