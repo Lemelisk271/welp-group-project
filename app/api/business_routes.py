@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request, redirect, url_for, abort
 from flask_login import login_required, current_user
 from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User, Vote
 from app.seeds import restaurant_food_categories
-from ..forms import BusinessForm, ReviewForm, BusinessImageForm, DayForm, NewBusinessImageForm, QuestionForm
+from ..forms import BusinessForm, ReviewForm, BusinessImageForm, DayForm, NewBusinessImageForm, CategoryForm, QuestionForm
 from datetime import time, date
 from .AWS_helpers import remove_file_from_s3, get_unique_filename, upload_file_to_s3
 
@@ -151,6 +151,24 @@ def addHours(id):
         return hours.to_dict()
     return {"errors": form.errors}, 401
 
+@business_routes.route("/<int:id>/categories", methods=["POST"])
+def addCategories(id):
+    request_data = request.get_json()
+    business = Business.query.get(id)
+    if not business:
+        return {"errors": "Business not found"}, 404
+    form = CategoryForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        category = Category.query.filter_by(category=form.data["category"]).first()
+        business_category = business_categories.insert().values(
+            businessId = id,
+            categoryId = category.id
+        )
+        db.session.execute(business_category)
+        db.session.commit()
+        return category.to_dict()
+    return {"errors": form.errors}, 401
 
 @business_routes.route("/<int:id>/edit", methods=["PUT"])
 def updateBusiness(id):
