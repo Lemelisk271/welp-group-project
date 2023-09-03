@@ -142,29 +142,56 @@ const BusinessForm = ({ businessData }) => {
         }
     };
 
-    useEffect(async () => {
-        if (
-            !name ||
-            !phone ||
-            !address ||
-            !city ||
-            !state ||
-            !zipCode ||
-            !priceRating
-        ) {
-            setDisableLogin(true);
-            setUnavailable("unavailable");
-        } else {
-            setDisableLogin(false);
-            setUnavailable("");
+    useEffect(() => {
+        const fetchData = async () => {
+            if (
+                !name ||
+                !phone ||
+                !address ||
+                !city ||
+                !state ||
+                !zipCode ||
+                !priceRating
+            ) {
+                setDisableLogin(true);
+                setUnavailable("unavailable");
+            } else {
+                setDisableLogin(false);
+                setUnavailable("");
+            }
+            const categoryObj = await fetch(`/api/business/categories/all`, {
+            method: "GET",
+            });
+            const categoryRes = await categoryObj.json();
+            setCategoryOptions(categoryRes.categories);
+            console.log(categoryList);
         }
-    const categoryObj = await fetch(`/api/business/categories/all`, {
-      method: "GET",
-    });
-    const categoryRes = await categoryObj.json();
-    setCategoryOptions(categoryRes.categories);
-    console.log(categoryList);
-    }, [name, phone, address, city, state, zipCode, priceRating, categoryList]);
+        fetchData()
+    }, [name, phone, address, city, state, zipCode, priceRating, categoryList])
+
+    // useEffect(async () => {
+    //     if (
+    //         !name ||
+    //         !phone ||
+    //         !address ||
+    //         !city ||
+    //         !state ||
+    //         !zipCode ||
+    //         !priceRating
+    //     ) {
+    //         setDisableLogin(true);
+    //         setUnavailable("unavailable");
+    //     } else {
+    //         setDisableLogin(false);
+    //         setUnavailable("");
+    //     }
+    // const categoryObj = await fetch(`/api/business/categories/all`, {
+    //   method: "GET",
+    // });
+    // const categoryRes = await categoryObj.json();
+    // setCategoryOptions(categoryRes.categories);
+    // console.log(categoryList);
+    // }, [name, phone, address, city, state, zipCode, priceRating, categoryList]);
 
     useEffect(() => {
         const dateObj = {};
