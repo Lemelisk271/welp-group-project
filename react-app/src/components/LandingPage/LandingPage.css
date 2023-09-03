@@ -86,12 +86,17 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    border: 1px solid grey;
+    border: 1px solid #ebebeb;
     border-radius: 4px;
     min-width: 150px;
     max-width: 368px;
     padding: 16px 24px;
     margin: 8px;
+}
+
+.landing-page-card-header {
+    display: flex;
+    align-items: center;
 }
 
 .card-image-container img {
@@ -100,6 +105,23 @@
     height: auto;
     border-radius: 4px;
     object-fit: cover;
+    cursor: pointer;
+}
+
+.card-profile-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 4px;
+}
+
+.card-user-name {
+    margin: 4px 0px;
+}
+
+.card-business-name {
+    margin: 8px 0px;
 }
 
 .landing-page-categories-container {
@@ -115,11 +137,11 @@
 .landing-page-category-card {
     width: 256px;
     height: 183px;
-    border: 1px solid grey;
+    border: none;
     border-radius: 4px;
-    padding: 8px;
+    padding: 38px;
     margin: 8px;
-    background: url("https://picsum.photos/400/400?grayscale.jpg");
+    background: #ebebeb;
     background-size: cover;
     cursor: pointer;
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
 import "./LandingPage.css";
 
 export default function LandingPage() {
@@ -9,9 +9,19 @@ export default function LandingPage() {
     const history = useHistory();
 
     useEffect(() => {
+        const getUser = async (userId) => {
+            const user = await fetch(`/api/users/${userId}`);
+            const userData = await user.json();
+            return userData;
+        };
+
         const getRecentActivity = async () => {
             const reviews = await fetch(`/api/review/recent`);
             const reviewData = await reviews.json();
+            for (const review of reviewData.reviews) {
+                const userInfo = await getUser(review.userId);
+                review.userInfo = userInfo;
+            }
             setRecentActivity(reviewData.reviews);
         };
         getRecentActivity();
@@ -42,24 +52,45 @@ export default function LandingPage() {
                             userName,
                             stars,
                             review,
-                            date,
+                            userInfo,
                         }) => (
                             <div className="landing-page-card" key={reviewId}>
                                 <div className="landing-page-card-header">
-                                    <h4 className="no-margin">{userName}</h4>
-                                    <p>Wrote a review</p>
+                                    <div>
+                                        <img
+                                            className="card-profile-img"
+                                            src={userInfo.profile_image}
+                                        />
+                                    </div>
+                                    <div>
+                                        <h4 className="card-user-name">
+                                            {userName}
+                                        </h4>
+                                        <p className="no-margin">
+                                            Wrote a review
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="card-image-container">
+                                <div
+                                    className="card-image-container"
+                                    onClick={() => {
+                                        history.push(`/review/${reviewId}`);
+                                    }}
+                                >
                                     <img
                                         src="https://picsum.photos/400/300.jpg"
                                         alt="Landing Page"
                                     />
                                 </div>
                                 <div className="landing-page-card-details">
-                                    <h4 className="no-margin">
+                                    <p
+                                        className="card-business-name cursor-pointer blue-link"
+                                        onClick={() => {
+                                            history.push(`/review/${reviewId}`);
+                                        }}
+                                    >
                                         {businessName}
-                                    </h4>
-                                    {/* <p>{date}</p> */}
+                                    </p>
                                     <div className="landing-page-stars">
                                         <div
                                             className={
@@ -99,6 +130,14 @@ export default function LandingPage() {
                                     </div>
                                     {/* <p className="">{stars}</p> */}
                                     <p>{review.substring(0, 80)}...</p>
+                                    <p
+                                        className="blue-link cursor-pointer"
+                                        onClick={() => {
+                                            history.push(`/review/${reviewId}`);
+                                        }}
+                                    >
+                                        Continue reading
+                                    </p>
                                 </div>
                             </div>
                         )
@@ -108,7 +147,11 @@ export default function LandingPage() {
                 <h2 className="landing-page-categories-header">Categories</h2>
                 <div className="landing-page-card-container">
                     {randomCategories.map(({ id, category }) => (
-                        <div key={id} className="landing-page-category-card" onClick={() => history.push('/business')}>
+                        <div
+                            key={id}
+                            className="landing-page-category-card"
+                            onClick={() => history.push("/business")}
+                        >
                             <h4>{category}</h4>
                             <div className="category-image">
                                 <i className="fa-solid fa-utensils"></i>
