@@ -7,10 +7,55 @@
     left: 0;
     width: 100%;
     height: 682px;
-    background: linear-gradient(90deg, #0006, #0000001a 55%), url(https://picsum.photos/400/400?random=1);
+    /* background-size: cover; */
+}
+
+.hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    -webkit-animation: fade 24s infinite;
+    animation: fade 24s infinite;
+}
+
+#image1 {
+    animation-delay: 0s;
+    background: linear-gradient(90deg, #0006, #0000001a 55%), url("../../images/hero-1.jpg");
+    background-size: cover;
+}
+#image2 {
+    animation-delay: 8s;
+    background: linear-gradient(90deg, #0006, #0000001a 55%), url("../../images/hero-2.jpg");
+    background-size: cover;
+}
+#image3 {
+    background: linear-gradient(90deg, #0006, #0000001a 55%), url("../../images/hero-3.jpg");
+    animation-delay: 16s;
     background-size: cover;
 }
 
+@keyframes fade {
+    0% {
+        opacity: 1;
+    }
+    20% {
+        opacity: 1;
+    }
+    34% {
+        opacity: 0;
+    }
+    88% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 
 .landing-page-card-section {
     display: flex;
@@ -74,7 +119,7 @@
     border-radius: 4px;
     padding: 8px;
     margin: 8px;
-    background: url(https://picsum.photos/400/400?grayscale.jpg);
+    background: url("https://picsum.photos/400/400?grayscale.jpg");
     background-size: cover;
     cursor: pointer;
 }
