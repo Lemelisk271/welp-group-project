@@ -9,6 +9,7 @@ import OpenModalButton from "../OpenModalButton";
 import PictureModal from "../PictureModal";
 import BusinessImageModal from '../BusinessImageModal'
 import DeleteBusinessModal from './DeleteBusinessModal'
+import QuestionModal from '../QuestionModal'
 import "./BusinessDetails.css";
 
 const BusinessDetails = () => {
@@ -293,9 +294,10 @@ const BusinessDetails = () => {
               <div className="businessDetails-questions">
                 <div className="businessDetails-ask">
                   <h3>Ask the Community</h3>
-                  <button>
-                    Ask a question <i className="fa-solid fa-plus"></i>
-                  </button>
+                  <OpenModalButton
+                    buttonText={`Ask a question`}
+                    modalComponent={<QuestionModal business={business} user={user}/>}
+                  />
                 </div>
                 {questions && questions}
               </div>
