@@ -56,7 +56,7 @@ const BusinessDetails = () => {
     business?.reviews?.forEach((el) => {
       totalStars += el.stars;
     });
-    if (business?.reviews?.length !== 0) {
+    if (business?.reviews?.length > 0 && totalStars > 0) {
       setAverageStars(
         Math.floor((totalStars / business?.reviews?.length) * 10) / 10
       );
@@ -108,7 +108,7 @@ const BusinessDetails = () => {
       <ul>
         {business?.questions.map((question) => (
           <li key={question.id}>
-            <QuestionListItem question={question} />
+            <QuestionListItem question={question} user={user}/>
           </li>
         ))}
       </ul>

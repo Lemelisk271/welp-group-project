@@ -10,3 +10,4 @@ from .amenity_form import AmenityForm
 from .category_form import CategoryForm
 from .new_business_image_form import NewBusinessImageForm
 from .question_form import QuestionForm
+from .answer_form import AnswerForm
