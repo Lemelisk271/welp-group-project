@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
-from app.models import User, Review, db
+from app.models import User, Review, db, Vote
 from app.forms import UpdateProfileForm, ProfileImageForm
 from flask_login import current_user
 from .AWS_helpers import remove_file_from_s3, get_unique_filename, upload_file_to_s3
@@ -35,8 +35,12 @@ def user(id):
     """
     user = User.query.get(id)
     reviews = Review.query.filter(Review.userId == id).all()
+    reviewsData = [review.to_dict() for review in reviews]
+    for review in reviewsData:
+        votes = Vote.query.filter(Vote.reviewId == review['id'])
+        review["votes"] = [vote.to_dict() for vote in votes]
     userData = user.to_dict()
-    userData['reviews'] = [review.to_dict() for review in reviews]
+    userData['reviews'] = reviewsData
     return userData
 
 @user_routes.route('/update/<int:id>', methods=["POST"])
