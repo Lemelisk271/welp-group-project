@@ -1,17 +1,21 @@
-.questionModal-errors {
-  color: red
+.answerModal-errors {
+  color: red;
 }
 
-.questionModal-question {
+.answerModal > h3 {
+  margin-bottom: 30px;
+}
+
+.answerModal ul {
+  margin-bottom: 30px;
+}
+
+.answerModal-answer {
   display: flex;
   flex-direction: column;
 }
 
-.questionModal > h3 {
-  margin-bottom: 30px;
-}
-
-.questionModal button {
+.answerModal button {
   height: 30px;
   background: #E00807;
   color: #ffffff;

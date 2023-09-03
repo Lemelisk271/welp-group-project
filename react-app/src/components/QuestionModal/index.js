@@ -53,7 +53,7 @@ const QuestionModal = ({ business, user }) => {
 
   return (
     <div className="questionModal">
-      <h3>Ask {business.name} a question</h3>
+      <h3>Ask {business.name} a question:</h3>
       {isSubmitted && <ul>
           {validationErrors.map((error, i) => (
             <li key={i} className='questionModal-errors'>{error}</li>

@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request, redirect, url_for, abort
 from flask_login import login_required, current_user
 from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User, Vote
 from app.seeds import restaurant_food_categories
-from ..forms import BusinessForm, ReviewForm, BusinessImageForm, DayForm, NewBusinessImageForm, CategoryForm, AmenityForm, QuestionForm
+from ..forms import BusinessForm, ReviewForm, BusinessImageForm, DayForm, NewBusinessImageForm, CategoryForm, AmenityForm, QuestionForm, AnswerForm
 from datetime import time, date
 from .AWS_helpers import remove_file_from_s3, get_unique_filename, upload_file_to_s3
 
@@ -419,4 +419,23 @@ def addQuestion():
         db.session.add(question)
         db.session.commit()
         return question.to_dict()
+    return {"errors": validation_errors_to_error_messages(form.errors)}, 401
+
+@business_routes.route("/answer/new", methods=["POST"])
+def addAnswer():
+    form = AnswerForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        otherAnswers = Answer.query.filter(Answer.questionId == form.data["questionId"], Answer.userId == form.data["userId"]).first()
+        if otherAnswers:
+            return {"errors": ["You have already answered this question"]}
+        answer = Answer(
+            answer = form.data["answer"],
+            questionId = form.data["questionId"],
+            userId = form.data["userId"],
+            date = date.today()
+        )
+        db.session.add(answer)
+        db.session.commit()
+        return answer.to_dict()
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
