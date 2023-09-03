@@ -30,7 +30,9 @@ const BusinessForm = ({ businessData }) => {
   // eslint-disable-next-line
   const [disableTime, setDisableTime] = useState("");
   const [categoryOptions, setCategoryOptions] = useState([]);
+  const [amenityOptions, setAmenityOptions] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
+  const [amenityList, setAmenityList] = useState([]);
   const [Mon, setMon] = useState({
     day: "Mon",
     closed: false,
@@ -142,55 +144,70 @@ const BusinessForm = ({ businessData }) => {
     }
   };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            if (
-                !name ||
-                !phone ||
-                !address ||
-                !city ||
-                !state ||
-                !zipCode ||
-                !priceRating
-            ) {
-                setDisableLogin(true);
-                setUnavailable("unavailable");
-            } else {
-                setDisableLogin(false);
-                setUnavailable("");
-            }
-            const categoryObj = await fetch(`/api/business/categories/all`, {
-            method: "GET",
-            });
-            const categoryRes = await categoryObj.json();
-            setCategoryOptions(categoryRes.categories);
-        }
-        fetchData()
-    }, [name, phone, address, city, state, zipCode, priceRating, categoryList])
+  useEffect(() => {
+    const fetchData = async () => {
+      if (
+        !name ||
+        !phone ||
+        !address ||
+        !city ||
+        !state ||
+        !zipCode ||
+        !priceRating
+      ) {
+        setDisableLogin(true);
+        setUnavailable("unavailable");
+      } else {
+        setDisableLogin(false);
+        setUnavailable("");
+      }
+      const categoryObj = await fetch(`/api/business/categories/all`, {
+        method: "GET",
+      });
+      const categoryRes = await categoryObj.json();
+      setCategoryOptions(categoryRes.categories);
+      const amenitiyObj = await fetch(`/api/business/amenities/all`, {
+        method: "GET",
+      });
+      const amenitiyRes = await amenitiyObj.json();
+      setAmenityOptions(amenitiyRes.amenities);
+    };
+    fetchData();
+  }, [
+    name,
+    phone,
+    address,
+    city,
+    state,
+    zipCode,
+    priceRating,
+    categoryList,
+    amenityList,
+  ]);
 
-    // useEffect(async () => {
-    //     if (
-    //         !name ||
-    //         !phone ||
-    //         !address ||
-    //         !city ||
-    //         !state ||
-    //         !zipCode ||
-    //         !priceRating
-    //     ) {
-    //         setDisableLogin(true);
-    //         setUnavailable("unavailable");
-    //     } else {
-    //         setDisableLogin(false);
-    //         setUnavailable("");
-    //     }
-    // const categoryObj = await fetch(`/api/business/categories/all`, {
-    //   method: "GET",
-    // });
-    // const categoryRes = await categoryObj.json();
-    // setCategoryOptions(categoryRes.categories);
-    // console.log(categoryList);
-    // }, [name, phone, address, city, state, zipCode, priceRating, categoryList]);
+  // useEffect(async () => {
+  //     if (
+  //         !name ||
+  //         !phone ||
+  //         !address ||
+  //         !city ||
+  //         !state ||
+  //         !zipCode ||
+  //         !priceRating
+  //     ) {
+  //         setDisableLogin(true);
+  //         setUnavailable("unavailable");
+  //     } else {
+  //         setDisableLogin(false);
+  //         setUnavailable("");
+  //     }
+  // const categoryObj = await fetch(`/api/business/categories/all`, {
+  //   method: "GET",
+  // });
+  // const categoryRes = await categoryObj.json();
+  // setCategoryOptions(categoryRes.categories);
+  // console.log(categoryList);
+  // }, [name, phone, address, city, state, zipCode, priceRating, categoryList]);
 
   useEffect(() => {
     const dateObj = {};
@@ -404,7 +421,27 @@ const BusinessForm = ({ businessData }) => {
                       );
                     })
                   );
-                  history.push(`/business/${resBusiness.id}`);
+                  try {
+                    await Promise.all(
+                      amenityList.map(async (amenity) => {
+                        const amenityFormData = new FormData();
+                        amenityFormData.append("amenity", amenity);
+                        const addAmenity = await fetch(
+                          `/api/business/${resBusiness.id}/amenities`,
+                          {
+                            method: "POST",
+                            body: amenityFormData,
+                          }
+                        );
+                      })
+                    );
+                    history.push(`/business/${resBusiness.id}`);
+                  } catch (err) {
+                    if (err) {
+                      errorObj.amenities =
+                        "Something went wrong with your amenities";
+                    }
+                  }
                 } catch (err) {
                   if (err) {
                     errorObj.categories =
@@ -637,7 +674,10 @@ const BusinessForm = ({ businessData }) => {
                     <h3 className="cat-title">Categories</h3>
                     <div className="business-form category container">
                       {categoryOptions.map((category, idx) => (
-                        <div key={idx} className="business-form category listing">
+                        <div
+                          key={idx}
+                          className="business-form category listing"
+                        >
                           <label>
                             <input
                               key={idx * 2.01}
@@ -662,11 +702,56 @@ const BusinessForm = ({ businessData }) => {
                       ))}
                     </div>
                   </div>
-                  <div className="test">
+                  <div className="selected">
                     <h3 className="cat-title">Selected</h3>
                     <ul>
                       {categoryList?.map((category, idx) => (
                         <li key={idx * 1.12}>{category}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
+              )}
+            </div>
+            <div className="business-form-cat mastercontainer">
+              {amenityOptions && (
+                <>
+                  <div className="business-form-cat">
+                    <h3 className="amen-title">Amenities</h3>
+                    <div className="business-form category container">
+                      {amenityOptions.map((amenity, idx) => (
+                        <div
+                          key={idx}
+                          className="business-form amenity listing"
+                        >
+                          <label>
+                            <input
+                              key={idx * 3.01}
+                              className="business-form-categories"
+                              type="checkbox"
+                              onChange={(e) => {
+                                if (e.target.checked === true) {
+                                  setAmenityList([...amenityList, amenity]);
+                                } else {
+                                  const updatedAmenityList = amenityList.filter(
+                                    (selectedAmenity) =>
+                                      selectedAmenity !== amenity
+                                  );
+                                  setAmenityList(updatedAmenityList);
+                                }
+                              }}
+                            />
+                            {amenity}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="selected">
+                    <h3 className="cat-title">Selected</h3>
+                    <ul>
+                      {amenityList?.map((amenity, idx) => (
+                        <li key={idx * 1.22}>{amenity}</li>
                       ))}
                     </ul>
                   </div>
