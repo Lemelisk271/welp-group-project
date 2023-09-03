@@ -164,7 +164,6 @@ const BusinessForm = ({ businessData }) => {
             });
             const categoryRes = await categoryObj.json();
             setCategoryOptions(categoryRes.categories);
-            console.log(categoryList);
         }
         fetchData()
     }, [name, phone, address, city, state, zipCode, priceRating, categoryList])
@@ -405,7 +404,7 @@ const BusinessForm = ({ businessData }) => {
                       );
                     })
                   );
-                  // history.push(`/business/${resBusiness.id}`);
+                  history.push(`/business/${resBusiness.id}`);
                 } catch (err) {
                   if (err) {
                     errorObj.categories =
