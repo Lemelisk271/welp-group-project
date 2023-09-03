@@ -9,3 +9,4 @@ business_categories = db.Table(
 
 if environment == "production":
     business_categories.schema = SCHEMA
+
