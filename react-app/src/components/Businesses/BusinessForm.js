@@ -288,9 +288,6 @@ const BusinessForm = ({ businessData }) => {
     if (phone.length > 14 || !phone) {
       errorObj.phone = "Enter a valid Phone Number";
     }
-    if (typeof(phone) != Number) {
-      errorObj.phone = "Enter a phone number with numbers only ex: 8388675309"
-    }
     if (address.length > 255 || !address) {
       errorObj.address = "Enter a valid Address";
     }
