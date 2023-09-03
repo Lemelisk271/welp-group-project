@@ -166,3 +166,14 @@ button.star-button-off {
 .no-margin {
     margin: 0px;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.blue-link {
+    font-size: 15px;
+    font-weight: 600;
+    color: #047a97;
+    text-decoration: none;
+}
