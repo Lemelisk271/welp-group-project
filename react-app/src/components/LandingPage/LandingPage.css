@@ -1,17 +1,16 @@
 .hero-bar {
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
     position: absolute;
     z-index: -1;
     top: 0;
     left: 0;
     width: 100%;
-    /* height: 682px; */
     height: 682px;
-    background: linear-gradient(90deg, #0006, #0000001a 55%),
-        url(https://picsum.photos/1280/720.jpg);
+    background: linear-gradient(90deg, #0006, #0000001a 55%), url(https://picsum.photos/400/400?random=1);
     background-size: cover;
 }
+
 
 .landing-page-card-section {
     display: flex;

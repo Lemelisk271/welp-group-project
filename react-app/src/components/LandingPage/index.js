@@ -27,7 +27,8 @@ export default function LandingPage() {
 
     return (
         <>
-            <div className="hero-bar"></div>
+            <div class="hero-bar">
+            </div>
             <div className="landing-page-card-section">
                 <h2 className="no-margin">Recent Activity</h2>
                 <div className="landing-page-card-container">
