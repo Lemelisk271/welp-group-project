@@ -20,7 +20,7 @@ const BusinessForm = ({ businessData }) => {
   const [zipCode, setZipCode] = useState("");
   const [about, setAbout] = useState("");
   const [errors, setErrors] = useState(null);
-  const [frontEndErrors, setFrontEndErrors] = useState({});
+  // const [frontEndErrors, setFrontEndErrors] = useState({});
   const [image, setImage] = useState("");
   const [priceRating, setPriceRating] = useState("");
   const [tempRating, setTempRating] = useState(0);
@@ -88,6 +88,7 @@ const BusinessForm = ({ businessData }) => {
 
   const handleDateUpdate = (day, updatedValues) => {
     // const set = `set${day.day}`;
+    let errorObj = {}
     const updateClosed = { ...day, ...updatedValues };
     switch (day.day) {
       case "Mon":
@@ -142,6 +143,10 @@ const BusinessForm = ({ businessData }) => {
       default:
         break;
     }
+    if (Object.keys(errorObj).length) {
+      setErrors(errorObj)
+      return
+    }
   };
 
   useEffect(() => {
@@ -184,30 +189,6 @@ const BusinessForm = ({ businessData }) => {
     categoryList,
     amenityList,
   ]);
-
-  // useEffect(async () => {
-  //     if (
-  //         !name ||
-  //         !phone ||
-  //         !address ||
-  //         !city ||
-  //         !state ||
-  //         !zipCode ||
-  //         !priceRating
-  //     ) {
-  //         setDisableLogin(true);
-  //         setUnavailable("unavailable");
-  //     } else {
-  //         setDisableLogin(false);
-  //         setUnavailable("");
-  //     }
-  // const categoryObj = await fetch(`/api/business/categories/all`, {
-  //   method: "GET",
-  // });
-  // const categoryRes = await categoryObj.json();
-  // setCategoryOptions(categoryRes.categories);
-  // console.log(categoryList);
-  // }, [name, phone, address, city, state, zipCode, priceRating, categoryList]);
 
   useEffect(() => {
     const dateObj = {};
@@ -297,27 +278,17 @@ const BusinessForm = ({ businessData }) => {
     }
   }, [businessData]);
 
-  // const handleUrlOnChange = (e) => {
-  //     const inputValue = e.target.value;
-  //     if (inputValue === "https://" || inputValue === "") {
-  //         setUrl("https://");
-  //     } else if (!inputValue.startsWith("https://")) {
-  //         setUrl("https://" + inputValue);
-  //     } else {
-  //         setUrl(inputValue);
-  //     }
-  // };
-
-  let errorObj = {};
   const handleSubmit = async (e) => {
     e.preventDefault();
-    errorObj = {};
-    setFrontEndErrors({});
+    let errorObj = {};
     if (name.length > 100 || !name) {
       errorObj.name = "Please enter a name with 100 characters or less";
     }
     if (phone.length > 14 || !phone) {
       errorObj.phone = "Enter a valid Phone Number";
+    }
+    if (typeof(phone) != Number) {
+      errorObj.phone = "Enter a phone number with numbers only ex: 8388675309"
     }
     if (address.length > 255 || !address) {
       errorObj.address = "Enter a valid Address";
@@ -338,6 +309,11 @@ const BusinessForm = ({ businessData }) => {
       errorObj.price = "Please select an average cost";
     }
 
+    if (Object.keys(errorObj).length) {
+      setErrors(errorObj)
+      return
+    }
+
     const newBusiness = {
       name,
       url,
@@ -351,7 +327,7 @@ const BusinessForm = ({ businessData }) => {
       ownerId: userId,
     };
     let resBusiness;
-    if (Object.keys(errorObj).length === 0) {
+    if (!Object.keys(errorObj).length) {
       try {
         if (businessData) {
           newBusiness.id = businessData.id;
@@ -469,14 +445,6 @@ const BusinessForm = ({ businessData }) => {
         }
       }
     }
-
-    setFrontEndErrors({ ...errorObj });
-    console.log("FINALO FE", frontEndErrors);
-    console.log("FINALO BE", errors);
-    // eslint-disable-next-line
-    Object.values(frontEndErrors).map((error) => {
-      console.log(error);
-    });
   };
 
   return (
@@ -495,19 +463,14 @@ const BusinessForm = ({ businessData }) => {
             </div>
           )}
           <ul>
-            {Object.values(frontEndErrors).length !== 0 &&
-              Object.values(frontEndErrors).map((error, idx) => (
-                <li key={idx + 20} className="business-form-error">
-                  {error}
-                </li>
-              ))}
             {errors &&
               Object.values(errors).map((error, idx) => (
-                <li key={idx} className="business-form-error">
+                <li key={idx} className="errors">
                   {error}
                 </li>
               ))}
           </ul>
+          <br />
           <form
             className="new-business-form"
             onSubmit={handleSubmit}
