@@ -41,7 +41,6 @@ const BusinessImageModal = ({ businessId, userId }) => {
     const data = await res.json()
     if (data.errors) {
       setErrors(data.errors)
-      console.log(data.errors)
       return
     } else {
       setCurrentReview(!currentReview)

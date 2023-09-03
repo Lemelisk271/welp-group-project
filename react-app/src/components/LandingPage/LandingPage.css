@@ -1,16 +1,60 @@
 .hero-bar {
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
     position: absolute;
     z-index: -1;
     top: 0;
     left: 0;
     width: 100%;
-    /* height: 682px; */
     height: 682px;
-    background: linear-gradient(90deg, #0006, #0000001a 55%),
-        url(https://picsum.photos/1280/720.jpg);
+    /* background-size: cover; */
+}
+
+.hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    -webkit-animation: fade 24s infinite;
+    animation: fade 24s infinite;
+}
+
+#image1 {
+    animation-delay: 0s;
+    background: linear-gradient(90deg, #0006, #0000001a 55%), url("../../images/hero-1.jpg");
+    background-size: cover;
+}
+#image2 {
+    animation-delay: 8s;
+    background: linear-gradient(90deg, #0006, #0000001a 55%), url("../../images/hero-2.jpg");
+    background-size: cover;
+}
+#image3 {
+    background: linear-gradient(90deg, #0006, #0000001a 55%), url("../../images/hero-3.jpg");
+    animation-delay: 16s;
+    background-size: cover;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 1;
+    }
+    20% {
+        opacity: 1;
+    }
+    34% {
+        opacity: 0;
+    }
+    88% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .landing-page-card-section {
@@ -42,12 +86,17 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    border: 1px solid grey;
+    border: 1px solid #ebebeb;
     border-radius: 4px;
     min-width: 150px;
     max-width: 368px;
     padding: 16px 24px;
     margin: 8px;
+}
+
+.landing-page-card-header {
+    display: flex;
+    align-items: center;
 }
 
 .card-image-container img {
@@ -56,6 +105,23 @@
     height: auto;
     border-radius: 4px;
     object-fit: cover;
+    cursor: pointer;
+}
+
+.card-profile-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 4px;
+}
+
+.card-user-name {
+    margin: 4px 0px;
+}
+
+.card-business-name {
+    margin: 8px 0px;
 }
 
 .landing-page-categories-container {
@@ -71,11 +137,11 @@
 .landing-page-category-card {
     width: 256px;
     height: 183px;
-    border: 1px solid grey;
+    border: none;
     border-radius: 4px;
-    padding: 8px;
+    padding: 38px;
     margin: 8px;
-    background: url(https://picsum.photos/400/400?grayscale.jpg);
+    background: #ebebeb;
     background-size: cover;
     cursor: pointer;
 }

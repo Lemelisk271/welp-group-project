@@ -12,20 +12,17 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px 40px 0;
-  border-bottom: 2px solid grey;
+  border-bottom: 1px solid #ebebeb;
   padding-bottom: 20px;
 }
 
 .nav-container-home {
-  background: none;
+  background: linear-gradient(180deg,#000000b3,#0000004d 72.92%,#0000);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 24px 40px 0;
 }
-
-/* .nav-left {
-} */
 
 .nav-logo {
   background-color: #E00807;
