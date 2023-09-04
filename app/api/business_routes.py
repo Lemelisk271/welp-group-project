@@ -119,7 +119,7 @@ def addImage(id):
         return businessImage.to_dict()
     return {"errors": form.errors}, 401
 
-@business_routes.route("/<int:id>/hours", methods=["GET", "POST"])
+@business_routes.route("/<int:id>/hours", methods=["GET", "POST", "DELETE"])
 def addHours(id):
     request_data = request.get_json()
     business = Business.query.get(id)
@@ -128,6 +128,13 @@ def addHours(id):
     form = DayForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
+        delete_day = form.data["day"]
+        business_hours_query = db.session.query(Day).join(business_hours, business_hours.c.dayId == Day.id).filter(business_hours.c.businessId == id).all()
+        if len(business_hours_query):
+            day_id = [day.id for day in business_hours_query if day.day == delete_day]
+            if day_id:
+                Day.query.get(day_id).delete()
+                db.session.commit()
         hours = Day(
             day = form.data["day"],
             closed = form.data["closed"],

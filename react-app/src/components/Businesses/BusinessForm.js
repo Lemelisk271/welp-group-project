@@ -87,8 +87,7 @@ const BusinessForm = ({ businessData }) => {
   }, []);
 
   const handleDateUpdate = (day, updatedValues) => {
-    // const set = `set${day.day}`;
-    let errorObj = {}
+    let errorObj = {};
     const updateClosed = { ...day, ...updatedValues };
     switch (day.day) {
       case "Mon":
@@ -144,8 +143,8 @@ const BusinessForm = ({ businessData }) => {
         break;
     }
     if (Object.keys(errorObj).length) {
-      setErrors(errorObj)
-      return
+      setErrors(errorObj);
+      return;
     }
   };
 
@@ -284,7 +283,6 @@ const BusinessForm = ({ businessData }) => {
     if (name.length > 100 || !name) {
       errorObj.name = "Please enter a name with 100 characters or less";
     }
-    // console.log("phone ==> ", typeof(phone))
     if (phone.length > 14 || !phone) {
       errorObj.phone = "Enter a valid Phone Number";
     }
@@ -308,8 +306,8 @@ const BusinessForm = ({ businessData }) => {
     }
 
     if (Object.keys(errorObj).length) {
-      setErrors(errorObj)
-      return
+      setErrors(errorObj);
+      return;
     }
 
     const newBusiness = {
@@ -354,85 +352,98 @@ const BusinessForm = ({ businessData }) => {
                   }
                 );
                 const resImage = await addImage.json();
-                console.log(resImage)
+                console.log(resImage);
               } catch (err) {
                 if (err) {
                   errorObj.image =
                     "Something went wrong with your image upload";
                 }
               }
-              try {
-                await Promise.all(
-                  dayList.map(async (day) => {
-                    const hoursFormData = new FormData();
-                    hoursFormData.append("day", day.day);
-                    if (day.closed) {
-                      day.open_time = "00:00";
-                      day.close_time = "00:00";
-                    }
-                    hoursFormData.append("open_time", day.open_time);
-                    hoursFormData.append("close_time", day.close_time);
-                    hoursFormData.append("closed", day.closed);
-                    const addBusinessHours = await fetch(
-                      `/api/business/${resBusiness.id}/hours`,
-                      {
-                        method: "POST",
-                        body: hoursFormData,
-                      }
-                    );
-                  })
+            }
+          } catch (err) {}
+        }
+        try {
+          await Promise.all(
+            dayList.map(async (day) => {
+              const hoursFormData = new FormData();
+              hoursFormData.append("day", day.day);
+              if (day.closed) {
+                day.open_time = "00:00";
+                day.close_time = "00:00";
+              }
+              hoursFormData.append("open_time", day.open_time);
+              hoursFormData.append("close_time", day.close_time);
+              hoursFormData.append("closed", day.closed);
+              let curr_businessId;
+              if (businessData?.id) {
+                curr_businessId = businessData.id;
+              } else {
+                curr_businessId = resBusiness.id;
+              }
+              const addBusinessHours = await fetch(
+                `/api/business/${curr_businessId}/hours`,
+                {
+                  method: "POST",
+                  body: hoursFormData,
+                }
+              );
+            })
+          );
+          try {
+            await Promise.all(
+              categoryList.map(async (category) => {
+                const categoryFormData = new FormData();
+                categoryFormData.append("category", category);
+                let curr_businessId;
+                if (businessData?.id) {
+                  curr_businessId = businessData.id;
+                } else {
+                  curr_businessId = resBusiness.id;
+                }
+                const addCategory = await fetch(
+                  `/api/business/${curr_businessId}/categories`,
+                  {
+                    method: "POST",
+                    body: categoryFormData,
+                  }
                 );
-                try {
-                  await Promise.all(
-                    categoryList.map(async (category) => {
-                      const categoryFormData = new FormData();
-                      categoryFormData.append("category", category);
-                      const addCategory = await fetch(
-                        `/api/business/${resBusiness.id}/categories`,
-                        {
-                          method: "POST",
-                          body: categoryFormData,
-                        }
-                      );
-                    })
-                  );
-                  try {
-                    await Promise.all(
-                      amenityList.map(async (amenity) => {
-                        const amenityFormData = new FormData();
-                        amenityFormData.append("amenity", amenity);
-                        const addAmenity = await fetch(
-                          `/api/business/${resBusiness.id}/amenities`,
-                          {
-                            method: "POST",
-                            body: amenityFormData,
-                          }
-                        );
-                      })
-                    );
-                    // history.push(`/business/${resBusiness.id}`);
-                  } catch (err) {
-                    if (err) {
-                      errorObj.amenities =
-                        "Something went wrong with your amenities";
+              })
+            );
+            try {
+              await Promise.all(
+                amenityList.map(async (amenity) => {
+                  const amenityFormData = new FormData();
+                  amenityFormData.append("amenity", amenity);
+                  let curr_businessId;
+                  if (businessData?.id) {
+                    curr_businessId = businessData.id;
+                  } else {
+                    curr_businessId = resBusiness.id;
+                  }
+                  const addAmenity = await fetch(
+                    `/api/business/${curr_businessId}/amenities`,
+                    {
+                      method: "POST",
+                      body: amenityFormData,
                     }
-                  }
-                } catch (err) {
-                  if (err) {
-                    errorObj.categories =
-                      "Something went wrong with your categories";
-                  }
-                }
-              } catch (err) {
-                if (err) {
-                  // console.log(err);
-                  errorObj.hours =
-                    "Something went wrong with your business hours";
-                }
+                  );
+                })
+              );
+              // history.push(`/business/${resBusiness.id}`);
+            } catch (err) {
+              if (err) {
+                errorObj.amenities = "Something went wrong with your amenities";
               }
             }
           } catch (err) {
-            // console.log("ERR1", err);
+            if (err) {
+              errorObj.categories = "Something went wrong with your categories";
+            }
+          }
+        } catch (err) {
+          if (err) {
+            // console.log(err);
+            errorObj.hours = "Something went wrong with your business hours";
           }
         }
       } catch (err) {
