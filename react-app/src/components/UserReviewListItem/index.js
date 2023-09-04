@@ -44,7 +44,7 @@ const UserReviewListItem = ({ review, page }) => {
       setPageButtons(buttons)
     }
 
-    if (page === "businessDetail") {
+    if (page === "businessDetail" && user) {
       const voteObj = {}
 
       for (let vote of review.votes) {
