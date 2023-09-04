@@ -10,7 +10,7 @@ const BusinessImageCard = ({image, owner, user}) => {
   const { closeModal } = useModal()
 
   useEffect(() => {
-    if (image.ownerId === user.id) {
+    if (user && image.ownerId === user.id) {
       setIsUser(true)
     }
     // eslint-disable-next-line
