@@ -96,5 +96,4 @@ def update_image(id):
         db.session.commit()
 
         return user_to_update.to_dict()
-    print(form.data)
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401

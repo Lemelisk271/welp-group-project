@@ -95,7 +95,7 @@ export const updateBusiness = (businessData) => async (dispatch) => {
       return business;
     }
     const errors = await res.json();
-    console.log("ERRORS.JS", errors);
+    // console.log("ERRORS.JS", errors);
     return errors;
   } catch (err) {
     if (err) {

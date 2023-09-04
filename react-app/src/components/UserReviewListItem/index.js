@@ -21,7 +21,6 @@ const UserReviewListItem = ({ review, page }) => {
   let user = useSelector((state) => state.session.user)
 
   useEffect(() => {
-    console.log(page)
     setCategories(business?.categories.map(category => category.category).join(", "))
     setNewDate(new Date(review.date))
 
