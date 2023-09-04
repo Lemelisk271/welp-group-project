@@ -22,6 +22,7 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
         if (isNew){
             dispatch(getAllBusiness());
         }
+        // eslint-disable-next-line
     }, [dispatch]);
 
     useEffect(() => {
