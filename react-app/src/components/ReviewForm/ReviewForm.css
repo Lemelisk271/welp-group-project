@@ -13,6 +13,10 @@
     padding-top: 36px;
 }
 
+span.blue-link{
+    margin-left: 12px;
+}
+
 .review-form {
     max-width: 625px;
 }

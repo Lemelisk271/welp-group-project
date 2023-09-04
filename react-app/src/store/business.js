@@ -36,7 +36,7 @@ const removeBusiness = (business) => ({
 
 /** Thunk Action Creators: */
 export const getAllBusiness = () => async (dispatch) => {
-  const res = await fetch("/api/business");
+  const res = await fetch("/api/business/");
   if (res.ok) {
     const businesses = await res.json();
     dispatch(getBusinesses(businesses.businesses));
@@ -95,7 +95,7 @@ export const updateBusiness = (businessData) => async (dispatch) => {
       return business;
     }
     const errors = await res.json();
-    console.log("ERRORS.JS", errors);
+    // console.log("ERRORS.JS", errors);
     return errors;
   } catch (err) {
     if (err) {

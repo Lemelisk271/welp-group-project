@@ -1,0 +1,23 @@
+.businessDetail-disabled {
+  height: 44px;
+  background: white;
+  color: grey;
+  border: 2px solid grey;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: not-allowed;
+}
+
+.businessDetail-enabled {
+  height: 44px;
+  background: white;
+  color: grey;
+  border: 2px solid grey;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}

@@ -1,0 +1,8 @@
+.businessImages {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 80vw;
+  overflow-y: scroll;
+  max-height: 80vh;
+}

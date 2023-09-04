@@ -1,8 +1,8 @@
 .business-form-container {
     display: flex;
     justify-content: space-around;
-    height: 1224px;
-    margin: 0px auto;
+    width: 1224px;
+    margin: 22px auto;
 }
 
 .business-form-left {
@@ -52,19 +52,98 @@
     align-items: center;
     display: flex;
     flex-direction: row;
-    font-size: 14px;
+    font-size: 18px;
+    gap: 15px;
 }
 
 .business-form-days.master {
+    text-align: center;
     border-radius: 3px;
     border: none;
-    color: #2d2e2f;
-    margin: 6px auto;
-    resize: none;
     box-shadow: inset 0 0 0 1px #c8c9ca;
+    color: #2d2e2f;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 6px auto;
+    padding: 10px;
+    resize: none;
     width: 100%;
 }
 
 p.business-form-days.day.label {
-    margin-left: 10px
+    margin: 0px 0px 0px 10px;
+    width: 50px;
+}
+
+input.checkbox {
+    border:none;
+    margin: 0px 0px 0px 10px;
+    height: 20px;
+    width: 20px;
+}
+
+input.time.open {
+    font-size: 16px;
+    height: 35px;
+    margin: 0px 5px 0px 5px;
+}
+
+input.time.close {
+    font-size: 16px;
+    height: 35px;
+    margin: 0px 5px 0px 5px;
+}
+
+select.business-form-categories {
+    height: unset;
+}
+
+div.business-form.category.container {
+    max-height: 300px;
+    overflow: scroll;
+    width: 240px;
+}
+
+div.business-form.category.listing {
+    align-content: center;
+    display: flex;
+}
+
+input.business-form-categories {
+    height: 16px;
+    margin-right: 10px;
+    width: 16px;
+}
+
+div.business-form-cat.mastercontainer {
+    display: flex;
+    flex-direction: row;
+    border-radius: 3px;
+    border: none;
+    box-shadow: inset 0 0 0 1px #c8c9ca;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+div.business-form-cat {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.selected {
+    margin-left: 9px;
+    width: 240px;
+}
+
+.business-form.listing {
+    margin-left: 8px;
+    text-align: left;
+}
+
+ul {
+    list-style: none;
+    text-align: left;
+    margin: 0;
 }

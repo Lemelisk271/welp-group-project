@@ -16,7 +16,6 @@ import ProtectedRoute from './components/auth/ProtectedRoute'
 import BusinessSearchPage from './components/BusinessSearchPage'
 import BusinessNotFound from "./components/Businesses/BusinessNotFound";
 import BusinessList from './components/Businesses/BusinessList'
-import NotLoggedIn from "./components/NotLoggedIn";
 import ErrorPage from "./components/ErrorPage";
 
 function App() {
@@ -50,7 +49,7 @@ function App() {
             <UpdateBusiness />
           </Route>
           <Route exact path="/business/:id/review">
-            <ReviewForm />
+            <ReviewForm isBusinessReview={true} />
           </Route>
           <Route exact path="/business/:id">
             <BusinessDetails />
@@ -72,10 +71,7 @@ function App() {
           <Route exact path="/notfound">
             <BusinessNotFound />
           </Route>
-          <Route exact path="/not-logged-in">
-            <NotLoggedIn />
-          </Route>
-          <Route exact path="/error">
+          <Route path="/error/:error">
             <ErrorPage />
           </Route>
         </Switch>

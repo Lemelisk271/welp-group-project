@@ -1,9 +1,15 @@
-const QuestionListItem = ({ question }) => {
+import AnswerModal from '../AnswerModal'
+import OpenModalButton from '../OpenModalButton'
+
+const QuestionListItem = ({ question, user }) => {
   return (
     <>
     <div className="businessDetails-questionItem">
       <p>Q: {question.question}</p>
-      <button>Answer Question</button>
+      {user && <OpenModalButton
+        buttonText={"Answer Question"}
+        modalComponent={<AnswerModal question={question} user={user}/>}
+      />}
     </div>
     <div className="businessDetails-answerItem">
       <ul>

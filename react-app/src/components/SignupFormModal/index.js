@@ -10,6 +10,7 @@ function SignupFormModal() {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    // eslint-disable-next-line
     const [confirmPassword, setConfirmPassword] = useState("");
     const [zipCode, setZipCode] = useState("");
     const [errors, setErrors] = useState([]);
@@ -33,7 +34,7 @@ function SignupFormModal() {
     };
 
     return (
-        <>
+        <div className="signupModal">
             <h1>Sign up for Welp</h1>
             <p>
                 By proceeding, you agree to Yelp’s Terms of Service and
@@ -88,7 +89,7 @@ function SignupFormModal() {
                     Sign up
                 </button>
             </form>
-        </>
+        </div>
     );
 }
 

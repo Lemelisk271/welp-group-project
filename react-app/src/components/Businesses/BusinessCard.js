@@ -24,6 +24,7 @@ const BusinessCard = ({ loadedBusiness }) => {
       }
     };
     loadBusiness();
+    // eslint-disable-next-line
   }, [dispatch, business]);
 
   useEffect(()=>{

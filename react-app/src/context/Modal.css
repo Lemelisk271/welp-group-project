@@ -27,7 +27,7 @@
   position: absolute;
   background-color:white;
   border-radius: 4px;
-  width: 400px;
+  max-width: 90vw;
   padding: 40px;
 }
 
@@ -38,10 +38,10 @@
   width: 100%;
 }
 
-#modal-content input {
+/* #modal-content input {
   width: 100%;
   margin: 6px auto;
-}
+} */
 
 #modal-content button {
   width: 100%
