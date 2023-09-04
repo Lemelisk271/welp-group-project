@@ -72,7 +72,7 @@ def all_businesses():
 @business_routes.route("/new", methods=["POST"])
 def createNewBusiness():
     """
-    Creates new business based on ht
+    Creates new business and returns it as a dictionary.
     """
     request_data = request.get_json()
     form = BusinessForm()
@@ -98,6 +98,9 @@ def createNewBusiness():
 
 @business_routes.route("/<int:id>/images", methods=["GET", "POST"])
 def addImage(id):
+    """
+    Creates a new image for a business by business id and returns it as a dictionary.
+    """
     request_data = request.get_json()
 
     business = Business.query.get(id)
@@ -122,6 +125,9 @@ def addImage(id):
 
 @business_routes.route("/<int:id>/hours", methods=["GET", "POST"])
 def addHours(id):
+    """
+    Creates new hours for a business by business id and returns them as a dictionary.
+    """
     request_data = request.get_json()
     business = Business.query.get(id)
     if not business:
@@ -150,6 +156,9 @@ def addHours(id):
 
 @business_routes.route("/<int:id>/categories", methods=["POST"])
 def addCategories(id):
+    """
+    Creates new categories for a business by business id and returns them as a dictionary.
+    """
     request_data = request.get_json()
     business = Business.query.get(id)
     if not business:
@@ -169,6 +178,9 @@ def addCategories(id):
 
 @business_routes.route("/<int:id>/amenities", methods=["POST"])
 def addAmenities(id):
+    """
+    Creates new amenities for a business by business id and returns them as a dictionary.
+    """
     request_data = request.get_json()
     business = Business.query.get(id)
     if not business:
@@ -189,6 +201,9 @@ def addAmenities(id):
 
 @business_routes.route("/<int:id>/edit", methods=["PUT"])
 def updateBusiness(id):
+    """
+    Updates a business by id and returns it as a dictionary.
+    """
     request_data = request.get_json()
     form = BusinessForm(
         id = id,
@@ -276,12 +291,18 @@ def getBusinessReviews(id):
 
 @business_routes.route("/categories/all", methods=["GET"])
 def getAllCategories():
+    """
+    Query for all business categories and returns them in a list of category dictionaries.
+    """
     categories = Category.query.order_by(Category.category).all()
     allCategories = [category.category for category in categories]
     return {'categories': allCategories}
 
 @business_routes.route("/amenities/all", methods=["GET"])
 def getAllAmenities():
+    """
+    Query for all business amenities and returns them in a list of amenity dictionaries.
+    """
     amenities = Amenity.query.order_by(Amenity.amenity).all()
     allAmenities = [amenity.amenity for amenity in amenities]
     return {'amenities': allAmenities}
@@ -289,6 +310,9 @@ def getAllAmenities():
 
 @business_routes.route("/<int:id>")
 def getSingleBusiness(id):
+    """
+    Query for a single business by id and returns it as a dictionary.
+    """
     curr_business = Business.query.get(id)
     if (curr_business):
 
@@ -340,6 +364,9 @@ def getSingleBusiness(id):
 
 @business_routes.route("/categories")
 def get_business_categories():
+    """
+    Query that returns 8 random business categories.
+    """
     categories = Category.query.order_by('id').limit(8)
     random_categories = []
     for category in categories:
@@ -351,6 +378,9 @@ def get_business_categories():
 
 @business_routes.route("/<int:id>/edit", methods=["DELETE"])
 def deleteBusiness(id):
+    """
+    Delete a single business by id.
+    """
     business = Business.query.get(id)
 
     if business:
@@ -362,6 +392,9 @@ def deleteBusiness(id):
 
 @business_routes.route("/image/<int:id>", methods=["DELETE"])
 def deleteBusinessImage(id):
+    """
+    Delete a business image by image id. If the image is set as the preview image it sets another image as the new preview.
+    """
     image_to_delete = BusinessImages.query.get(id)
     url = image_to_delete.url
 
@@ -382,6 +415,9 @@ def deleteBusinessImage(id):
 
 @business_routes.route("/image/new", methods=["POST"])
 def addNewImage():
+    """
+    Adds a new image to a business. If the new image is set to be the preview image the old preview is set to false.
+    """
     form = NewBusinessImageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
@@ -407,6 +443,9 @@ def addNewImage():
 
 @business_routes.route("/question/new", methods=["POST"])
 def addQuestion():
+    """
+    Adds a new question to a business.
+    """
     form = QuestionForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
@@ -423,6 +462,9 @@ def addQuestion():
 
 @business_routes.route("/answer/new", methods=["POST"])
 def addAnswer():
+    """
+    Adds a new answer to a question.
+    """
     form = AnswerForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
@@ -442,6 +484,9 @@ def addAnswer():
 
 @business_routes.route("/vote/new", methods={"POST"})
 def addVote():
+    """
+    Adds a new vote to a review.
+    """
     form = VoteForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
