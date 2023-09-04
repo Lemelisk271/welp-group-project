@@ -83,7 +83,7 @@ Frontend:
 
 ## Usage
 
-Link - [Welp](https://welp-686p.onrender.com)
+Live Link - [Welp](https://welp-686p.onrender.com)
 
 ### Screenshots
 
@@ -106,6 +106,22 @@ User Profile Page:
 Business Search Page:
 
 ![Business Search Page](https://welp-group-project.s3.us-west-2.amazonaws.com/welp/businessSearch.png)
+
+All Businesses:
+
+![All Businesses](https://welp-group-project.s3.us-west-2.amazonaws.com/welp/allBusinesses.png)
+
+Business Details:
+
+![Business Details Head](https://welp-group-project.s3.us-west-2.amazonaws.com/welp/businessDetails-head.png)
+![Business Details Mid](https://welp-group-project.s3.us-west-2.amazonaws.com/welp/businessDetails-mid.png)
+![Business Details Reviews](https://welp-group-project.s3.us-west-2.amazonaws.com/welp/businessDetails-reviews.png)
+
+Add Business:
+
+![Add Business Top](https://welp-group-project.s3.us-west-2.amazonaws.com/welp/addBusiness-top.png)
+![Add Business Mid](https://welp-group-project.s3.us-west-2.amazonaws.com/welp/addBusiness-mid.png)
+![Add Business Bottom](https://welp-group-project.s3.us-west-2.amazonaws.com/welp/addBusiness-bottom.png)
 
 ## Credits
 - Daniel Lewis [GitHub Profile](https://github.com/akatheduelist)

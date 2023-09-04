@@ -69,7 +69,7 @@ def update_profile(id):
 @login_required
 def update_image(id):
     """
-    Changes a user's profile picture
+    Changes a user's profile picture by user id.
     """
     user = current_user.to_dict()
     if user['id'] != id:
