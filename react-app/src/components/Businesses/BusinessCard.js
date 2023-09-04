@@ -92,7 +92,7 @@ const BusinessCard = ({ loadedBusiness }) => {
                 {!business?.hours[dayNumber]?.close_time && <p>CLOSED</p>}
             </div>
             <div className="businessCardReview">
-                <p>"{business?.reviews[0]?.review}"</p>
+                {business?.reviews[0] && <p>"{business?.reviews[0]?.review}"</p>}
             </div>
           </div>
         </>
