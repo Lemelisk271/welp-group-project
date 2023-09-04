@@ -284,7 +284,7 @@ const BusinessForm = ({ businessData }) => {
     if (name.length > 100 || !name) {
       errorObj.name = "Please enter a name with 100 characters or less";
     }
-    console.log("phone ==> ", typeof(phone))
+    // console.log("phone ==> ", typeof(phone))
     if (phone.length > 14 || !phone) {
       errorObj.phone = "Enter a valid Phone Number";
     }
@@ -330,7 +330,7 @@ const BusinessForm = ({ businessData }) => {
         if (businessData) {
           newBusiness.id = businessData.id;
           resBusiness = await dispatch(updateBusiness(newBusiness));
-          console.log("PONT1", resBusiness.errors);
+          // console.log("PONT1", resBusiness.errors);
           if (resBusiness.errors) {
             setErrors(resBusiness.errors);
           } else {
@@ -425,20 +425,22 @@ const BusinessForm = ({ businessData }) => {
                 }
               } catch (err) {
                 if (err) {
-                  console.log(err);
+                  // console.log(err);
                   errorObj.hours =
                     "Something went wrong with your business hours";
                 }
               }
             }
           } catch (err) {
-            console.log("ERR1", err);
+            // console.log("ERR1", err);
           }
         }
       } catch (err) {
-        console.log("ERR2", err);
+        // console.log("ERR2", err);
         if (err) {
-          console.log("ERR3", err);
+          // console.log("ERR3", err);
+          // const { errors } = err;
+          // setErrors(errors);
         }
       }
     }

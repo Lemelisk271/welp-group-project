@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request, redirect, url_for, abort
 from flask_login import login_required, current_user
 from app.models import db, Business, business_amenities, business_categories, business_hours, Amenity, Category, BusinessImages, Day, Question, Answer, Review, User, Vote
 from app.seeds import restaurant_food_categories
-from ..forms import BusinessForm, ReviewForm, BusinessImageForm, DayForm, NewBusinessImageForm, CategoryForm, AmenityForm, QuestionForm, AnswerForm
+from ..forms import BusinessForm, ReviewForm, BusinessImageForm, DayForm, NewBusinessImageForm, CategoryForm, AmenityForm, QuestionForm, AnswerForm, VoteForm
 from datetime import time, date
 from .AWS_helpers import remove_file_from_s3, get_unique_filename, upload_file_to_s3
 
@@ -436,4 +436,19 @@ def addAnswer():
         db.session.add(answer)
         db.session.commit()
         return answer.to_dict()
+    return {"errors": validation_errors_to_error_messages(form.errors)}, 401
+
+@business_routes.route("/vote/new", methods={"POST"})
+def addVote():
+    form = VoteForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        vote = Vote(
+            type = form.data["type"],
+            reviewId = form.data["reviewId"],
+            userId = form.data["userId"]
+        )
+        db.session.add(vote)
+        db.session.commit()
+        return vote.to_dict()
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401

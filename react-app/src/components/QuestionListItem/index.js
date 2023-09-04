@@ -6,10 +6,10 @@ const QuestionListItem = ({ question, user }) => {
     <>
     <div className="businessDetails-questionItem">
       <p>Q: {question.question}</p>
-      <OpenModalButton
+      {user && <OpenModalButton
         buttonText={"Answer Question"}
         modalComponent={<AnswerModal question={question} user={user}/>}
-      />
+      />}
     </div>
     <div className="businessDetails-answerItem">
       <ul>
