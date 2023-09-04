@@ -60,6 +60,7 @@ export default function LandingPage() {
                                         <img
                                             className="card-profile-img"
                                             src={userInfo.profile_image}
+                                            alt=""
                                         />
                                     </div>
                                     <div>

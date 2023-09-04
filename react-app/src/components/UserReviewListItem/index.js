@@ -169,6 +169,7 @@ const UserReviewListItem = ({ review, page }) => {
     }
 
     setIsLoaded(true)
+    // eslint-disable-next-line
   }, [business, review])
 
   return (
