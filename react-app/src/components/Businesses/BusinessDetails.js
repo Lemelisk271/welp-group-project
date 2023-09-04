@@ -294,10 +294,10 @@ const BusinessDetails = () => {
               <div className="businessDetails-questions">
                 <div className="businessDetails-ask">
                   <h3>Ask the Community</h3>
-                  <OpenModalButton
+                  {user && <OpenModalButton
                     buttonText={`Ask a question`}
                     modalComponent={<QuestionModal business={business} user={user}/>}
-                  />
+                  />}
                 </div>
                 {questions && questions}
               </div>
