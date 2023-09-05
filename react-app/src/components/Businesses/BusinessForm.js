@@ -88,7 +88,10 @@ const BusinessForm = ({ businessData }) => {
     const updateClosed = { ...day, ...updatedValues };
     switch (day.day) {
       case "Mon":
-        if (day.open_time > day.close_time) {
+        if (
+          day.open_time > day.close_time ||
+          day.open_time === day.close_time
+        ) {
           errorObj.Monday = "Monday - Closing time cannot be before open time.";
         } else {
           delete errorObj.Monday;
@@ -96,7 +99,10 @@ const BusinessForm = ({ businessData }) => {
         setMon(updateClosed);
         break;
       case "Tue":
-        if (day.open_time > day.close_time) {
+        if (
+          day.open_time > day.close_time ||
+          day.open_time === day.close_time
+        ) {
           errorObj.Tuesday =
             "Tuesday - Closing time cannot be before open time.";
         } else {
@@ -105,7 +111,10 @@ const BusinessForm = ({ businessData }) => {
         setTue(updateClosed);
         break;
       case "Wed":
-        if (day.open_time > day.close_time) {
+        if (
+          day.open_time > day.close_time ||
+          day.open_time === day.close_time
+        ) {
           errorObj.Wednesday =
             "Wednesday - Closing time cannot be before open time.";
         } else {
@@ -114,7 +123,10 @@ const BusinessForm = ({ businessData }) => {
         setWed(updateClosed);
         break;
       case "Thu":
-        if (day.open_time > day.close_time) {
+        if (
+          day.open_time > day.close_time ||
+          day.open_time === day.close_time
+        ) {
           errorObj.Thursday =
             "Thursday - Closing time cannot be before open time.";
         } else {
@@ -123,7 +135,10 @@ const BusinessForm = ({ businessData }) => {
         setThu(updateClosed);
         break;
       case "Fri":
-        if (day.open_time > day.close_time) {
+        if (
+          day.open_time > day.close_time ||
+          day.open_time === day.close_time
+        ) {
           errorObj.Friday = "Friday - Closing time cannot be before open time.";
         } else {
           delete errorObj.Friday;
@@ -131,7 +146,10 @@ const BusinessForm = ({ businessData }) => {
         setFri(updateClosed);
         break;
       case "Sat":
-        if (day.open_time > day.close_time) {
+        if (
+          day.open_time > day.close_time ||
+          day.open_time === day.close_time
+        ) {
           errorObj.Saturday =
             "Saturday - Closing time cannot be before open time.";
         } else {
@@ -140,7 +158,10 @@ const BusinessForm = ({ businessData }) => {
         setSat(updateClosed);
         break;
       case "Sun":
-        if (day.open_time > day.close_time) {
+        if (
+          day.open_time > day.close_time ||
+          day.open_time === day.close_time
+        ) {
           errorObj.Sunday = "Sunday - Closing time cannot be before open time.";
         } else {
           delete errorObj.Sunday;
@@ -586,8 +607,11 @@ const BusinessForm = ({ businessData }) => {
               value={about}
               onChange={(e) => setAbout(e.target.value)}
             />
-            <div className="business-form-address">
+            <div className="business-form price">
               <div className="price-rating">
+                <h3 className="business-form price rating label">
+                  Price Rating:
+                </h3>
                 {[1, 2, 3, 4, 5].map((rating) => (
                   <div
                     key={rating}
@@ -595,7 +619,7 @@ const BusinessForm = ({ businessData }) => {
                       priceRating >= rating || tempRating >= rating
                         ? "filled"
                         : "empty"
-                    }`}
+                    } price container`}
                     onClick={() => {
                       setPriceRating(rating);
                       setTempRating(rating);
@@ -603,18 +627,21 @@ const BusinessForm = ({ businessData }) => {
                     onMouseEnter={() => setTempRating(rating)}
                     onMouseLeave={() => setTempRating(0)}
                   >
-                    <i className="fa-solid fa-dollar"></i>
+                    <i className="fa-solid fa-dollar fa-xxl business-form-price"></i>
                   </div>
                 ))}
               </div>
               {!businessData && (
-                <input
-                  className="business-form-address-street"
-                  id="image"
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setImage(e.target.files[0])}
-                />
+                <div className="business-form-image container">
+                  <h3 className="business-form image label">Add Photo:</h3>
+                  <input
+                    className="business-form-image"
+                    id="image"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setImage(e.target.files[0])}
+                  />
+                </div>
               )}
             </div>
             <div className="business-form-days master container">
@@ -658,7 +685,11 @@ const BusinessForm = ({ businessData }) => {
                     className="business-form-days close time"
                     type="time"
                     value={day.close_time || ""}
-                    min={day.open_time || "00:00"}
+                    min={
+                      `${day?.open_time?.slice(0, 4)}${
+                        Number(day?.open_time?.slice(4, 5)) + 1
+                      }` || "00:00"
+                    }
                     max="23:59"
                     onChange={(e) => {
                       handleDateUpdate(day, {
