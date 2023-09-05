@@ -88,7 +88,10 @@ const BusinessForm = ({ businessData }) => {
     const updateClosed = { ...day, ...updatedValues };
     switch (day.day) {
       case "Mon":
-        if (day.open_time > day.close_time) {
+        if (
+          day.open_time > day.close_time ||
+          day.open_time === day.close_time
+        ) {
           errorObj.Monday = "Monday - Closing time cannot be before open time.";
         } else {
           delete errorObj.Monday;
@@ -96,7 +99,10 @@ const BusinessForm = ({ businessData }) => {
         setMon(updateClosed);
         break;
       case "Tue":
-        if (day.open_time > day.close_time) {
+        if (
+          day.open_time > day.close_time ||
+          day.open_time === day.close_time
+        ) {
           errorObj.Tuesday =
             "Tuesday - Closing time cannot be before open time.";
         } else {
@@ -105,7 +111,10 @@ const BusinessForm = ({ businessData }) => {
         setTue(updateClosed);
         break;
       case "Wed":
-        if (day.open_time > day.close_time) {
+        if (
+          day.open_time > day.close_time ||
+          day.open_time === day.close_time
+        ) {
           errorObj.Wednesday =
             "Wednesday - Closing time cannot be before open time.";
         } else {
@@ -114,7 +123,10 @@ const BusinessForm = ({ businessData }) => {
         setWed(updateClosed);
         break;
       case "Thu":
-        if (day.open_time > day.close_time) {
+        if (
+          day.open_time > day.close_time ||
+          day.open_time === day.close_time
+        ) {
           errorObj.Thursday =
             "Thursday - Closing time cannot be before open time.";
         } else {
@@ -123,7 +135,10 @@ const BusinessForm = ({ businessData }) => {
         setThu(updateClosed);
         break;
       case "Fri":
-        if (day.open_time > day.close_time) {
+        if (
+          day.open_time > day.close_time ||
+          day.open_time === day.close_time
+        ) {
           errorObj.Friday = "Friday - Closing time cannot be before open time.";
         } else {
           delete errorObj.Friday;
@@ -131,7 +146,10 @@ const BusinessForm = ({ businessData }) => {
         setFri(updateClosed);
         break;
       case "Sat":
-        if (day.open_time > day.close_time) {
+        if (
+          day.open_time > day.close_time ||
+          day.open_time === day.close_time
+        ) {
           errorObj.Saturday =
             "Saturday - Closing time cannot be before open time.";
         } else {
@@ -140,7 +158,10 @@ const BusinessForm = ({ businessData }) => {
         setSat(updateClosed);
         break;
       case "Sun":
-        if (day.open_time > day.close_time) {
+        if (
+          day.open_time > day.close_time ||
+          day.open_time === day.close_time
+        ) {
           errorObj.Sunday = "Sunday - Closing time cannot be before open time.";
         } else {
           delete errorObj.Sunday;
@@ -664,7 +685,11 @@ const BusinessForm = ({ businessData }) => {
                     className="business-form-days close time"
                     type="time"
                     value={day.close_time || ""}
-                    min={day.open_time || "00:00"}
+                    min={
+                      `${day?.open_time?.slice(0, 4)}${
+                        Number(day?.open_time?.slice(4, 5)) + 1
+                      }` || "00:00"
+                    }
                     max="23:59"
                     onChange={(e) => {
                       handleDateUpdate(day, {
