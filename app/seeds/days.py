@@ -10,48 +10,55 @@ def generate_days(businesses):
     mon = Day(
       day = "Mon",
       closed = True,
-      business_hours_days = [business]
+      business_hours_days = [business],
+      dayIdx = 1
     )
     hours.append(mon)
     tue = Day(
       day = "Tue",
       closed = True,
-      business_hours_days = [business]
+      business_hours_days = [business],
+      dayIdx = 2
     )
     hours.append(tue)
     wed = Day(
       day = "Wed",
       open_time = datetime.time(9,00,00),
       close_time = datetime.time(21,00,00),
-      business_hours_days = [business]
+      business_hours_days = [business],
+      dayIdx = 3
     )
     hours.append(wed)
     thu = Day(
       day = "Thu",
       open_time = datetime.time(9,00,00),
       close_time = datetime.time(21,00,00),
-      business_hours_days = [business]
+      business_hours_days = [business],
+      dayIdx = 4
     )
     hours.append(thu)
     fri = Day(
       day = "Fri",
       open_time = datetime.time(9,00,00),
       close_time = datetime.time(21,00,00),
-      business_hours_days = [business]
+      business_hours_days = [business],
+      dayIdx = 5
     )
     hours.append(fri)
     sat = Day(
       day = "Sat",
       open_time = datetime.time(9,00,00),
       close_time = datetime.time(21,00,00),
-      business_hours_days = [business]
+      business_hours_days = [business],
+      dayIdx = 6
     )
     hours.append(sat)
     sun = Day(
       day = "Sun",
       open_time = datetime.time(9,00,00),
       close_time = datetime.time(21,00,00),
-      business_hours_days = [business]
+      business_hours_days = [business],
+      dayIdx = 7
     )
     hours.append(sun)
   return hours
