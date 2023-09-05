@@ -4,15 +4,17 @@ import { useHistory } from "react-router-dom"
 import { ReviewContext } from '../../context/ReviewContext'
 import OpenModalButton from "../OpenModalButton"
 import DeleteReviewModal from '../DeleteReviewModal'
+import { findCity } from '../HelperFunctions/helper'
 import './UserReviewListItem.css'
 
 const UserReviewListItem = ({ review, page }) => {
+  console.log(review)
   const history = useHistory()
   const [rating] = useState(review.stars)
   const [isLoaded, setIsLoaded] = useState(false)
-  const [categories, setCategories] = useState([])
   const [newDate, setNewDate] = useState(new Date())
   const [pageButtons, setPageButtons] = useState("")
+  const [pageElement, setPageElement] = useState("")
   const [useful, setUseful] = useState(review.votes.filter(vote => vote.type === "Useful").length)
   const [funny, setFunny] = useState(review.votes.filter(vote => vote.type === "Funny").length)
   const [cool, setCool] = useState(review.votes.filter(vote => vote.type === "Cool").length)
@@ -21,7 +23,6 @@ const UserReviewListItem = ({ review, page }) => {
   let user = useSelector((state) => state.session.user)
 
   useEffect(() => {
-    setCategories(business?.categories.map(category => category.category).join(", "))
     setNewDate(new Date(review.date))
 
     if (page === "userProfile") {
@@ -42,6 +43,18 @@ const UserReviewListItem = ({ review, page }) => {
         </>
       )
       setPageButtons(buttons)
+
+      let element = (
+        <>
+          <img src={business?.preview_image.url} alt={business?.name} />
+          <div className="reviewListItem-businessInfo">
+            <h3>{business?.name}</h3>
+            <p>{business?.categories.map(category => category.category).join(", ")}</p>
+            <p>{business?.city}, {business?.state}</p>
+          </div>
+        </>
+      )
+      setPageElement(element)
     }
 
     if (page === "businessDetail" && user) {
@@ -166,8 +179,19 @@ const UserReviewListItem = ({ review, page }) => {
         </>
       )
       setPageButtons(buttons)
-    }
 
+      let element = (
+        <>
+          <img src={review?.user[0].profile_image} alt={review.user[0].first_name} />
+          <div className="reviewListItem-businessInfo">
+            <h3>{review.user[0].first_name} {review.user[0].last_name}</h3>
+            <p>{findCity(review.user[0].zip_code)}</p>
+          </div>
+        </>
+      )
+
+      setPageElement(element)
+    }
     setIsLoaded(true)
     // eslint-disable-next-line
   }, [business, review])
@@ -177,12 +201,7 @@ const UserReviewListItem = ({ review, page }) => {
       {isLoaded ? (
         <div className='reviewListItem'>
           <div className="reviewListItem-business">
-            <img src={business?.preview_image.url} alt={business?.name} />
-            <div className="reviewListItem-businessInfo">
-              <h3>{business?.name}</h3>
-              <p>{ categories }</p>
-              <p>{business?.city}, {business?.state}</p>
-            </div>
+            {pageElement}
           </div>
           <div className="reviewListItem-stars">
             <div
