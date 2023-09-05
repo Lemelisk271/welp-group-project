@@ -20,14 +20,12 @@ const BusinessForm = ({ businessData }) => {
   const [zipCode, setZipCode] = useState("");
   const [about, setAbout] = useState("");
   const [errors, setErrors] = useState(null);
-  // const [frontEndErrors, setFrontEndErrors] = useState({});
+  const [timeErrors, setTimeErrors] = useState({});
   const [image, setImage] = useState("");
   const [priceRating, setPriceRating] = useState("");
   const [tempRating, setTempRating] = useState(0);
-  // eslint-disable-next-line
   const [unavailable, setUnavailable] = useState("");
   const [disableLogin, setDisableLogin] = useState(true);
-  // eslint-disable-next-line
   const [disableTime, setDisableTime] = useState("");
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [amenityOptions, setAmenityOptions] = useState([]);
@@ -83,69 +81,78 @@ const BusinessForm = ({ businessData }) => {
     } else {
       setUserId(sessionUser.id);
     }
-    // eslint-disable-next-line
   }, []);
 
   const handleDateUpdate = (day, updatedValues) => {
-    // const set = `set${day.day}`;
-    let errorObj = {}
+    let errorObj = {};
     const updateClosed = { ...day, ...updatedValues };
     switch (day.day) {
       case "Mon":
         if (day.open_time > day.close_time) {
-          errorObj.hours = "Closing time cannot be before open time.";
+          errorObj.Monday = "Monday - Closing time cannot be before open time.";
         } else {
-          setMon(updateClosed);
+          delete errorObj.Monday;
         }
+        setMon(updateClosed);
         break;
       case "Tue":
         if (day.open_time > day.close_time) {
-          errorObj.hours = "Closing time cannot be before open time.";
+          errorObj.Tuesday =
+            "Tuesday - Closing time cannot be before open time.";
         } else {
-          setTue(updateClosed);
+          delete errorObj.Tuesday;
         }
+        setTue(updateClosed);
         break;
       case "Wed":
         if (day.open_time > day.close_time) {
-          errorObj.hours = "Closing time cannot be before open time.";
+          errorObj.Wednesday =
+            "Wednesday - Closing time cannot be before open time.";
         } else {
-          setWed(updateClosed);
+          delete errorObj.Wednesday;
         }
+        setWed(updateClosed);
         break;
       case "Thu":
         if (day.open_time > day.close_time) {
-          errorObj.hours = "Closing time cannot be before open time.";
+          errorObj.Thursday =
+            "Thursday - Closing time cannot be before open time.";
         } else {
-          setThu(updateClosed);
+          delete errorObj.Thursday;
         }
+        setThu(updateClosed);
         break;
       case "Fri":
         if (day.open_time > day.close_time) {
-          errorObj.hours = "Closing time cannot be before open time.";
+          errorObj.Friday = "Friday - Closing time cannot be before open time.";
         } else {
-          setFri(updateClosed);
+          delete errorObj.Friday;
         }
+        setFri(updateClosed);
         break;
       case "Sat":
         if (day.open_time > day.close_time) {
-          errorObj.hours = "Closing time cannot be before open time.";
+          errorObj.Saturday =
+            "Saturday - Closing time cannot be before open time.";
         } else {
-          setSat(updateClosed);
+          delete errorObj.Saturday;
         }
+        setSat(updateClosed);
         break;
       case "Sun":
         if (day.open_time > day.close_time) {
-          errorObj.hours = "Closing time cannot be before open time.";
+          errorObj.Sunday = "Sunday - Closing time cannot be before open time.";
         } else {
-          setSun(updateClosed);
+          delete errorObj.Sunday;
         }
+        setSun(updateClosed);
         break;
       default:
         break;
     }
     if (Object.keys(errorObj).length) {
-      setErrors(errorObj)
-      return
+      setErrors(errorObj);
+      return;
     }
   };
 
@@ -205,6 +212,20 @@ const BusinessForm = ({ businessData }) => {
       setZipCode(businessData?.zip_code);
       setAbout(businessData?.about);
       setPriceRating(businessData?.price);
+      if (businessData?.amenities?.length) {
+        let amenityArr = [];
+        businessData?.amenities?.forEach((amenity) => {
+          amenityArr.push(amenity.amenity);
+        });
+        setAmenityList(amenityArr);
+      }
+      if (businessData?.categories?.length) {
+        let categoryArr = [];
+        businessData?.categories?.forEach((category) => {
+          categoryArr.push(category.category);
+        });
+        setCategoryList(categoryArr);
+      }
       if (businessData?.images?.length > 0) {
         for (let image of businessData?.images) {
           if (image.preview === true) {
@@ -284,7 +305,6 @@ const BusinessForm = ({ businessData }) => {
     if (name.length > 100 || !name) {
       errorObj.name = "Please enter a name with 100 characters or less";
     }
-    // console.log("phone ==> ", typeof(phone))
     if (phone.length > 14 || !phone) {
       errorObj.phone = "Enter a valid Phone Number";
     }
@@ -308,10 +328,9 @@ const BusinessForm = ({ businessData }) => {
     }
 
     if (Object.keys(errorObj).length) {
-      setErrors(errorObj)
-      return
+      setErrors(errorObj);
+      return;
     }
-
     const newBusiness = {
       name,
       url,
@@ -330,11 +349,8 @@ const BusinessForm = ({ businessData }) => {
         if (businessData) {
           newBusiness.id = businessData.id;
           resBusiness = await dispatch(updateBusiness(newBusiness));
-          // console.log("PONT1", resBusiness.errors);
           if (resBusiness.errors) {
             setErrors(resBusiness.errors);
-          } else {
-            // history.push(`/business/${resBusiness.id}`);
           }
         } else {
           try {
@@ -346,7 +362,6 @@ const BusinessForm = ({ businessData }) => {
                 const imgFormData = new FormData();
                 imgFormData.append("image", image);
                 imgFormData.append("user", userId);
-                // eslint-disable-next-line
                 const addImage = await fetch(
                   `/api/business/${resBusiness.id}/images`,
                   {
@@ -354,94 +369,113 @@ const BusinessForm = ({ businessData }) => {
                     body: imgFormData,
                   }
                 );
+                const resImage = await addImage.json();
               } catch (err) {
                 if (err) {
                   errorObj.image =
                     "Something went wrong with your image upload";
                 }
               }
-              try {
-                await Promise.all(
-                  dayList.map(async (day) => {
-                    const hoursFormData = new FormData();
-                    hoursFormData.append("day", day.day);
-                    if (day.closed) {
-                      day.open_time = "00:00";
-                      day.close_time = "00:00";
+            }
+          } catch (err) {}
+        }
+        try {
+          let curr_businessId;
+          if (businessData?.id) {
+            curr_businessId = businessData.id;
+          } else {
+            curr_businessId = resBusiness.id;
+          }
+          await fetch(`/api/business/${curr_businessId}/delete`, {
+            method: "DELETE",
+          });
+          try {
+            await Promise.all(
+              dayList.map(async (day) => {
+                const hoursFormData = new FormData();
+                hoursFormData.append("day", day.day);
+                if (day.closed) {
+                  day.open_time = "00:00";
+                  day.close_time = "00:00";
+                }
+                hoursFormData.append("open_time", day.open_time.slice(0, 5));
+                hoursFormData.append("close_time", day.close_time.slice(0, 5));
+                hoursFormData.append("closed", day.closed);
+                let curr_businessId;
+                if (businessData?.id) {
+                  curr_businessId = businessData.id;
+                } else {
+                  curr_businessId = resBusiness.id;
+                }
+                const addBusinessHours = await fetch(
+                  `/api/business/${curr_businessId}/hours`,
+                  {
+                    method: "POST",
+                    body: hoursFormData,
+                  }
+                );
+              })
+            );
+            try {
+              await Promise.all(
+                categoryList.map(async (category) => {
+                  const categoryFormData = new FormData();
+                  categoryFormData.append("category", category);
+                  let curr_businessId;
+                  if (businessData?.id) {
+                    curr_businessId = businessData.id;
+                  } else {
+                    curr_businessId = resBusiness.id;
+                  }
+                  const addCategory = await fetch(
+                    `/api/business/${curr_businessId}/categories`,
+                    {
+                      method: "POST",
+                      body: categoryFormData,
                     }
-                    hoursFormData.append("open_time", day.open_time);
-                    hoursFormData.append("close_time", day.close_time);
-                    hoursFormData.append("closed", day.closed);
-                    const addBusinessHours = await fetch(
-                      `/api/business/${resBusiness.id}/hours`,
+                  );
+                })
+              );
+              try {
+                let curr_businessId;
+                if (businessData?.id) {
+                  curr_businessId = businessData.id;
+                } else {
+                  curr_businessId = resBusiness.id;
+                }
+                await Promise.all(
+                  amenityList.map(async (amenity) => {
+                    const amenityFormData = new FormData();
+                    amenityFormData.append("amenity", amenity);
+                    const addAmenity = await fetch(
+                      `/api/business/${curr_businessId}/amenities`,
                       {
                         method: "POST",
-                        body: hoursFormData,
+                        body: amenityFormData,
                       }
                     );
                   })
                 );
-                try {
-                  await Promise.all(
-                    categoryList.map(async (category) => {
-                      const categoryFormData = new FormData();
-                      categoryFormData.append("category", category);
-                      const addCategory = await fetch(
-                        `/api/business/${resBusiness.id}/categories`,
-                        {
-                          method: "POST",
-                          body: categoryFormData,
-                        }
-                      );
-                    })
-                  );
-                  try {
-                    await Promise.all(
-                      amenityList.map(async (amenity) => {
-                        const amenityFormData = new FormData();
-                        amenityFormData.append("amenity", amenity);
-                        const addAmenity = await fetch(
-                          `/api/business/${resBusiness.id}/amenities`,
-                          {
-                            method: "POST",
-                            body: amenityFormData,
-                          }
-                        );
-                      })
-                    );
-                    history.push(`/business/${resBusiness.id}`);
-                  } catch (err) {
-                    if (err) {
-                      errorObj.amenities =
-                        "Something went wrong with your amenities";
-                    }
-                  }
-                } catch (err) {
-                  if (err) {
-                    errorObj.categories =
-                      "Something went wrong with your categories";
-                  }
-                }
+                history.push(`/business/${curr_businessId}`);
               } catch (err) {
                 if (err) {
-                  // console.log(err);
-                  errorObj.hours =
-                    "Something went wrong with your business hours";
+                  errorObj.amenities =
+                    "Something went wrong with your amenities";
                 }
+              }
+            } catch (err) {
+              if (err) {
+                errorObj.categories =
+                  "Something went wrong with your categories";
               }
             }
           } catch (err) {
-            // console.log("ERR1", err);
+            if (err) {
+              errorObj.hours = "Something went wrong with your business hours";
+            }
           }
-        }
-      } catch (err) {
-        // console.log("ERR2", err);
-        if (err) {
-          // console.log("ERR3", err);
-          // const { errors } = err;
-          // setErrors(errors);
-        }
-      }
+        } catch (err) {}
+      } catch (err) {}
     }
   };
 
@@ -611,6 +645,8 @@ const BusinessForm = ({ businessData }) => {
                     className="business-form-days open time"
                     type="time"
                     value={day.open_time || ""}
+                    min="00:00"
+                    max={day.close_time || "23:59"}
                     onChange={(e) => {
                       handleDateUpdate(day, {
                         open_time: e.target.value || null,
@@ -622,6 +658,8 @@ const BusinessForm = ({ businessData }) => {
                     className="business-form-days close time"
                     type="time"
                     value={day.close_time || ""}
+                    min={day.open_time || "00:00"}
+                    max="23:59"
                     onChange={(e) => {
                       handleDateUpdate(day, {
                         close_time: e.target.value || null,
@@ -629,6 +667,7 @@ const BusinessForm = ({ businessData }) => {
                     }}
                     disabled={day.closed}
                   />
+                  <span className="valid-time"></span>
                 </div>
               ))}
             </div>
@@ -648,6 +687,9 @@ const BusinessForm = ({ businessData }) => {
                               key={idx * 2.01}
                               className="business-form-categories"
                               type="checkbox"
+                              checked={Object.values(categoryList)?.includes(
+                                category
+                              )}
                               onChange={(e) => {
                                 if (e.target.checked === true) {
                                   setCategoryList([...categoryList, category]);
@@ -670,7 +712,7 @@ const BusinessForm = ({ businessData }) => {
                   <div className="selected">
                     <h3 className="cat-title">Selected</h3>
                     <ul>
-                      {categoryList?.map((category, idx) => (
+                      {Object.values(categoryList)?.map((category, idx) => (
                         <li key={idx * 1.12}>{category}</li>
                       ))}
                     </ul>
@@ -694,6 +736,9 @@ const BusinessForm = ({ businessData }) => {
                               key={idx * 3.01}
                               className="business-form-categories"
                               type="checkbox"
+                              checked={Object.values(amenityList)?.includes(
+                                amenity
+                              )}
                               onChange={(e) => {
                                 if (e.target.checked === true) {
                                   setAmenityList([...amenityList, amenity]);
@@ -715,7 +760,7 @@ const BusinessForm = ({ businessData }) => {
                   <div className="selected">
                     <h3 className="cat-title">Selected</h3>
                     <ul>
-                      {amenityList?.map((amenity, idx) => (
+                      {Object.values(amenityList)?.map((amenity, idx) => (
                         <li key={idx * 1.22}>{amenity}</li>
                       ))}
                     </ul>

@@ -102,7 +102,6 @@ def addImage(id):
     Creates a new image for a business by business id and returns it as a dictionary.
     """
     request_data = request.get_json()
-
     business = Business.query.get(id)
     form = BusinessImageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
@@ -143,7 +142,6 @@ def addHours(id):
         )
         db.session.add(hours)
         db.session.commit()
-
         business_hour = business_hours.insert().values(
             businessId = id,
             dayId = hours.id
@@ -153,6 +151,33 @@ def addHours(id):
         db.session.commit()
         return hours.to_dict()
     return {"errors": form.errors}, 401
+
+@business_routes.route("/<int:id>/delete", methods=["DELETE"])
+def deleteCategoriesAmenities(id):
+    try:
+        curr_business_hours = db.session.query(Day).join(business_hours, business_hours.c.dayId == Day.id).filter(business_hours.c.businessId == id).all()
+        for business_hours_item in curr_business_hours:
+            db.session.delete(business_hours_item)
+
+        db.session.execute(
+            business_categories.delete().where(
+                (business_categories.c.businessId == id)
+            )
+        )
+
+        db.session.execute(
+            business_amenities.delete().where(
+                (business_amenities.c.businessId == id)
+            )
+        )
+
+        db.session.commit()
+
+        return {"Message": "Successfully Deleted"}
+    except Exception as error:
+        db.session.rollback()
+        return {"errors": str(error)}
+
 
 @business_routes.route("/<int:id>/categories", methods=["POST"])
 def addCategories(id):
@@ -189,7 +214,6 @@ def addAmenities(id):
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         amenity = Amenity.query.filter_by(amenity=form.data["amenity"]).first()
-        # print("AMENITY-----------------------------", amenity.icon_url)
         business_amenity = business_amenities.insert().values(
             businessId = id,
             amenityId = amenity.id
