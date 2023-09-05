@@ -31,15 +31,21 @@ const BusinessSearchPage = () => {
   return (
     <div className="business-search">
       {isLoaded ? (
-        <>
-          <div className="business-search-content">
-            <div className="business-search-items">
-              {searchList.map(business => (
-                <BusinessSearchListItem key={business.id} business={business}/>
-              ))}
-            </div>
-          </div>
-        </>
+        <div className="business-search-content">
+          {searchList.length > 0 ? (
+            <>
+              <div className="business-search-items">
+                {searchList.map(business => (
+                  <BusinessSearchListItem key={business.id} business={business}/>
+                ))}
+              </div>
+            </>
+          ):(
+            <>
+              <h1>No Business Found</h1>
+            </>
+          )}
+        </div>
       ):(
         <h1>Loading...</h1>
       )}
