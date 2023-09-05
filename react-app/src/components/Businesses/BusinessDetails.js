@@ -291,12 +291,12 @@ const BusinessDetails = () => {
             </div>
             <div className="businessDetails-info">
               <div className="businessDetails-info-link">
-                <Link to={business.url} target="_blank">
+                <a href={business.url} target="_blank">
                   {business.name}
-                </Link>
-                <Link to={business.url} target="_blank">
+                </a>
+                <a href={business.url} target="_blank">
                   <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                </Link>
+                </a>
               </div>
               <div className="businessDetails-line"></div>
               <div className="businessDetails-phone">
