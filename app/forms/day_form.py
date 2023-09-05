@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import TimeField, BooleanField, StringField
+from wtforms import TimeField, BooleanField, StringField, IntegerField
 from wtforms.validators import DataRequired
 
 class DayForm(FlaskForm):
@@ -9,3 +9,4 @@ class DayForm(FlaskForm):
     open_time = TimeField("Opening Time")
     close_time = TimeField("Closing Time")
     closed = BooleanField("Closed")
+    dayIdx = IntegerField("dayIdx")
