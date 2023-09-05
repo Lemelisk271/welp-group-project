@@ -49,6 +49,8 @@ This web app uses the following API routes to dynamically update the page to cre
   - `POST /api/business/<int:id>images`
 - Creates new hours for a business by business id and returns them as a dictionary.
   - `POST /api/business/<int:id>hours`
+- Deletes either catagories or amenities from a business by business id.
+  - `DELETE /api/business/<int:id>delete`
 - Creates new categories for a business by business id and returns them as a dictionary.
   - `POST /api/business/<int:id>/categories`
 - Creates new amenities for a business by business id and returns them as a dictionary.
