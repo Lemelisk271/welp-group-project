@@ -36,20 +36,22 @@ function LoginFormModal() {
             <div>
                 <ul className="login-modal-signin-buttons no-bullets">
                     <li>
-                        <a href="/error">
+                        {/* <a href="/error"> */}
                             <img
                                 src="https://placehold.co/340x44/FFFFFF/000000.png?text=Continue+with+Google"
                                 alt=""
+                                onClick={() => window.alert("Feature coming soon...")}
                             />
-                        </a>
+                        {/* </a> */}
                     </li>
                     <li>
-                        <a href="/error">
+                        {/* <a href="/error"> */}
                             <img
                                 src="https://placehold.co/340x44/000000/FFFFFF.png?text=Continue+with+Apple"
                                 alt=""
+                                onClick={() => window.alert("Feature coming soon...")}
                             />
-                        </a>
+                        {/* </a> */}
                     </li>
                 </ul>
             </div>
