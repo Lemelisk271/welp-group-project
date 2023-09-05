@@ -154,6 +154,9 @@ def addHours(id):
 
 @business_routes.route("/<int:id>/delete", methods=["DELETE"])
 def deleteCategoriesAmenities(id):
+    """
+    Deletes either catagories or amenities from a business by business id.
+    """
     try:
         curr_business_hours = db.session.query(Day).join(business_hours, business_hours.c.dayId == Day.id).filter(business_hours.c.businessId == id).all()
         for business_hours_item in curr_business_hours:
