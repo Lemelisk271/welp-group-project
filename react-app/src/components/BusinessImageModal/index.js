@@ -3,13 +3,14 @@ import { ReviewContext } from "../../context/ReviewContext";
 import { useModal } from '../../context/Modal'
 import './BusinessImageModal.css'
 
-const BusinessImageModal = ({ businessId, userId }) => {
+const BusinessImageModal = ({ businessId, userId, owner }) => {
   const [image, setImage] = useState('')
   const [preview, setPreview] = useState(false)
   const [errors, setErrors] = useState([])
   const [isSubmitted, setIsSubmitted] = useState(false)
   const { currentReview, setCurrentReview } = useContext(ReviewContext);
   const { closeModal } = useModal()
+  console.log(owner)
 
   useEffect(() => {
     const newErrors = []
@@ -67,7 +68,7 @@ const BusinessImageModal = ({ businessId, userId }) => {
           accept='image/*'
           onChange={(e) => setImage(e.target.files[0])}
         />
-        <div className='addBusinessImage-preview'>
+        {owner && <div className='addBusinessImage-preview'>
           <input
             type="checkbox"
             checked={preview}
@@ -75,7 +76,7 @@ const BusinessImageModal = ({ businessId, userId }) => {
             className='addBusinessImage-checkbox'
           />
           <label htmlFor='preview'>Set image as preview</label>
-        </div>
+        </div>}
         <button type='submit'>Save</button>
       </form>
     </div>
