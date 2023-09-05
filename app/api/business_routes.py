@@ -303,6 +303,8 @@ def getBusinessReviews(id):
         for review in reviews:
             newReview = review.to_dict()
             votes = Vote.query.filter(Vote.reviewId == newReview["id"]).all()
+            users = User.query.filter(User.id == newReview["userId"]).all()
+            newReview['user'] = [user.to_dict() for user in users]
             newReview['votes'] = [vote.to_dict() for vote in votes]
             allBusinessReview.append(newReview)
 
