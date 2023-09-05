@@ -249,26 +249,11 @@ const BusinessDetails = () => {
                 </div>
                 <ul>
                   {business?.hours &&
-                    business?.hours.map((el) => (
+                    business?.hours.sort(function(a, b) {
+                      return a.id - b.id
+                    }).map((el) => (
                       <li key={el.id}>
-                        {el.closed ? (
-                          "Closed"
-                        ) : (
-                          <>
-                            {el.day} -{" "}
-                            {(el.open_time &&
-                              new Date(
-                                // eslint-disable-next-line
-                                "August 19, 1975" + " " + el.open_time
-                              ).toLocaleTimeString() + " -") ||
-                              "Closed"}{" "}
-                            {el.close_time &&
-                              new Date(
-                                // eslint-disable-next-line
-                                "August 19, 1975" + " " + el.close_time
-                              ).toLocaleTimeString()}
-                          </>
-                        )}
+                        {el.day} - {el.open_time && new Date("August 19, 1975" + " " + el.open_time).toLocaleTimeString() + " -" || "Closed"} {el.close_time && new Date("August 19, 1975" + " " + el.close_time).toLocaleTimeString()}
                       </li>
                     ))}
                 </ul>
