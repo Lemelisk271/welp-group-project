@@ -24,10 +24,8 @@ const BusinessForm = ({ businessData }) => {
   const [image, setImage] = useState("");
   const [priceRating, setPriceRating] = useState("");
   const [tempRating, setTempRating] = useState(0);
-  // eslint-disable-next-line
   const [unavailable, setUnavailable] = useState("");
   const [disableLogin, setDisableLogin] = useState(true);
-  // eslint-disable-next-line
   const [disableTime, setDisableTime] = useState("");
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [amenityOptions, setAmenityOptions] = useState([]);
@@ -83,7 +81,6 @@ const BusinessForm = ({ businessData }) => {
     } else {
       setUserId(sessionUser.id);
     }
-    // eslint-disable-next-line
   }, []);
 
   const handleDateUpdate = (day, updatedValues) => {
@@ -177,6 +174,8 @@ const BusinessForm = ({ businessData }) => {
       setAmenityOptions(amenitiyRes.amenities);
     };
     fetchData();
+
+    console.log(amenityList);
   }, [
     name,
     phone,
@@ -204,6 +203,20 @@ const BusinessForm = ({ businessData }) => {
       setZipCode(businessData?.zip_code);
       setAbout(businessData?.about);
       setPriceRating(businessData?.price);
+      if (businessData?.amenities?.length) {
+        let amenityArr = [];
+        businessData?.amenities?.forEach((amenity) => {
+          amenityArr.push(amenity.amenity);
+        });
+        setAmenityList(amenityArr);
+      }
+      if (businessData?.categories?.length) {
+        let categoryArr = [];
+        businessData?.categories?.forEach((category) => {
+          categoryArr.push(category.category);
+        });
+        setCategoryList(categoryArr);
+      }
       if (businessData?.images?.length > 0) {
         for (let image of businessData?.images) {
           if (image.preview === true) {
@@ -275,6 +288,7 @@ const BusinessForm = ({ businessData }) => {
         }
       }
     }
+    console.log(businessData);
   }, [businessData]);
 
   const handleSubmit = async (e) => {
@@ -328,7 +342,6 @@ const BusinessForm = ({ businessData }) => {
         if (businessData) {
           newBusiness.id = businessData.id;
           resBusiness = await dispatch(updateBusiness(newBusiness));
-          // console.log("PONT1", resBusiness.errors);
           if (resBusiness.errors) {
             setErrors(resBusiness.errors);
           } else {
@@ -352,7 +365,6 @@ const BusinessForm = ({ businessData }) => {
                   }
                 );
                 const resImage = await addImage.json();
-                console.log(resImage);
               } catch (err) {
                 if (err) {
                   errorObj.image =
@@ -363,89 +375,102 @@ const BusinessForm = ({ businessData }) => {
           } catch (err) {}
         }
         try {
-          await Promise.all(
-            dayList.map(async (day) => {
-              const hoursFormData = new FormData();
-              hoursFormData.append("day", day.day);
-              if (day.closed) {
-                day.open_time = "00:00";
-                day.close_time = "00:00";
-              }
-              hoursFormData.append("open_time", day.open_time);
-              hoursFormData.append("close_time", day.close_time);
-              hoursFormData.append("closed", day.closed);
-              let curr_businessId;
-              if (businessData?.id) {
-                curr_businessId = businessData.id;
-              } else {
-                curr_businessId = resBusiness.id;
-              }
-              const addBusinessHours = await fetch(
-                `/api/business/${curr_businessId}/hours`,
-                {
-                  method: "POST",
-                  body: hoursFormData,
-                }
-              );
-            })
-          );
+          let curr_businessId;
+          if (businessData?.id) {
+            curr_businessId = businessData.id;
+          } else {
+            curr_businessId = resBusiness.id;
+          }
+          await fetch(`/api/business/${curr_businessId}/delete`, {
+            method: "DELETE",
+          });
           try {
             await Promise.all(
-              categoryList.map(async (category) => {
-                const categoryFormData = new FormData();
-                categoryFormData.append("category", category);
+              dayList.map(async (day) => {
+                const hoursFormData = new FormData();
+                hoursFormData.append("day", day.day);
+                if (day.closed) {
+                  day.open_time = "00:00";
+                  day.close_time = "00:00";
+                }
+                hoursFormData.append("open_time", day.open_time);
+                hoursFormData.append("close_time", day.close_time);
+                hoursFormData.append("closed", day.closed);
                 let curr_businessId;
                 if (businessData?.id) {
                   curr_businessId = businessData.id;
                 } else {
                   curr_businessId = resBusiness.id;
                 }
-                const addCategory = await fetch(
-                  `/api/business/${curr_businessId}/categories`,
+                const addBusinessHours = await fetch(
+                  `/api/business/${curr_businessId}/hours`,
                   {
                     method: "POST",
-                    body: categoryFormData,
+                    body: hoursFormData,
                   }
                 );
               })
             );
             try {
               await Promise.all(
-                amenityList.map(async (amenity) => {
-                  const amenityFormData = new FormData();
-                  amenityFormData.append("amenity", amenity);
+                categoryList.map(async (category) => {
+                  const categoryFormData = new FormData();
+                  categoryFormData.append("category", category);
                   let curr_businessId;
                   if (businessData?.id) {
                     curr_businessId = businessData.id;
                   } else {
                     curr_businessId = resBusiness.id;
                   }
-                  const addAmenity = await fetch(
-                    `/api/business/${curr_businessId}/amenities`,
+                  const addCategory = await fetch(
+                    `/api/business/${curr_businessId}/categories`,
                     {
                       method: "POST",
-                      body: amenityFormData,
+                      body: categoryFormData,
                     }
                   );
                 })
               );
-              // history.push(`/business/${resBusiness.id}`);
+              try {
+                await Promise.all(
+                  amenityList.map(async (amenity) => {
+                    const amenityFormData = new FormData();
+                    amenityFormData.append("amenity", amenity);
+                    let curr_businessId;
+                    if (businessData?.id) {
+                      curr_businessId = businessData.id;
+                    } else {
+                      curr_businessId = resBusiness.id;
+                    }
+                    const addAmenity = await fetch(
+                      `/api/business/${curr_businessId}/amenities`,
+                      {
+                        method: "POST",
+                        body: amenityFormData,
+                      }
+                    );
+                  })
+                );
+                // history.push(`/business/${resBusiness.id}`);
+              } catch (err) {
+                if (err) {
+                  errorObj.amenities =
+                    "Something went wrong with your amenities";
+                }
+              }
             } catch (err) {
               if (err) {
-                errorObj.amenities = "Something went wrong with your amenities";
+                errorObj.categories =
+                  "Something went wrong with your categories";
               }
             }
           } catch (err) {
             if (err) {
-              errorObj.categories = "Something went wrong with your categories";
+              console.log(err);
+              errorObj.hours = "Something went wrong with your business hours";
             }
           }
-        } catch (err) {
-          if (err) {
-            // console.log(err);
-            errorObj.hours = "Something went wrong with your business hours";
-          }
-        }
+        } catch (err) {}
       } catch (err) {
         // console.log("ERR2", err);
         if (err) {
@@ -660,6 +685,9 @@ const BusinessForm = ({ businessData }) => {
                               key={idx * 2.01}
                               className="business-form-categories"
                               type="checkbox"
+                              checked={Object.values(categoryList)?.includes(
+                                category
+                              )}
                               onChange={(e) => {
                                 if (e.target.checked === true) {
                                   setCategoryList([...categoryList, category]);
@@ -682,7 +710,7 @@ const BusinessForm = ({ businessData }) => {
                   <div className="selected">
                     <h3 className="cat-title">Selected</h3>
                     <ul>
-                      {categoryList?.map((category, idx) => (
+                      {Object.values(categoryList)?.map((category, idx) => (
                         <li key={idx * 1.12}>{category}</li>
                       ))}
                     </ul>
@@ -706,6 +734,9 @@ const BusinessForm = ({ businessData }) => {
                               key={idx * 3.01}
                               className="business-form-categories"
                               type="checkbox"
+                              checked={Object.values(amenityList)?.includes(
+                                amenity
+                              )}
                               onChange={(e) => {
                                 if (e.target.checked === true) {
                                   setAmenityList([...amenityList, amenity]);
@@ -727,7 +758,7 @@ const BusinessForm = ({ businessData }) => {
                   <div className="selected">
                     <h3 className="cat-title">Selected</h3>
                     <ul>
-                      {amenityList?.map((amenity, idx) => (
+                      {Object.values(amenityList)?.map((amenity, idx) => (
                         <li key={idx * 1.22}>{amenity}</li>
                       ))}
                     </ul>
