@@ -12,6 +12,7 @@ class Day(db.Model):
   open_time = db.Column(db.Time)
   close_time = db.Column(db.Time)
   closed = db.Column(db.Boolean, nullable=False, default=False)
+  dayIdx = db.Column(db.Integer)
 
   business_hours_days = db.relationship(
     "Business",
@@ -25,5 +26,6 @@ class Day(db.Model):
       "day": self.day,
       "open_time": self.open_time.strftime('%H:%:M') if self.open_time else None,
       "close_time": self.close_time.strftime('%H:%:M') if self.open_time else None,
-      "closed": self.closed
+      "closed": self.closed,
+      "dayIdx": self.dayIdx
     }

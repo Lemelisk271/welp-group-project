@@ -138,7 +138,8 @@ def addHours(id):
             day = form.data["day"],
             closed = form.data["closed"],
             open_time=time(0, 0) if form.data["open_time"] is None else form.data["open_time"],
-            close_time=time(0, 0) if form.data["close_time"] is None else form.data["close_time"]
+            close_time=time(0, 0) if form.data["close_time"] is None else form.data["close_time"],
+            dayIdx = form.data['dayIdx']
         )
         db.session.add(hours)
         db.session.commit()
@@ -375,7 +376,8 @@ def getSingleBusiness(id):
                 "day": day.day,
                 "open_time": day.open_time.strftime("%H:%M:%S") if day.open_time else None,
                 "close_time": day.close_time.strftime("%H:%M:%S") if day.close_time else None,
-                "closed": day.closed
+                "closed": day.closed,
+                "dayIdx": day.dayIdx
             } for day in business_days_join]
         categories_dict = [category.to_dict() for category in business_categories_join]
         questions_dict = [question.to_dict() for question in business_questions]

@@ -148,7 +148,13 @@ const BusinessDetails = () => {
       {isLoaded ? (
         <>
           <div className="businessDetails-header">
-            <img src={previewImage[0]?.url} alt={business.name} />
+            {previewImage[0]?.url ? (
+              <img src={previewImage[0]?.url} alt={business.name} />
+            ):(
+              <>
+               <img src={`https://picsum.photos/1280/720.jpg?random=${business?.id}`} alt={business?.name} />
+              </>
+            )}
             <div className="businessDetails-header-info">
               <h2>{business.name}</h2>
               <div className="businessDetails-header-reviews">
@@ -250,10 +256,18 @@ const BusinessDetails = () => {
                 <ul>
                   {business?.hours &&
                     business?.hours.sort(function(a, b) {
-                      return a.id - b.id
+                      return a.dayIdx - b.dayIdx
                     }).map((el) => (
                       <li key={el.id}>
-                        {el.day} - {el.open_time && new Date("August 19, 1975" + " " + el.open_time).toLocaleTimeString() + " -" || "Closed"} {el.close_time && new Date("August 19, 1975" + " " + el.close_time).toLocaleTimeString()}
+                        {el.closed ? (
+                          <>
+                            {el.day} - Closed
+                          </>
+                        ):(
+                          <>
+                            {el.day} - {new Date("August 19, 1975" + " " + el.open_time).toLocaleTimeString() + " - " + new Date("August 19, 1975" + " " + el.close_time).toLocaleTimeString()}
+                          </>
+                        )}
                       </li>
                     ))}
                 </ul>

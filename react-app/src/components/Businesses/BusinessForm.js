@@ -36,42 +36,49 @@ const BusinessForm = ({ businessData }) => {
     closed: false,
     open_time: "09:00",
     close_time: "17:00",
+    dayIdx: 1
   });
   const [Tue, setTue] = useState({
     day: "Tue",
     closed: false,
     open_time: "09:00",
     close_time: "17:00",
+    dayIdx: 2
   });
   const [Wed, setWed] = useState({
     day: "Wed",
     closed: false,
     open_time: "09:00",
     close_time: "17:00",
+    dayIdx: 3
   });
   const [Thu, setThu] = useState({
     day: "Thu",
     closed: false,
     open_time: "09:00",
     close_time: "17:00",
+    dayIdx: 4
   });
   const [Fri, setFri] = useState({
     day: "Fri",
     closed: false,
     open_time: "09:00",
     close_time: "17:00",
+    dayIdx: 5
   });
   const [Sat, setSat] = useState({
     day: "Sat",
     closed: true,
     open_time: null,
     close_time: null,
+    dayIdx: 6
   });
   const [Sun, setSun] = useState({
     day: "Sun",
     closed: true,
     open_time: null,
     close_time: null,
+    dayIdx: 7
   });
   const dayList = [Mon, Tue, Wed, Thu, Fri, Sat, Sun];
 
@@ -422,6 +429,7 @@ const BusinessForm = ({ businessData }) => {
                 hoursFormData.append("open_time", day.open_time.slice(0, 5));
                 hoursFormData.append("close_time", day.close_time.slice(0, 5));
                 hoursFormData.append("closed", day.closed);
+                hoursFormData.append("dayIdx", day.dayIdx)
                 let curr_businessId;
                 if (businessData?.id) {
                   curr_businessId = businessData.id;
