@@ -149,3 +149,7 @@ ul {
     text-align: left;
     margin: 0;
 }
+
+input.business-form-days.time:invalid {
+    border: 1px solid red;
+}

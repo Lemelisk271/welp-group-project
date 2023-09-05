@@ -134,7 +134,6 @@ def addHours(id):
     form = DayForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-
         hours = Day(
             day = form.data["day"],
             closed = form.data["closed"],
