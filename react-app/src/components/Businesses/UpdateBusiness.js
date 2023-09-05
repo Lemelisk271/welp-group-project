@@ -3,8 +3,8 @@ import BusinessForm from "./BusinessForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getBusiness } from "../../store/business";
-import OpenModalButton from "../OpenModalButton";
-import DeleteBusinessModal from "./DeleteBusinessModal";
+// import OpenModalButton from "../OpenModalButton";
+// import DeleteBusinessModal from "./DeleteBusinessModal";
 
 const UpdateBusiness = () => {
   const { id } = useParams();
@@ -30,7 +30,7 @@ const UpdateBusiness = () => {
   return (
     <>
       {curr_business && <BusinessForm businessData={curr_business} />}
-      {curr_business && (
+      {/* {curr_business && (
         <div className="business-form delete button">
           <OpenModalButton
             className="business-form delete button"
@@ -38,7 +38,7 @@ const UpdateBusiness = () => {
             modalComponent={<DeleteBusinessModal className="business-form delete button" business={curr_business} />}
           />
         </div>
-      )}
+      )} */}
     </>
   );
 };
