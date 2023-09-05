@@ -5,23 +5,6 @@ from app.models import Business
 from .business_image_form import BusinessImageForm
 from ..api.AWS_helpers import ALLOWED_EXTENSIONS
 
-# def address_exists(form, field):
-#     address = field.data
-#     ownerId = form.ownerId.data
-#     business = Business.query.filter(Business.address == address).first()
-#     # businessOwner = Business.query.filter(Business.ownerId == ownerId).first()
-#     # user = User.query.filter(User.id == ownerId)
-#     # print("HELLLLLLLLLP", businessOwner.ownerId != business.ownerId)
-#     print("HELLLLLLLLLP", business.ownerId, form.ownerId.data, business.ownerId == ownerId)
-#     if business:
-#         if business.ownerId != ownerId:
-#             raise ValidationError("Address is already in use")
-
-# def validate_address(form, field):
-#         existing_business = Business.query.filter_by(address=field.data).first()
-#         if existing_business:
-#             raise ValidationError("A business with this address already exists")
-
 class BusinessForm(FlaskForm):
 
 
@@ -33,9 +16,7 @@ class BusinessForm(FlaskForm):
         "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY",
     ]
 
-     # Business Table
     name = StringField("Name", validators=[DataRequired(), Length(min=0, max=100)])
-    # url = FileField("Image File", validators=[FileRequired, FileAllowed(list(ALLOWED_EXTENSIONS))])
     url = StringField("Image File", validators=[DataRequired(), Length(min=0, max=250)])
     phone = IntegerField("Phone", validators=[DataRequired()])
     address = StringField("Address", validators=[DataRequired(), Length(min=0, max=255)])
@@ -46,14 +27,6 @@ class BusinessForm(FlaskForm):
     price = IntegerField("Price", validators=[DataRequired()], default=1)
     ownerId = IntegerField("OwnerId")
     submit = SubmitField("Submit")
-
-    # BusinessImage Table
-    # imgUrl = FormField(BusinessImageForm)
-
-    # Amenity Table
-
-
-    # Category Table
 
     def to_dict(self):
         return {
