@@ -28,6 +28,33 @@
     margin: 6px 0px;
 }
 
+.business-form-image {
+    width: auto;
+    margin: 6px 0px;
+}
+
+.business-form-image.container {
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.business-form.price {
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.business-form.image.label {
+    text-align: center;
+    text-justify: center;
+    width: 120px;
+}
+
 .business-form-address-city {
     width: 30%;
     margin: 6px 0px;
@@ -152,4 +179,22 @@ ul {
 
 input.business-form-days.time:invalid {
     border: 1px solid red;
+}
+
+div.price-rating {
+    align-content: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+i.business-form-price.fa-dollar {
+    font-size: 30px;
+    width: 30px;
+}
+
+h3.business-form.price.rating.label {
+    margin-right: 40px;
 }
