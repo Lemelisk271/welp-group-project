@@ -75,7 +75,7 @@ const BusinessDetails = () => {
         <button onClick={newReview}>Write a Review</button>
         <OpenModalButton
           buttonText={"Add Photo"}
-          modalComponent={<BusinessImageModal businessId={business?.id} userId={user?.id}/>}
+          modalComponent={<BusinessImageModal businessId={business?.id} userId={user?.id} owner={business?.ownerId === user?.id}/>}
         />
       </>
     );
