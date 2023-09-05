@@ -67,11 +67,14 @@ def editReview(id):
     db.session.merge(updated_review)
     db.session.commit()
     return updated_review.to_dict()
-    
+
 
 @review_routes.route('/<int:id>', methods=["DELETE"])
 @login_required
 def delete_review(id):
+    """
+    Delete a specific review by id and returns it in a review dictionary
+    """
     user = current_user.to_dict()
     review = Review.query.get(id)
     if user['id'] != review.userId:
