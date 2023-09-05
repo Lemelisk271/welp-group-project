@@ -30,7 +30,7 @@ def generate_businesses(amenities, categories):
         state = random_state()
         yield Business(
             name = fake.company(),
-            url = fake.domain_name(),
+            url = f"https://{fake.domain_name()}",
             phone = fake.numerify(text='(###) ###-####'),
             address = fake.street_address(),
             city = fake.city(),

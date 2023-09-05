@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useParams, useHistory, Link } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getBusiness, getAllBusiness } from "../../store/business";
 import { ReviewContext } from "../../context/ReviewContext";
@@ -265,7 +265,7 @@ const BusinessDetails = () => {
                           </>
                         ):(
                           <>
-                            {el.day} - {new Date("August 19, 1975" + " " + el.open_time).toLocaleTimeString() + " - " + new Date("August 19, 1975" + " " + el.close_time).toLocaleTimeString()}
+                            {el.day} - {new Date("August 19, 1975 " + el.open_time).toLocaleTimeString() + " - " + new Date("August 19, 1975 " + el.close_time).toLocaleTimeString()}
                           </>
                         )}
                       </li>
@@ -305,10 +305,10 @@ const BusinessDetails = () => {
             </div>
             <div className="businessDetails-info">
               <div className="businessDetails-info-link">
-                <a href={business.url} target="_blank">
+                <a href={business.url} target="_blank" rel="noreferrer">
                   {business.name}
                 </a>
-                <a href={business.url} target="_blank">
+                <a href={business.url} target="_blank" rel="noreferrer">
                   <i className="fa-solid fa-arrow-up-right-from-square"></i>
                 </a>
               </div>
