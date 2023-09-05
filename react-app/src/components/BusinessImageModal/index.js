@@ -10,7 +10,6 @@ const BusinessImageModal = ({ businessId, userId, owner }) => {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const { currentReview, setCurrentReview } = useContext(ReviewContext);
   const { closeModal } = useModal()
-  console.log(owner)
 
   useEffect(() => {
     const newErrors = []
