@@ -20,13 +20,12 @@ const BusinessForm = ({ businessData }) => {
   const [zipCode, setZipCode] = useState("");
   const [about, setAbout] = useState("");
   const [errors, setErrors] = useState(null);
-  const [timeErrors, setTimeErrors] = useState({});
   const [image, setImage] = useState("");
   const [priceRating, setPriceRating] = useState("");
   const [tempRating, setTempRating] = useState(0);
+  // eslint-disable-next-line
   const [unavailable, setUnavailable] = useState("");
   const [disableLogin, setDisableLogin] = useState(true);
-  const [disableTime, setDisableTime] = useState("");
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [amenityOptions, setAmenityOptions] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
@@ -88,6 +87,7 @@ const BusinessForm = ({ businessData }) => {
     } else {
       setUserId(sessionUser.id);
     }
+    // eslint-disable-next-line
   }, []);
 
   const handleDateUpdate = (day, updatedValues) => {
@@ -397,6 +397,7 @@ const BusinessForm = ({ businessData }) => {
                     body: imgFormData,
                   }
                 );
+                // eslint-disable-next-line
                 const resImage = await addImage.json();
               } catch (err) {
                 if (err) {
@@ -436,6 +437,7 @@ const BusinessForm = ({ businessData }) => {
                 } else {
                   curr_businessId = resBusiness.id;
                 }
+                // eslint-disable-next-line
                 const addBusinessHours = await fetch(
                   `/api/business/${curr_businessId}/hours`,
                   {
@@ -456,6 +458,7 @@ const BusinessForm = ({ businessData }) => {
                   } else {
                     curr_businessId = resBusiness.id;
                   }
+                  // eslint-disable-next-line
                   const addCategory = await fetch(
                     `/api/business/${curr_businessId}/categories`,
                     {
@@ -476,6 +479,7 @@ const BusinessForm = ({ businessData }) => {
                   amenityList.map(async (amenity) => {
                     const amenityFormData = new FormData();
                     amenityFormData.append("amenity", amenity);
+                    // eslint-disable-next-line
                     const addAmenity = await fetch(
                       `/api/business/${curr_businessId}/amenities`,
                       {
