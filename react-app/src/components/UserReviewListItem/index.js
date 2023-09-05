@@ -8,7 +8,6 @@ import { findCity } from '../HelperFunctions/helper'
 import './UserReviewListItem.css'
 
 const UserReviewListItem = ({ review, page }) => {
-  console.log(review)
   const history = useHistory()
   const [rating] = useState(review.stars)
   const [isLoaded, setIsLoaded] = useState(false)
