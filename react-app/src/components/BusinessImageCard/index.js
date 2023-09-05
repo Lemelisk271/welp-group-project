@@ -3,7 +3,7 @@ import { ReviewContext } from '../../context/ReviewContext'
 import { useModal } from '../../context/Modal'
 import './BusinessImageCard.css'
 
-const BusinessImageCard = ({image, owner, user}) => {
+const BusinessImageCard = ({image, owner, user, imageCount}) => {
   const [isUser, setIsUser] = useState(false)
   const [errors, setErrors] = useState([])
   const { currentReview, setCurrentReview } = useContext(ReviewContext)
@@ -32,7 +32,7 @@ const BusinessImageCard = ({image, owner, user}) => {
 
   let deleteButton
 
-  if (owner || isUser) {
+  if ((owner || isUser) && imageCount > 1) {
     deleteButton = (
       <button onClick={deleteImage}>Delete</button>
     )
