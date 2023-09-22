@@ -1,12 +1,18 @@
+footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
 .footer-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: 100px;
+  height: 75px;
   margin-top: 10px;
-  /* background-color: #f7f7f7; */
-  background-color: lightgray;
+  background-color: #f7f7f7;
+  /* background-color: lightgray; */
 }
 
 .footer-container ul {

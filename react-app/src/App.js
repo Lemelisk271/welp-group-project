@@ -28,59 +28,65 @@ function App() {
 
   return (
     <>
-      <Navigation isLoaded={isLoaded} />
-      {isLoaded && (
-        <Switch>
-          <Route exact path="/">
-            <LandingPage />
-          </Route>
-          <Route path="/login">
-            <LoginFormPage />
-          </Route>
-          <Route path="/signup">
-            <SignupFormPage />
-          </Route>
-          <Route exact path="/business">
-            <BusinessList />
-          </Route>
-          <Route exact path="/business/new">
-            <BusinessForm />
-          </Route>
-          <Route exact path="/business/:id/edit">
-            <UpdateBusiness />
-          </Route>
-          <Route exact path="/business/:id/review">
-            <ReviewForm isBusinessReview={true} />
-          </Route>
-          <Route exact path="/business/:id">
-            <BusinessDetails />
-          </Route>
-          <Route exact path="/search">
-            <BusinessSearchPage />
-          </Route>
-          <Route exact path="/profile/:userId">
-            <ProtectedRoute>
-              <UserProfilePage />
-            </ProtectedRoute>
-          </Route>
-          <Route exact path="/review/new">
-            <ReviewForm isNew={true}/>
-          </Route>
-          <Route exact path="/review/:reviewId">
-            <ReviewForm isUpdate={true} />
-          </Route>
-          <Route exact path="/notfound">
-            <BusinessNotFound />
-          </Route>
-          <Route path="/error/:error">
-            <ErrorPage />
-          </Route>
-          <Route exact path='/about'>
-            <AboutPage />
-          </Route>
-        </Switch>
-      )}
-      <Footer />
+      <nav>
+        <Navigation isLoaded={isLoaded} />
+      </nav>
+      <main>
+        {isLoaded && (
+          <Switch>
+            <Route exact path="/">
+              <LandingPage />
+            </Route>
+            <Route path="/login">
+              <LoginFormPage />
+            </Route>
+            <Route path="/signup">
+              <SignupFormPage />
+            </Route>
+            <Route exact path="/business">
+              <BusinessList />
+            </Route>
+            <Route exact path="/business/new">
+              <BusinessForm />
+            </Route>
+            <Route exact path="/business/:id/edit">
+              <UpdateBusiness />
+            </Route>
+            <Route exact path="/business/:id/review">
+              <ReviewForm isBusinessReview={true} />
+            </Route>
+            <Route exact path="/business/:id">
+              <BusinessDetails />
+            </Route>
+            <Route exact path="/search">
+              <BusinessSearchPage />
+            </Route>
+            <Route exact path="/profile/:userId">
+              <ProtectedRoute>
+                <UserProfilePage />
+              </ProtectedRoute>
+            </Route>
+            <Route exact path="/review/new">
+              <ReviewForm isNew={true}/>
+            </Route>
+            <Route exact path="/review/:reviewId">
+              <ReviewForm isUpdate={true} />
+            </Route>
+            <Route exact path="/notfound">
+              <BusinessNotFound />
+            </Route>
+            <Route path="/error/:error">
+              <ErrorPage />
+            </Route>
+            <Route exact path='/about'>
+              <AboutPage />
+            </Route>
+          </Switch>
+        )}
+      </main>
+      <footer>
+        <Footer />
+      </footer>
     </>
   );
 }
