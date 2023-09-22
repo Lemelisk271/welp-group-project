@@ -17,6 +17,7 @@ import BusinessSearchPage from './components/BusinessSearchPage'
 import BusinessNotFound from "./components/Businesses/BusinessNotFound";
 import BusinessList from './components/Businesses/BusinessList'
 import ErrorPage from "./components/ErrorPage";
+import AboutPage from './components/AboutPage'
 
 function App() {
   const dispatch = useDispatch();
@@ -73,6 +74,9 @@ function App() {
           </Route>
           <Route path="/error/:error">
             <ErrorPage />
+          </Route>
+          <Route exact path='/about'>
+            <AboutPage />
           </Route>
         </Switch>
       )}
