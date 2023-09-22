@@ -139,18 +139,18 @@ export default function ReviewForm({ isUpdate, isNew, isBusinessReview }) {
     }
   };
 
-  const deleteReview = async (e) => {
-    e.preventDefault();
-    const deleteReview = await fetch(`/api/review/${reviewId}`, {
-      method: "DELETE",
-    });
-    const data = await deleteReview.json();
-    if (data) {
-      setErrors(data.errors);
-    } else {
-      return history.push(`/business/${currReview.businessId}`);
-    }
-  };
+  // const deleteReview = async (e) => {
+  //   e.preventDefault();
+  //   const deleteReview = await fetch(`/api/review/${reviewId}`, {
+  //     method: "DELETE",
+  //   });
+  //   const data = await deleteReview.json();
+  //   if (data) {
+  //     setErrors(data.errors);
+  //   } else {
+  //     return history.push(`/business/${currReview.businessId}`);
+  //   }
+  // };
 
   if (!sessionUser || sessionUser === null) {
     return <Redirect to="/error/not-logged-in" />;
