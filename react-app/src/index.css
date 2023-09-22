@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+main {
+    padding-bottom: 40px;
+}
+
 body {
     background-color: #ffffff;
     font-family: sans-serif;

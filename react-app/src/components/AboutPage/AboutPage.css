@@ -1,0 +1,46 @@
+.aboutPage {
+  min-height: calc(100vh - 230px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.aboutPage-creators {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.aboutPage-personCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  border: 1px solid darkgray;
+  border-radius: 10px;
+}
+
+.aboutPage-personLinks {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.aboutPage-personLinks a {
+  color: black;
+}
+
+.aboutPage-personLinks a:hover {
+  color: #E00807
+}
+
+.aboutPage-personLinks i {
+  font-size: 56px;
+}
