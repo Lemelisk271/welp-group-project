@@ -20,7 +20,7 @@ const AboutPage = () => {
     {
       name: "Zach Smith",
       gitHub: "https://github.com/Lemelisk271",
-      linkedIn: "www.linkedin.com/in/zwsmith27"
+      linkedIn: "https://www.linkedin.com/in/zwsmith27"
     }
   ]
 
